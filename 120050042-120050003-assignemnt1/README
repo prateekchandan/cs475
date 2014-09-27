@@ -1,0 +1,66 @@
+===================
+Assignment 1:
+===================
+
+Anurag Shirolkar 120050003
+Prateek Chandan  120050042
+
+The code of the assignment has been written by us and not been plagiarised from anywhere else.
+
+Link to the html page of the assignment : http://www.cse.iitb.ac.in/~anuragshirolkar/cs475/asgn1
+                                        : http://www.cse.iitb.ac.in/~prateekchandan/cs475/asgn1
+
+1. To compile just type "make" on the command line.
+2. Pressing ESC will quit the program.
+3. Use 
+toylogo -f <filename.logo> 
+to run a LOGO program. You can try this with toylogo_complete. The output from your compelted code should match this.
+4. This code uses OpenGL 2.1.
+
+===================
+The Turtle class
+===================
+
+Members:
+
+    Member        |  Description
+    --------------+--------------------------------------------------------
+    pos           |  Position. Note X and Y are bounded between -1 and 1.
+    dir           |  Orientation angle in degrees. Zero degrees is due East. 
+                  |  It is bounded from 0.0 to 360.0
+    col           |  current color
+    bgcol         |  current background color
+
+Methods:
+
+    Method        | Command syntax    | Description
+    --------------+-------------------+------------------------------------------
+    reset         | RESET             | Reset the turtle position and orientation
+    clear         | CLS               | Clear the screen
+    set_pos       |                   | Set the position of the turtle
+    set_dir       |                   | Set the direction of the turtle
+    set_col       | COL(r, g, b)      | Set the color of the pen
+    set_bgcol     | BGCOL(r, g, b)    | Set the Background Color
+    scale         | SCALE s           | Scale the current canvas by s
+    turn_left     | L a               | 
+    turn_right    | R a               | 
+    forward       | F x               | 
+    backward      | B x               | 
+    forward_move  | MF x              | Move forward without drawing
+    backward_move | MB x              | Move backward withou drawing
+    repeat        | REPEAT r          | Repeat the next set of commands r times.
+                  |                   | Scope bounded by  a corresponding ENDREP
+    exec          |                   | execute the commands in the list
+    pause         | PAUSE t           | Pause the simulation for time t
+                  | BEGIN / END       | Begin / End the turtle program
+
+render_drawing.cpp file contains the code for drawing of Sierpinki fractal
+which is drawn when no input file is provided.
+
+===================
+references:
+===================
+
+The official OpenGL site      : http://www.opengl.org/
+OpenGL.org tutorial listings  : http://www.opengl.org/code/
+Google and Stack Overflow 
