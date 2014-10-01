@@ -29,7 +29,7 @@ namespace csX75
   void framebuffer_size_callback(GLFWwindow* window, int width, int height)
   {
     //!Resize the viewport to fit the window size - draw to entire window
-    glViewport(0, 0, 2*width, 2*height);
+    glViewport(0, 0, width, height);
   }
   
   //!GLFW keyboard callback
