@@ -701,8 +701,6 @@ struct transformer{
 	 * */
 	int body_texture;
 	void define_textures(){
-		CFile File;
-		ULONGLONG Length = 0;
 	}
 	transformer() {
 		define_textures();
