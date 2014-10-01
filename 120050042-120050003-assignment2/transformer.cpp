@@ -1,9 +1,11 @@
 #include <unistd.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <iostream>
-#include <cstdio>
+#include <fstream>
+#include <stdio.h>
+#include <cstdlib>
 #include <math.h>
+typedef unsigned char BYTE; 
 using namespace std;
 
 struct transformer{
@@ -13,6 +15,38 @@ struct transformer{
 	double cube_index;
 
 	
+	/**
+	 * Function Name : LoadTexture();
+	 * loads a textures
+	 * */
+	GLuint LoadTexture(const char * pic, int width, int height)
+	{
+		GLuint Texture;
+		BYTE * data;
+		FILE * picfile;
+
+		picfile = fopen(pic, "rb");
+		if (picfile == NULL)
+			return 0;
+
+		data = (BYTE *)malloc(width * height * 3);
+
+		fread(data, width * height, 3, picfile);
+		fclose(picfile);
+		
+		glGenTextures(1, &Texture);
+		//glBindTexture(GL_TEXTURE_2D,  Texture);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		free(data);
+		return Texture;
+	}
 
 	void drawWheel(double radius, double width) {
 		int count = 18;
@@ -44,49 +78,56 @@ struct transformer{
 	}
 	
 	void drawUnitCube(){
-		glBegin(GL_POLYGON);
-			glColor3f(color_red, color_green, color_blue);		        // Top of triangle (front)
-			glVertex3f(0.0f,0.0f,0.0f);
-			glVertex3f(1.0f,0.0f,0.0f);
-			glVertex3f(1.0f,1.0f,0.0f);
-			glVertex3f(0.0f,1.0f,0.0f);
-		glEnd();
-		glBegin(GL_POLYGON);
-			glColor3f(color_red, color_green, color_blue);		        // Top of triangle (front)
-			glVertex3f(0.0f,0.0f,1.0f);
-			glVertex3f(1.0f,0.0f,1.0f);
-			glVertex3f(1.0f,1.0f,1.0f);
-			glVertex3f(0.0f,1.0f,1.0f);
-		glEnd();
-		glBegin(GL_POLYGON);
-			glColor3f(color_red*(1.0f-color_variant), color_green*(1.0f-color_variant), color_blue*(1.0f-color_variant));		        // Top of triangle (front)
-			glVertex3f(0.0f,0.0f,0.0f);
-			glVertex3f(1.0f,0.0f,0.0f);
-			glVertex3f(1.0f,0.0f,1.0f);
-			glVertex3f(0.0f,0.0f,1.0f);
-		glEnd();
-		glBegin(GL_POLYGON);
-			glColor3f(color_red*(1.0f-color_variant), color_green*(1.0f-color_variant), color_blue*(1.0f-color_variant));		        // Top of triangle (front)
-			glVertex3f(0.0f,1.0f,0.0f);
-			glVertex3f(1.0f,1.0f,0.0f);
-			glVertex3f(1.0f,1.0f,1.0f);
-			glVertex3f(0.0f,1.0f,1.0f);
-		glEnd();
-		glBegin(GL_POLYGON);
-			glColor3f(color_red*(1.0f-2*color_variant), color_green*(1.0f-2*color_variant), color_blue*(1.0f-2*color_variant));		        // Top of triangle (front)
-			glVertex3f(0.0f,0.0f,0.0f);
-			glVertex3f(0.0f,1.0f,0.0f);
-			glVertex3f(0.0f,1.0f,1.0f);
-			glVertex3f(0.0f,0.0f,1.0f);
-		glEnd();
-		glBegin(GL_POLYGON);
-			glColor3f(color_red*(1.0f-2*color_variant), color_green*(1.0f-2*color_variant), color_blue*(1.0f-2*color_variant));		        // Top of triangle (front)
-			glVertex3f(1.0f,0.0f,0.0f);
-			glVertex3f(1.0f,1.0f,0.0f);
-			glVertex3f(1.0f,1.0f,1.0f);
-			glVertex3f(1.0f,0.0f,1.0f);
-		glEnd();
+		glEnable(GL_TEXTURE_2D);
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
 		
+		GLuint myTex;
+		myTex = LoadTexture("./img/paper.bmp", 1,1);
+		glBindTexture(GL_TEXTURE_2D, myTex);
+		
+		glBegin(GL_POLYGON);
+			glColor3f(color_red, color_green, color_blue);		        // Top of triangle (front)
+			glVertex3f(0.0f,0.0f,0.0f);
+			glVertex3f(1.0f,0.0f,0.0f);
+			glVertex3f(1.0f,1.0f,0.0f);
+			glVertex3f(0.0f,1.0f,0.0f);
+		glEnd();
+		glBegin(GL_POLYGON);
+			glColor3f(color_red, color_green, color_blue);		        // Top of triangle (front)
+			glVertex3f(0.0f,0.0f,1.0f);
+			glVertex3f(1.0f,0.0f,1.0f);
+			glVertex3f(1.0f,1.0f,1.0f);
+			glVertex3f(0.0f,1.0f,1.0f);
+		glEnd();
+		glBegin(GL_POLYGON);
+			glColor3f(color_red*(1.0f-color_variant), color_green*(1.0f-color_variant), color_blue*(1.0f-color_variant));		        // Top of triangle (front)
+			glVertex3f(0.0f,0.0f,0.0f);
+			glVertex3f(1.0f,0.0f,0.0f);
+			glVertex3f(1.0f,0.0f,1.0f);
+			glVertex3f(0.0f,0.0f,1.0f);
+		glEnd();
+		glBegin(GL_POLYGON);
+			glColor3f(color_red*(1.0f-color_variant), color_green*(1.0f-color_variant), color_blue*(1.0f-color_variant));		        // Top of triangle (front)
+			glVertex3f(0.0f,1.0f,0.0f);
+			glVertex3f(1.0f,1.0f,0.0f);
+			glVertex3f(1.0f,1.0f,1.0f);
+			glVertex3f(0.0f,1.0f,1.0f);
+		glEnd();
+		glBegin(GL_POLYGON);
+			glColor3f(color_red*(1.0f-2*color_variant), color_green*(1.0f-2*color_variant), color_blue*(1.0f-2*color_variant));		        // Top of triangle (front)
+			glVertex3f(0.0f,0.0f,0.0f);
+			glVertex3f(0.0f,1.0f,0.0f);
+			glVertex3f(0.0f,1.0f,1.0f);
+			glVertex3f(0.0f,0.0f,1.0f);
+		glEnd();
+		glBegin(GL_POLYGON);
+			glColor3f(color_red*(1.0f-2*color_variant), color_green*(1.0f-2*color_variant), color_blue*(1.0f-2*color_variant));		        // Top of triangle (front)
+			glVertex3f(1.0f,0.0f,0.0f);
+			glVertex3f(1.0f,1.0f,0.0f);
+			glVertex3f(1.0f,1.0f,1.0f);
+			glVertex3f(1.0f,0.0f,1.0f);
+		glEnd();
+		glDisable(GL_TEXTURE_2D);
 	}
 
 	void drawCuboid(double width, double height, double length){
@@ -695,15 +736,8 @@ struct transformer{
 		}
 	}
 
-	/**
-	 * Function Name : define_textures();
-	 * Define textures for different part of the transformer
-	 * */
-	int body_texture;
-	void define_textures(){
-	}
 	transformer() {
-		define_textures();
+		
 		color_red = 0.7;
 		color_green = 0;
 		color_blue = 0;
