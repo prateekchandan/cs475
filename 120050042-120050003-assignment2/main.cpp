@@ -85,6 +85,10 @@ int main(int argc, char** argv)
 	csX75::initGL();
 
 
+	t.cube_index = glGenLists(1);
+		glNewList(t.cube_index, GL_COMPILE);
+			t.drawUnitCube();
+		glEndList();
 
 
 	// Loop until the user closes the window

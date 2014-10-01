@@ -99,7 +99,11 @@ struct transformer{
 
 	void drawCuboid(double width, double height, double length){
 		glScalef(width, height, length);
-		glCallList(cube_index);
+		GLubyte list[1];
+		list[0]=cube_index;
+		glPushMatrix();
+		glCallLists(1,GL_UNSIGNED_BYTE,list);
+		glPopMatrix();
 		glScalef(1/width, 1/height, 1/length);
 		/*
 		 *glBegin(GL_POLYGON);
@@ -700,19 +704,7 @@ struct transformer{
 	}
 
 	transformer() {
-		cube_index = glGenLists(1);
-		glNewList(cube_index, GL_COMPILE);
-			//cout << "adding to the new list\n";
-			//glBegin(GL_POLYGON);
-				//glColor3f(1,0,0);
-				//glVertex3f(0.0f,0.0f,0.0f);
-				//glVertex3f(1.0f,0.0f,0.0f);
-				//glVertex3f(1.0f,1.0f,0.0f);
-				//glVertex3f(0.0f,1.0f,0.0f);
-			//glEnd();
-			drawUnitCube();
-		glEndList();
-
+		
 		cout << cube_index << endl;
 
 
