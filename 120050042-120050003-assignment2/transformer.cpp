@@ -12,14 +12,7 @@ struct transformer{
 	double color_variant;
 	double cube_index;
 
-	void drawCircle(double radius) {
-		glBegin(GL_POLYGON);
-			for(int i = 0; i < 100; i++) {
-				double theta = 2.0 * 3.1415926 * double(i) / 100.0;
-				glVertex3f(radius * cosf(theta), radius * sinf(theta), 0);
-			}
-		glEnd();
-	}
+	
 
 	void drawWheel(double radius, double width) {
 		int count = 18;
@@ -49,9 +42,8 @@ struct transformer{
 			}
 		glEnd();
 	}
-
+	
 	void drawUnitCube(){
-		cout << "Drawing the unit cube\n";
 		glBegin(GL_POLYGON);
 			glColor3f(color_red, color_green, color_blue);		        // Top of triangle (front)
 			glVertex3f(0.0f,0.0f,0.0f);
@@ -703,11 +695,17 @@ struct transformer{
 		}
 	}
 
+	/**
+	 * Function Name : define_textures();
+	 * Define textures for different part of the transformer
+	 * */
+	int body_texture;
+	void define_textures(){
+		CFile File;
+		ULONGLONG Length = 0;
+	}
 	transformer() {
-		
-		cout << cube_index << endl;
-
-
+		define_textures();
 		color_red = 0.7;
 		color_green = 0;
 		color_blue = 0;
