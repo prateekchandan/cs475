@@ -18,82 +18,13 @@ float rall1 = 0.0f, rall2 = 0.0f, rall3 = 0.0f;
 
 
 
-/*
-double max_wheel3_rot = -90;
-double wheel3_rot_speed = max_wheel3_rot/steps;
-double cur_wheel3_rot = 0;
-
-double max_wheel3_disp = -0.1;
-double wheel3_disp_speed = max_wheel3_disp/steps;
-double cur_wheel3_disp = 0;
-
-void animateWheel3() {
-	if(sequence_number >= 24) {
-		if(sequence_number == 24) {
-			glTranslatef(0, cur_wheel3_disp, 0);
-			cur_wheel3_disp += wheel3_disp_speed;
-			if(cur_wheel3_disp <= max_wheel3_disp) sequence_number++;
-		}
-		else glTranslatef(0, max_wheel3_disp, 0);
-	}
-	if(sequence_number >= 22) {
-		if(sequence_number == 22) {
-			glTranslatef(0.05,0,0.1);
-			glRotatef(cur_wheel3_rot, 0, 1, 0);
-			glTranslatef(-0.05,0,-0.1);
-			cur_wheel3_rot += wheel3_rot_speed;
-			if(cur_wheel3_rot <= max_wheel3_rot) sequence_number++;
-		}
-		else{
-			glTranslatef(0.05,0,0.1);
-			glRotatef(max_wheel3_rot, 0, 1, 0);
-			glTranslatef(-0.05,0,-0.1);
-		}
-	}
-}
-
-
-double max_wheel4_rot = 90;
-double wheel4_rot_speed = max_wheel4_rot/steps;
-double cur_wheel4_rot = 0;
-
-double max_wheel4_disp = -0.1;
-double wheel4_disp_speed = max_wheel4_disp/steps;
-double cur_wheel4_disp = 0;
-
-void animateWheel4() {
-	if(sequence_number >= 25) {
-		if(sequence_number == 25) {
-			glTranslatef(0, cur_wheel4_disp, 0);
-			cur_wheel4_disp += wheel4_disp_speed;
-			if(cur_wheel4_disp <= max_wheel4_disp) sequence_number++;
-		}
-		else glTranslatef(0, max_wheel4_disp, 0);
-	}
-	if(sequence_number >= 23) {
-		if(sequence_number == 23) {
-			glTranslatef(0.15,0,0.1);
-			glRotatef(cur_wheel4_rot, 0, 1, 0);
-			glTranslatef(-0.15,0,-0.1);
-			cur_wheel4_rot += wheel4_rot_speed;
-			if(cur_wheel4_rot >= max_wheel4_rot) sequence_number++;
-		}
-		else{
-			glTranslatef(0.15,0,0.1);
-			glRotatef(max_wheel4_rot, 0, 1, 0);
-			glTranslatef(-0.15,0,-0.1);
-		}
-	}
-}*/
-
-
 void renderGL(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glLoadIdentity();				// Reset The View
-	glRotatef(rtri, 0.0, 1, 0.0);
-	rtri += 1;
+	/*glRotatef(rtri, 0.0, 1, 0.0);
+	rtri += 1;*/
 	t.drawRobot();
 
 }
