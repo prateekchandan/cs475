@@ -92,7 +92,10 @@ void renderGL(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glLoadIdentity();				// Reset The View
-	glRotatef(rtri, 0.0, 1, 0.0);
+	glRotatef(rtri, 0.7, 1, 0.0);
+	glScalef(0.2,0.2,0.2);
+	glCallList(0);
+	glScalef(5,5,5);
 	rtri += 1;
 	t.drawRobot();
 
@@ -149,6 +152,9 @@ int main(int argc, char** argv)
 
 	//Initialize GL state
 	csX75::initGL();
+
+
+
 
 	// Loop until the user closes the window
 	while (glfwWindowShouldClose(window) == 0)

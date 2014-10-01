@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -7,6 +8,9 @@ using namespace std;
 
 struct transformer{
 	int sequence_number, last_sequence_number;
+	double color_red, color_green, color_blue;
+	double color_variant;
+	double cube_index;
 
 	void drawCircle(double radius) {
 		glBegin(GL_POLYGON);
@@ -46,49 +50,101 @@ struct transformer{
 		glEnd();
 	}
 
+	void drawUnitCube(){
+		cout << "Drawing the unit cube\n";
+		glBegin(GL_POLYGON);
+			glColor3f(color_red, color_green, color_blue);		        // Top of triangle (front)
+			glVertex3f(0.0f,0.0f,0.0f);
+			glVertex3f(1.0f,0.0f,0.0f);
+			glVertex3f(1.0f,1.0f,0.0f);
+			glVertex3f(0.0f,1.0f,0.0f);
+		glEnd();
+		glBegin(GL_POLYGON);
+			glColor3f(color_red, color_green, color_blue);		        // Top of triangle (front)
+			glVertex3f(0.0f,0.0f,1.0f);
+			glVertex3f(1.0f,0.0f,1.0f);
+			glVertex3f(1.0f,1.0f,1.0f);
+			glVertex3f(0.0f,1.0f,1.0f);
+		glEnd();
+		glBegin(GL_POLYGON);
+			glColor3f(color_red*(1.0f-color_variant), color_green*(1.0f-color_variant), color_blue*(1.0f-color_variant));		        // Top of triangle (front)
+			glVertex3f(0.0f,0.0f,0.0f);
+			glVertex3f(1.0f,0.0f,0.0f);
+			glVertex3f(1.0f,0.0f,1.0f);
+			glVertex3f(0.0f,0.0f,1.0f);
+		glEnd();
+		glBegin(GL_POLYGON);
+			glColor3f(color_red*(1.0f-color_variant), color_green*(1.0f-color_variant), color_blue*(1.0f-color_variant));		        // Top of triangle (front)
+			glVertex3f(0.0f,1.0f,0.0f);
+			glVertex3f(1.0f,1.0f,0.0f);
+			glVertex3f(1.0f,1.0f,1.0f);
+			glVertex3f(0.0f,1.0f,1.0f);
+		glEnd();
+		glBegin(GL_POLYGON);
+			glColor3f(color_red*(1.0f-2*color_variant), color_green*(1.0f-2*color_variant), color_blue*(1.0f-2*color_variant));		        // Top of triangle (front)
+			glVertex3f(0.0f,0.0f,0.0f);
+			glVertex3f(0.0f,1.0f,0.0f);
+			glVertex3f(0.0f,1.0f,1.0f);
+			glVertex3f(0.0f,0.0f,1.0f);
+		glEnd();
+		glBegin(GL_POLYGON);
+			glColor3f(color_red*(1.0f-2*color_variant), color_green*(1.0f-2*color_variant), color_blue*(1.0f-2*color_variant));		        // Top of triangle (front)
+			glVertex3f(1.0f,0.0f,0.0f);
+			glVertex3f(1.0f,1.0f,0.0f);
+			glVertex3f(1.0f,1.0f,1.0f);
+			glVertex3f(1.0f,0.0f,1.0f);
+		glEnd();
+		
+	}
+
 	void drawCuboid(double width, double height, double length){
-		glBegin(GL_POLYGON);
-			glColor3f(1.0f,0.0f,0.0f);		        // Top of triangle (front)
-			glVertex3f(0.0f,0.0f,0.0f);
-			glVertex3f(width,0.0f,0.0f);
-			glVertex3f(width,height,0.0f);
-			glVertex3f(0.0f,height,0.0f);
-		glEnd();
-		glBegin(GL_POLYGON);
-			glColor3f(1.0f,0.0f,0.0f);
-			glVertex3f(0.0f,0.0f,length);
-			glVertex3f(width,0.0f,length);
-			glVertex3f(width,height,length);
-			glVertex3f(0.0f,height,length);
-		glEnd();
-		glBegin(GL_POLYGON);
-			glColor3f(0.9f,0.0f,0.0f);
-			glVertex3f(0.0f,0.0f,0.0f);
-			glVertex3f(width,0.0f,0.0f);
-			glVertex3f(width,0.0f,length);
-			glVertex3f(0.0f,0.0f,length);
-		glEnd();
-		glBegin(GL_POLYGON);
-			glColor3f(0.9f,0.0f,0.0f);
-			glVertex3f(0.0f,height,0.0f);
-			glVertex3f(width,height,0.0f);
-			glVertex3f(width,height,length);
-			glVertex3f(0.0f,height,length);
-		glEnd();
-		glBegin(GL_POLYGON);
-			glColor3f(0.8f,0.0f,0.0f);
-			glVertex3f(0.0f,0.0f,0.0f);
-			glVertex3f(0.0f,height,0.0f);
-			glVertex3f(0.0f,height,length);
-			glVertex3f(0.0f,0.0f,length);
-		glEnd();
-		glBegin(GL_POLYGON);
-			glColor3f(0.8f,0.0f,0.0f);
-			glVertex3f(width,0.0f,0.0f);
-			glVertex3f(width,height,0.0f);
-			glVertex3f(width,height,length);
-			glVertex3f(width,0.0f,length);
-		glEnd();
+		glScalef(width, height, length);
+		glCallList(cube_index);
+		glScalef(1/width, 1/height, 1/length);
+		/*
+		 *glBegin(GL_POLYGON);
+		 *    glColor3f(1.0f,0.0f,0.0f);		        // Top of triangle (front)
+		 *    glVertex3f(0.0f,0.0f,0.0f);
+		 *    glVertex3f(width,0.0f,0.0f);
+		 *    glVertex3f(width,height,0.0f);
+		 *    glVertex3f(0.0f,height,0.0f);
+		 *glEnd();
+		 *glBegin(GL_POLYGON);
+		 *    glColor3f(1.0f,0.0f,0.0f);
+		 *    glVertex3f(0.0f,0.0f,length);
+		 *    glVertex3f(width,0.0f,length);
+		 *    glVertex3f(width,height,length);
+		 *    glVertex3f(0.0f,height,length);
+		 *glEnd();
+		 *glBegin(GL_POLYGON);
+		 *    glColor3f(0.9f,0.0f,0.0f);
+		 *    glVertex3f(0.0f,0.0f,0.0f);
+		 *    glVertex3f(width,0.0f,0.0f);
+		 *    glVertex3f(width,0.0f,length);
+		 *    glVertex3f(0.0f,0.0f,length);
+		 *glEnd();
+		 *glBegin(GL_POLYGON);
+		 *    glColor3f(0.9f,0.0f,0.0f);
+		 *    glVertex3f(0.0f,height,0.0f);
+		 *    glVertex3f(width,height,0.0f);
+		 *    glVertex3f(width,height,length);
+		 *    glVertex3f(0.0f,height,length);
+		 *glEnd();
+		 *glBegin(GL_POLYGON);
+		 *    glColor3f(0.8f,0.0f,0.0f);
+		 *    glVertex3f(0.0f,0.0f,0.0f);
+		 *    glVertex3f(0.0f,height,0.0f);
+		 *    glVertex3f(0.0f,height,length);
+		 *    glVertex3f(0.0f,0.0f,length);
+		 *glEnd();
+		 *glBegin(GL_POLYGON);
+		 *    glColor3f(0.8f,0.0f,0.0f);
+		 *    glVertex3f(width,0.0f,0.0f);
+		 *    glVertex3f(width,height,0.0f);
+		 *    glVertex3f(width,height,length);
+		 *    glVertex3f(width,0.0f,length);
+		 *glEnd();
+		 */
 	}
 
 	double steps;
@@ -644,6 +700,27 @@ struct transformer{
 	}
 
 	transformer() {
+		cube_index = glGenLists(1);
+		glNewList(cube_index, GL_COMPILE);
+			//cout << "adding to the new list\n";
+			//glBegin(GL_POLYGON);
+				//glColor3f(1,0,0);
+				//glVertex3f(0.0f,0.0f,0.0f);
+				//glVertex3f(1.0f,0.0f,0.0f);
+				//glVertex3f(1.0f,1.0f,0.0f);
+				//glVertex3f(0.0f,1.0f,0.0f);
+			//glEnd();
+			drawUnitCube();
+		glEndList();
+
+		cout << cube_index << endl;
+
+
+		color_red = 0.7;
+		color_green = 0;
+		color_blue = 0;
+
+		color_variant = 0.1;
 
 		steps = 30;
 		sequence_number = -1;
