@@ -1,6 +1,5 @@
 #include "gl_framework.hpp"
 #include "common.h"
-#include "shader_util.hpp"
 #include <math.h>
 #include <cstdlib>
 #include <iostream>

@@ -5,8 +5,8 @@ LIBS=$(OPENGLLIB) $(GLEWLIB) $(GLFWLIB)
 LDFLAGS=-L/usr/local/lib 
 CPPFLAGS=-I/usr/local/include
 
-BIN2=01_triangle_dep
-SRCS2=01_triangle_dep.cpp gl_framework.cpp
+BIN2=transformer
+SRCS2=main.cpp gl_framework.cpp
 INCLUDES=gl_framework.hpp transformer.cpp
 
 all: $(BIN2)

@@ -477,7 +477,7 @@ struct transformer{
 
 	double max_right_foot1_rot1;
 	double right_foot1_rot_speed1;
-	dya karna chahiye naouble cur_right_foot1_rot1;
+	double cur_right_foot1_rot1;
 
 	double max_right_foot1_disp;
 	double right_foot1_disp_speed;
