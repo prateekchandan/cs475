@@ -22,17 +22,12 @@ void renderGL(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glLoadIdentity();				// Reset The View
-<<<<<<< HEAD
-	/*glRotatef(rtri, 0.0, 1, 0.0);
-	rtri += 1;*/
-=======
+	glLoadIdentity();			
 	glRotatef(rtri, 0.7, 1, 0.0);
 	glScalef(0.2,0.2,0.2);
 	glCallList(0);
 	glScalef(5,5,5);
 	rtri += 1;
->>>>>>> 544d684f674b9c6bd5b72b4fe273adebb10133a3
 	t.drawRobot();
 
 }
