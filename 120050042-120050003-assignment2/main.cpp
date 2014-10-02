@@ -85,11 +85,7 @@ int main(int argc, char** argv)
 	csX75::initGL();
 
 
-	t.cube_index = glGenLists(1);
-		glNewList(t.cube_index, GL_COMPILE);
-			t.drawUnitCube();
-		glEndList();
-
+	t.createDisplayLists();
 
 	// Loop until the user closes the window
 	while (glfwWindowShouldClose(window) == 0)

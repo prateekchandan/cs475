@@ -38,7 +38,7 @@ namespace csX75
   {
     //!Close the window if the ESC key was pressed
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-      glfwSetWindowShouldClose(window, GL_TRUE);
+      glfwSetWindowShouldClose(window, GL_TRUE);/*
 	if (key == GLFW_KEY_P && action == GLFW_PRESS) {
 		if(t.sequence_number == -2) t.sequence_number = t.last_sequence_number;
 		else {
@@ -50,7 +50,7 @@ namespace csX75
 		if(t.sequence_number == 22 || t.sequence_number == -1) t.sequence_number++;
 		else if(t.sequence_number == -2) t.sequence_number = t.last_sequence_number;
 		else t.sequence_number = 44 - t.sequence_number;
-	}
+	}*/
   }
 };  
   
