@@ -152,7 +152,6 @@ struct transformer {
 	}
 	
 	void drawRectangle(double width, double height) {
-	    glColor3f(color_red,color_green,color_blue);	
 	    glScalef(width, height, 1);
 		glPushMatrix();
 		glCallList(square_index);
@@ -186,7 +185,7 @@ struct transformer {
 	 
 	 // main torso
 	 void drawTorso() {
-	   color_green=1; color_blue=0; color_red=0;
+	   glColor3f(1,0,0);
 	    drawRectangle(4,8);
 	    glPushMatrix();
 	        glTranslatef(4,0,0);
@@ -212,9 +211,7 @@ struct transformer {
 	 
 	 /// The front flap of torso which opens up to hide legs
 	 void drawTorsoFlap() {
-	     color_red=0.8;
-		color_green=0.8;
-		color_blue=0;
+	     glColor3f(0.8,0.8,0);
 	     glTranslatef(0,-6,0);
 	     drawRectangle(4,6);
 	 }
@@ -279,7 +276,17 @@ struct transformer {
 	 }
 	 
 	 void drawFistLeft() {
-	 
+		glTranslatef(0,0,-1);
+		glColor3f(0,0,1);
+		glPushMatrix();
+		glRotatef(60, -1,0,0);
+		drawRectangle(0.5,1);
+		glPopMatrix();
+		glPushMatrix();
+		glTranslatef(-0.5,0,0);
+		glRotatef(90, -1,0,0);
+		drawRectangle(1,1);
+		glPopMatrix();
 	 }
 	 
 	 void drawHandWheelLeft() {
@@ -301,7 +308,7 @@ struct transformer {
 	 }
 	 
 	 void drawFistRight() {
-	 
+		drawFistLeft();
 	 }
 	 
 	 void drawHandWheelRight() {
