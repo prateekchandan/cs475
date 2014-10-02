@@ -14,6 +14,7 @@ namespace csX75
     glDepthFunc(GL_LESS);
     //Enable depth testing
     glEnable(GL_DEPTH_TEST);glEnable(GL_DEPTH_BUFFER_BIT); 
+	glEnable(GL_TEXTURE_2D);
 	glMatrixMode(GL_PROJECTION);
     //Enable Gourard shading
     glShadeModel(GL_SMOOTH);
