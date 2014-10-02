@@ -37,15 +37,28 @@ namespace csX75
   void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
   {
     //!Close the window if the ESC key was pressed
+    cout<<key<<endl;
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-      glfwSetWindowShouldClose(window, GL_TRUE);/*
-	if (key == GLFW_KEY_P && action == GLFW_PRESS) {
-		if(t.sequence_number == -2) t.sequence_number = t.last_sequence_number;
-		else {
-			t.last_sequence_number = t.sequence_number;
-			t.sequence_number = -2;
-		}
+      glfwSetWindowShouldClose(window, GL_TRUE);
+	if (key == 328) {
+		t.xrotate++;
 	}
+	if (key == 322) {
+		t.xrotate--;
+	}
+	if (key == 324) {
+		t.zrotate++;
+	}
+	if (key == 326) {
+		t.zrotate--;
+	}
+	if (key == 327 || key == 321 ) {
+		t.xrotate--;
+	}
+	if (key == 329 || key == 323) {
+		t.xrotate++;
+	}
+	/*
 	if (key == GLFW_KEY_ENTER && action == GLFW_PRESS){
 		if(t.sequence_number == 22 || t.sequence_number == -1) t.sequence_number++;
 		else if(t.sequence_number == -2) t.sequence_number = t.last_sequence_number;

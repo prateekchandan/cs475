@@ -10,10 +10,12 @@ typedef unsigned char BYTE;
 using namespace std;
 
 struct transformer {
+	
+	int xrotate,yrotate,zrotate;
     
     /// sequence_number_* 0 means nothing , 1 means transforming to car , 2 means transforming to ro
     int sequence_number_head_flap, sequence_number_hands, sequence_number_legs,sequence_number_wheels,sequence_number_flaps;
-    int state_head_flap,state_legs,state_wheels,state_flap;
+    int state_head_flap,state_legs,state_wheels,state_flaps;
     double color_red, color_green, color_blue, color_variant;
     int steps;
     
@@ -24,14 +26,17 @@ struct transformer {
     * Constructor ;
     * */
     transformer () {
-        steps = 600;
+		xrotate=0; yrotate=0; zrotate=0;
+        steps = 300;
         sequence_number_head_flap = 1;
         sequence_number_hands = 0;
         sequence_number_legs = 1;
-        sequence_number_wheels = 0;
+        sequence_number_wheels = 1;
         sequence_number_flaps=0;
         state_head_flap = 1;
         state_legs=0;
+        state_wheels=0;
+        state_flaps=0;
         color_red = 0.5;
         color_green = 0.5;
         color_blue = 0.5;
@@ -206,7 +211,7 @@ struct transformer {
 	     color_red=0.8;
 		color_green=0.8;
 		color_blue=0;
-	     glTranslatef(0,2,-2);
+	     glTranslatef(0,-6,0);
 	     drawRectangle(4,6);
 	 }
 	 
@@ -338,6 +343,7 @@ struct transformer {
 	 }
 	 
 	 void drawAxleLeft() {
+	     glTranslatef(-0.75,0,0);
 	     glRotatef(90,0,1,0);
 	    drawCylinder(0.1,1.5);
 	 }
@@ -347,6 +353,7 @@ struct transformer {
 	 }
 	 
 	 void drawAxleRight() {
+	    glTranslatef(0.75,0,0);
 	    glRotatef(-90,0,1,0);
 	    drawCylinder(0.1,1.5);
 	 }
@@ -360,7 +367,21 @@ struct transformer {
 	  */
 	 
 	 void animateTorsoFlap() {
-	 
+	      double angle = 90.0/steps*state_flaps;
+	    glRotatef(angle, 1,0,0);
+	    if(sequence_number_flaps == 1) state_flaps+=2;
+	    else if(sequence_number_flaps == 2) state_flaps-=2;
+	    if(sequence_number_flaps!=0){
+			if(state_flaps >= steps)
+			{
+				 sequence_number_flaps = 0;
+				 state_flaps=steps-1;
+			}
+			else if(state_flaps<=0){
+				sequence_number_flaps = 0;
+				state_flaps=1;
+			}
+		}
 	 }
 	 
 	 void animateHead() {
@@ -457,7 +478,20 @@ struct transformer {
 	 void animateThighLeft() {
 	    double angle = -180.0/steps*state_legs;
 	    glRotatef(angle, 1,0,0);
-	    if(sequence_number_legs == 1) state_legs++;
+	   
+	 }
+	 
+	 void animateLegLeft() {
+	 
+	 }
+	 
+	 void animateToeLeft() {
+	 
+	 }
+	 
+	  void animateThighRight() {
+	    animateThighLeft();
+	     if(sequence_number_legs == 1) state_legs++;
 	    else if(sequence_number_legs == 2) state_legs--;
 	    if(sequence_number_legs!=0){
 			if(state_legs >= steps)
@@ -472,18 +506,6 @@ struct transformer {
 		}
 	 }
 	 
-	 void animateLegLeft() {
-	 
-	 }
-	 
-	 void animateToeLeft() {
-	 
-	 }
-	 
-	  void animateThighRight() {
-	    animateThighLeft();
-	 }
-	 
 	 void animateLegRight() {
 	 
 	 }
@@ -493,7 +515,9 @@ struct transformer {
 	 }
 	 
 	 void animateAxleLeft() {
-	 
+	    double angle = 180.0/steps*state_wheels;
+	    glRotatef(angle,0,1,0);
+	    
 	 }
 	 
 	 void animateWheelLeft() {
@@ -501,7 +525,20 @@ struct transformer {
 	 }
 	 
 	 void animateAxleRight() {
-	 
+	    animateAxleLeft();
+	    if(sequence_number_wheels == 1) state_wheels++;
+	    else if(sequence_number_wheels == 2) state_wheels--;
+	    if(sequence_number_wheels!=0){
+			if(state_wheels >= steps)
+			{
+				 sequence_number_wheels = 0;
+				 state_wheels=steps-1;
+			}
+			else if(state_wheels<=0){
+				sequence_number_wheels = 0;
+				state_wheels=1;
+			}
+		}
 	 }
 	 
 	 void animateWheelRight() {
@@ -512,7 +549,7 @@ struct transformer {
      * placing single parts of the body on their actual positions
      */
     void placeTorsoFlap() {
-	 
+	    glTranslatef(0,8,-2);
 	 }
 	 
 	 void placeHead() {
@@ -604,7 +641,7 @@ struct transformer {
 	 }
 	 
 	 void placeAxleLeft() {
-	    glTranslatef(-0.75,1,-1.75);
+	    glTranslatef(0,1,-1.75);
 	 }
 	 
 	 void placeWheelLeft() {
@@ -612,7 +649,7 @@ struct transformer {
 	 }
 	 
 	 void placeAxleRight() {
-	    glTranslatef(4.75,1,-1.75);
+	    glTranslatef(4,1,-1.75);
 	 }
 	 
 	 void placeWheelRight() {
@@ -620,7 +657,7 @@ struct transformer {
 	 }
 	
 	void drawRobot(){
-	    glScalef(0.05,0.05,0.05);
+	    glScalef(0.08,0.08,0.08);
 		glPushMatrix();
 		
 		    drawTorso();

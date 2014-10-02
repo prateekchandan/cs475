@@ -8,8 +8,6 @@ using namespace std;
 
 
 
-float rtri = 0.0f;
-float rall1 = 0.0f, rall2 = 0.0f, rall3 = 0.0f;
 
 
 
@@ -18,8 +16,9 @@ void renderGL(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glLoadIdentity();			
-	glRotatef(rtri, 0.7, 1, 0.0);
-	rtri+=0.5;
+	glRotatef(t.xrotate, 1, 0, 0);
+	glRotatef(t.yrotate, 0, 1, 0);
+	glRotatef(t.zrotate, 0, 0, 1);
 	t.drawRobot();
 
 }
