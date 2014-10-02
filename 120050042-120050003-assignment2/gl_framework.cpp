@@ -77,6 +77,7 @@ namespace csX75
 		t.sequence_number_legs = 0;
         t.sequence_number_wheels = 0;
         t.sequence_number_flaps=0;
+        t.sequence_number_hands=0;
 	}
   }
 };  

@@ -7,14 +7,10 @@
 using namespace std;
 
 
-
-
-
-
 void renderGL(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	
 	glLoadIdentity();
 	glTranslatef(t.x_offset*0.01,t.y_offset*0.01,0);			
 	glRotatef(t.xrotate, 1, 0, 0);
@@ -79,7 +75,8 @@ int main(int argc, char** argv)
 
 
 	t.createDisplayLists();
-
+	t.LoadGLTextures();
+	
 	// Loop until the user closes the window
 	while (glfwWindowShouldClose(window) == 0)
 	{

@@ -9,6 +9,18 @@
 typedef unsigned char BYTE; 
 using namespace std;
 
+
+
+/* Image type - contains height, width, and data */
+struct Image {
+    unsigned long sizeX;
+    unsigned long sizeY;
+    char *data;
+};
+typedef struct Image Image;
+
+
+
 struct transformer {
 	
 	int xrotate,yrotate,zrotate;
@@ -17,10 +29,14 @@ struct transformer {
     /// sequence_number_* 0 means nothing , 1 means transforming to car , 2 means transforming to ro
     int sequence_number_head_flap, sequence_number_hands, sequence_number_legs,sequence_number_wheels,sequence_number_flaps;
     int flap_toggle;
-    int state_head_flap,state_legs,state_wheels,state_flaps;
+    int state_head_flap,state_legs,state_wheels,state_flaps,state_hands;
     double color_red, color_green, color_blue, color_variant;
     int steps;
-    
+	
+	/// storage for one texture  
+	unsigned int texture[1];
+
+
     // Variables for display list
     double cube_index,cylinder_index,square_index;
     
@@ -41,12 +57,124 @@ struct transformer {
         state_legs=0;
         state_wheels=0;
         state_flaps=0;
+        state_hands=0;
         color_red = 0.5;
         color_green = 0.5;
         color_blue = 0.5;
         color_variant = 0;
     }
     
+    
+	int ImageLoad(const char *filename, Image *image) {
+		FILE *file;
+		unsigned long size;                 // size of the image in bytes.
+		unsigned long i;                    // standard counter.
+		unsigned short int planes;          // number of planes in image (must be 1) 
+		unsigned short int bpp;             // number of bits per pixel (must be 24)
+		char temp;                          // temporary color storage for bgr-rgb conversion.
+
+		// make sure the file is there.
+		if ((file = fopen(filename, "rb"))==NULL)
+		{
+		printf("File Not Found : %s\n",filename);
+		return 0;
+		}
+		
+		// seek through the bmp header, up to the width/height:
+		fseek(file, 18, SEEK_CUR);
+
+		// read the width
+		if ((i = fread(&image->sizeX, 4, 1, file)) != 1) {
+		printf("Error reading width from %s.\n", filename);
+		return 0;
+		}
+		printf("Width of %s: %lu\n", filename, image->sizeX);
+		
+		// read the height 
+		if ((i = fread(&image->sizeY, 4, 1, file)) != 1) {
+		printf("Error reading height from %s.\n", filename);
+		return 0;
+		}
+		printf("Height of %s: %lu\n", filename, image->sizeY);
+		
+		// calculate the size (assuming 24 bits or 3 bytes per pixel).
+		size = image->sizeX * image->sizeY * 3;
+
+		// read the planes
+		if ((fread(&planes, 2, 1, file)) != 1) {
+		printf("Error reading planes from %s.\n", filename);
+		return 0;
+		}
+		if (planes != 1) {
+		printf("Planes from %s is not 1: %u\n", filename, planes);
+		return 0;
+		}
+
+		// read the bpp
+		if ((i = fread(&bpp, 2, 1, file)) != 1) {
+		printf("Error reading bpp from %s.\n", filename);
+		return 0;
+		}
+		if (bpp != 24) {
+		printf("Bpp from %s is not 24: %u\n", filename, bpp);
+		return 0;
+		}
+		
+		// seek past the rest of the bitmap header.
+		fseek(file, 24, SEEK_CUR);
+
+		// read the data. 
+		image->data = (char *) malloc(size);
+		if (image->data == NULL) {
+		printf("Error allocating memory for color-corrected image data");
+		return 0;	
+		}
+
+		if ((i = fread(image->data, size, 1, file)) != 1) {
+		printf("Error reading image data from %s.\n", filename);
+		return 0;
+		}
+
+		for (i=0;i<size;i+=3) { // reverse all of the colors. (bgr -> rgb)
+		temp = image->data[i];
+		image->data[i] = image->data[i+2];
+		image->data[i+2] = temp;
+		}
+		
+
+		return 1;
+	}
+		
+	// Load Bitmaps And Convert To Textures
+	void LoadGLTextures() {	
+		
+		
+		// Load Texture
+		Image *image1;
+		
+		// allocate space for texture
+		image1 = (Image *) malloc(sizeof(Image));
+		if (image1 == NULL) {
+		printf("Error allocating space for image");
+		exit(0);
+		}
+
+		if (!ImageLoad("./img/skulls.bmp", image1)) {
+		exit(1);
+		}        
+
+		// Create Texture	
+		glGenTextures(1, &texture[0]);
+		glBindTexture(GL_TEXTURE_2D, texture[0]);   // 2d texture (x and y size)
+
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); // scale linearly when image bigger than texture
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR); // scale linearly when image smalled than texture
+
+		// 2d texture, level of detail 0 (normal), 3 components (red, green, blue), x size from image, y size from image, 
+		// border 0 (normal), rgb color data, unsigned byte data, and finally the data itself.
+		glTexImage2D(GL_TEXTURE_2D, 0, 3, image1->sizeX, image1->sizeY, 0, GL_RGB, GL_UNSIGNED_BYTE, image1->data);
+	};
+
     /**
     * draws a cylinder of unit length
     * */
@@ -185,7 +313,7 @@ struct transformer {
 	 
 	 // main torso
 	 void drawTorso() {
-	   glColor3f(1,0,0);
+	   glColor3f(0,1,0);
 	    drawRectangle(4,8);
 	    glPushMatrix();
 	        glTranslatef(4,0,0);
@@ -211,8 +339,19 @@ struct transformer {
 	 
 	 /// The front flap of torso which opens up to hide legs
 	 void drawTorsoFlap() {
+		 
 	     glColor3f(0.8,0.8,0);
-	     glTranslatef(0,-6,0);
+	     glTranslatef(0,-10,0);
+	     
+	     glEnable(GL_TEXTURE_2D);
+	     glBindTexture(GL_TEXTURE_2D, texture[0]);   // choose the texture to use.
+	     glBegin(GL_QUADS);		                // begin drawing a cube
+			 glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  1.0f);	// Bottom Left Of The Texture and Quad
+			 glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  1.0f);	// Bottom Right Of The Texture and Quad
+			 glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f,  1.0f);	// Top Right Of The Texture and Quad
+			 glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f,  1.0f);	// Top Left Of The Texture and Quad
+		 glEnd(); 
+		 glTranslatef(0,4,0);
 	     drawRectangle(4,6);
 	 }
 	 
@@ -464,11 +603,25 @@ struct transformer {
 	 }
 	 
 	 void animateHandUpperLeft() {
-	 
+		double angle = 25.0/steps*state_hands;
+	    glRotatef(angle, -0.1,0,1);
+	    if(sequence_number_hands == 1) state_hands++;
+	    else if(sequence_number_hands == 2) state_hands--;
+	    if(sequence_number_hands!=0){
+			if(state_hands >= steps)
+			{
+				 sequence_number_hands = 1;
+				 state_hands=steps-1;
+			}
+			else if(state_hands<=0){
+				sequence_number_hands = 2;
+				state_hands=1;
+			}
+		}
 	 }
 	 
 	 void animateHandLowerLeft() {
-	 
+		
 	 }
 	 
 	 void animateFistLeft() {
@@ -480,7 +633,8 @@ struct transformer {
 	 }
 	 
 	 void animateHandUpperRight() {
-	 
+		double angle = -25.0/steps*state_hands;
+	    glRotatef(angle, 0.1,0,1);
 	 }
 	 
 	 void animateHandLowerRight() {
@@ -691,7 +845,7 @@ struct transformer {
 			else if(sequence_number_flaps != 2 && state_legs<=1 && sequence_number_legs == 2)
 				{sequence_number_flaps=2;} 
 			else if(sequence_number_head_flap != 2 && state_flaps<=1 && sequence_number_flaps == 2)
-				{sequence_number_head_flap = 2;}
+				{sequence_number_head_flap = 2;sequence_number_hands = 2;}
 		}
 		else{
 			if(sequence_number_flaps != 1 && flap_toggle==0)
@@ -703,7 +857,7 @@ struct transformer {
 			else if(sequence_number_flaps != 2 && state_wheels>= steps-1 && sequence_number_wheels == 1)
 				{sequence_number_flaps=2;} 
 			else if(sequence_number_head_flap != 1 && state_flaps<=1 && sequence_number_flaps == 2)
-				{sequence_number_head_flap = 1;}
+				{sequence_number_head_flap = 1;sequence_number_hands = 1;}
 		}
 	}
 	void drawRobot(){
