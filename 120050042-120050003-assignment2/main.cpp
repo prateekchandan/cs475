@@ -6,11 +6,6 @@
 #include <unistd.h>
 using namespace std;
 
-float points[] = {
-	0.0f,  0.5f,  0.0f,
-	0.5f, -0.5f,  0.0f,
-	-0.5f, -0.5f,  0.0f
-};
 
 
 float rtri = 0.0f;
@@ -24,10 +19,7 @@ void renderGL(void)
 
 	glLoadIdentity();			
 	glRotatef(rtri, 0.7, 1, 0.0);
-	glScalef(0.2,0.2,0.2);
-	glCallList(0);
-	glScalef(5,5,5);
-	rtri += 1;
+	rtri+=0.5;
 	t.drawRobot();
 
 }

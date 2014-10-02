@@ -15,7 +15,7 @@ struct transformer {
     double color_red, color_green, color_blue, color_variant;
     
     // Variables for display list
-    double cube_index,cylinder_index,square_list;
+    double cube_index,cylinder_index,square_index;
     
     /**
     * Constructor ;
@@ -129,8 +129,7 @@ struct transformer {
     * drawUnitSquare() : draws a unit square and can be used as primitive
     * */
     void drawUnitSquare(){
-		glBegin(GL_POLYGON);
-			glColor3f(color_red,color_green,color_blue);		       
+		glBegin(GL_POLYGON);	       
 			glVertex3f(0.0f,0.0f,0.0f);
 			glVertex3f(1.0f,0.0f,0.0f);
 			glVertex3f(1.0f,1.0f,0.0f);
@@ -139,6 +138,7 @@ struct transformer {
 	}
 	
 	void drawRectangle(double width, double height) {
+		glColor3f(color_red,color_green,color_blue);
 	    glScalef(width, height, 1);
 		glPushMatrix();
 		glCallList(square_index);
@@ -161,11 +161,357 @@ struct transformer {
 			drawUnitCylinder();
 		glEndList();
 		glNewList(square_index, GL_COMPILE);
-			drawUnitCylinder();
+			drawUnitSquare();
 		glEndList();
 	}
 	
+	
+	/**
+	 * Functions for drawing Individual parts of the transformer
+	 **/
+	 
+	 // main torso
+	 void drawTorso() {
+		color_green=1;
+	    drawRectangle(4,8);
+	    color_blue=1;color_green=0;color_red=0.5;
+	    glPushMatrix();
+	        glTranslatef(4,0,0);
+	        glRotatef(90,0,1,0);
+	        drawRectangle(2,8);
+	    glPopMatrix();
+	    glPushMatrix();
+	        glRotatef(90,0,1,0);
+	        drawRectangle(2,8);
+	    glPopMatrix();
+	    
+	    glPushMatrix();
+			glTranslatef(0,8,0);
+	        glRotatef(-90,1,0,0);
+	        drawRectangle(4,2);
+	    glPopMatrix();
+	    
+	    glPushMatrix();
+	        glRotatef(-90,1,0,0);
+	        drawRectangle(4,2);
+	    glPopMatrix();
+	
+	        
+	 }
+	 
+	 /// The front flap of torso which opens up to hide legs
+	 void drawTorsoFlap() {
+		
+	     glTranslatef(0,8,-2);
+	     drawRectangle(4,6);
+	 }
+	 
+	 void drawHeadFlapLeft() {
+	 
+	 }
+	 
+	 void drawHeadFlapBackLeft() {
+	 
+	 }
+	 
+	 void drawHeadFlapUpperLeft() {
+	 
+	 }
+	 
+	 void drawHeadFlapRight() {
+	 
+	 }
+	 
+	 void drawHeadFlapBackRight() {
+	 
+	 }
+	 
+	 void drawHeadFlapUpperRight() {
+	 
+	 }
+	 
+	 void drawHandUpperLeft() {
+	 
+	 }
+	 
+	 void drawHandLowerLeft() {
+	 
+	 }
+	 
+	 void drawFistLeft() {
+	 
+	 }
+	 
+	 void drawHandWheelLeft() {
+	 
+	 }
+	 
+	 void drawHandUpperRight() {
+	 
+	 }
+	 
+	 void drawHandLowerRight() {
+	 
+	 }
+	 
+	 void drawFistRight() {
+	 
+	 }
+	 
+	 void drawHandWheelRight() {
+	 
+	 }
+	 
+	 void drawThighLeft() {
+	 
+	 }
+	 
+	 void drawLegLeft() {
+	 
+	 }
+	 
+	 void drawToeLeft() {
+	 
+	 }
+	 
+	  void drawThighRight() {
+	 
+	 }
+	 
+	 void drawLegRight() {
+	 
+	 }
+	 
+	 void drawToeRight() {
+	 
+	 }
+	 
+	 void drawAxleLeft() {
+	 
+	 }
+	 
+	 void drawWheelLeft() {
+	 
+	 }
+	 
+	 void drawAxleRight() {
+	 
+	 }
+	 
+	 void drawWheelRight() {
+	 
+	 }
+	 
+	 /**
+	  * Animating single parts of the body
+	  */
+	 
+	 void animateTorsoFlap() {
+	 
+	 }
+	 
+	 void animateHeadFlapLeft() {
+	 
+	 }
+	 
+	 void animateHeadFlapBackLeft() {
+	 
+	 }
+	 
+	 void animateHeadFlapUpperLeft() {
+	 
+	 }
+	 
+	 void animateHeadFlapRight() {
+	 
+	 }
+	 
+	 void animateHeadFlapBackRight() {
+	 
+	 }
+	 
+	 void animateHeadFlapUpperRight() {
+	 
+	 }
+	 
+	 void animateHandUpperLeft() {
+	 
+	 }
+	 
+	 void animateHandLowerLeft() {
+	 
+	 }
+	 
+	 void animateFistLeft() {
+	 
+	 }
+	 
+	 void animateHandWheelLeft() {
+	 
+	 }
+	 
+	 void animateHandUpperRight() {
+	 
+	 }
+	 
+	 void animateHandLowerRight() {
+	 
+	 }
+	 
+	 void animateFistRight() {
+	 
+	 }
+	 
+	 void animateHandWheelRight() {
+	 
+	 }
+	 
+	 void animateThighLeft() {
+	 
+	 }
+	 
+	 void animateLegLeft() {
+	 
+	 }
+	 
+	 void animateToeLeft() {
+	 
+	 }
+	 
+	  void animateThighRight() {
+	 
+	 }
+	 
+	 void animateLegRight() {
+	 
+	 }
+	 
+	 void animateToeRight() {
+	 
+	 }
+	 
+	 void animateAxleLeft() {
+	 
+	 }
+	 
+	 void animateWheelLeft() {
+	 
+	 }
+	 
+	 void animateAxleRight() {
+	 
+	 }
+	 
+	 void animateWheelRight() {
+	 
+	 }
+
+    /**
+     * placing single parts of the body on their actual positions
+     */
+    void placeTorsoFlap() {
+	 
+	 }
+	 
+	 void placeHeadFlapLeft() {
+	 
+	 }
+	 
+	 void placeHeadFlapBackLeft() {
+	 
+	 }
+	 
+	 void placeHeadFlapUpperLeft() {
+	 
+	 }
+	 
+	 void placeHeadFlapRight() {
+	 
+	 }
+	 
+	 void placeHeadFlapBackRight() {
+	 
+	 }
+	 
+	 void placeHeadFlapUpperRight() {
+	 
+	 }
+	 
+	 void placeHandUpperLeft() {
+	 
+	 }
+	 
+	 void placeHandLowerLeft() {
+	 
+	 }
+	 
+	 void placeFistLeft() {
+	 
+	 }
+	 
+	 void placeHandWheelLeft() {
+	 
+	 }
+	 
+	 void placeHandUpperRight() {
+	 
+	 }
+	 
+	 void placeHandLowerRight() {
+	 
+	 }
+	 
+	 void placeFistRight() {
+	 
+	 }
+	 
+	 void placeHandWheelRight() {
+	 
+	 }
+	 
+	 void placeThighLeft() {
+	 
+	 }
+	 
+	 void placeLegLeft() {
+	 
+	 }
+	 
+	 void placeToeLeft() {
+	 
+	 }
+	 
+	  void placeThighRight() {
+	 
+	 }
+	 
+	 void placeLegRight() {
+	 
+	 }
+	 
+	 void placeToeRight() {
+	 
+	 }
+	 
+	 void placeAxleLeft() {
+	 
+	 }
+	 
+	 void placeWheelLeft() {
+	 
+	 }
+	 
+	 void placeAxleRight() {
+	 
+	 }
+	 
+	 void placeWheelRight() {
+	 
+	 }
+
+	
 	void drawRobot(){
+	    glScalef(0.05,0.05,0.05);
 		glPushMatrix();
 		
 		    drawTorso();
@@ -291,6 +637,30 @@ struct transformer {
 		                drawToeRight();
 		            
 		            glPopMatrix();
+		        
+		        glPopMatrix();
+		    
+		    glPopMatrix();
+		    
+		    glPushMatrix();
+		    
+		        drawAxleLeft();
+		        
+		        glPushMatrix();
+		        
+		            drawWheelLeft();
+		        
+		        glPopMatrix();
+		    
+		    glPopMatrix();
+		    
+		    glPushMatrix();
+		    
+		        drawAxleRight();
+		        
+		        glPushMatrix();
+		        
+		            drawWheelRight();
 		        
 		        glPopMatrix();
 		    
