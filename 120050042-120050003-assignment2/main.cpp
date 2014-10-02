@@ -15,10 +15,12 @@ void renderGL(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glLoadIdentity();			
+	glLoadIdentity();
+	glTranslatef(t.x_offset*0.01,t.y_offset*0.01,0);			
 	glRotatef(t.xrotate, 1, 0, 0);
 	glRotatef(t.yrotate, 0, 1, 0);
 	glRotatef(t.zrotate, 0, 0, 1);
+
 	t.drawRobot();
 
 }

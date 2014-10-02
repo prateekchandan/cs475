@@ -12,7 +12,8 @@ using namespace std;
 struct transformer {
 	
 	int xrotate,yrotate,zrotate;
-    
+	int x_offset,y_offset;
+    int main_state;
     /// sequence_number_* 0 means nothing , 1 means transforming to car , 2 means transforming to ro
     int sequence_number_head_flap, sequence_number_hands, sequence_number_legs,sequence_number_wheels,sequence_number_flaps;
     int state_head_flap,state_legs,state_wheels,state_flaps;
@@ -26,14 +27,15 @@ struct transformer {
     * Constructor ;
     * */
     transformer () {
+		main_state=0;
 		xrotate=0; yrotate=0; zrotate=0;
         steps = 300;
-        sequence_number_head_flap = 1;
+        sequence_number_head_flap = 0;
         sequence_number_hands = 0;
-        sequence_number_legs = 1;
-        sequence_number_wheels = 1;
+        sequence_number_legs = 0;
+        sequence_number_wheels = 0;
         sequence_number_flaps=0;
-        state_head_flap = 1;
+        state_head_flap = 0;
         state_legs=0;
         state_wheels=0;
         state_flaps=0;
@@ -374,7 +376,7 @@ struct transformer {
 	    if(sequence_number_flaps!=0){
 			if(state_flaps >= steps)
 			{
-				 sequence_number_flaps = 0;
+				 sequence_number_flaps = 2;
 				 state_flaps=steps-1;
 			}
 			else if(state_flaps<=0){
@@ -388,16 +390,27 @@ struct transformer {
 	     
 	 }
 	 
+	void check_head_flap_sequence(){
+		 if(state_head_flap >= steps)
+		{
+			 sequence_number_head_flap = 1;
+			 state_head_flap=steps-1;
+		}
+		else if(state_legs<=0){
+			sequence_number_head_flap = 2;
+			state_head_flap=1;
+		}
+	}
 	 void animateHeadFlapLeft() {
 	    double max_angle = -60;
 	    if(state_head_flap < steps && state_head_flap > 0) {
 	        double angle = max_angle/steps*state_head_flap;
 	        glRotatef(angle, 0,0,1);
 	    }
-	    else if(state_head_flap == steps) {
+	    else if(state_head_flap >= steps) {
 	        glRotatef(max_angle, 0, 0, 1);
 	    }
-	    if(state_head_flap == steps || state_head_flap == 0) sequence_number_head_flap = 0;
+	    check_head_flap_sequence();
 	 }
 	 
 	 void animateHeadFlapBackLeft() {
@@ -405,10 +418,10 @@ struct transformer {
 	        double angle = 180.0/steps*state_head_flap;
 	        glRotatef(angle, -1,4,-0.5);
 	    }
-	    else if(state_head_flap == steps) {
+	    else if(state_head_flap >= steps) {
 	        glRotatef(180.0, -1, 4, -0.5);
 	    }
-	    if(state_head_flap == steps || state_head_flap == 0) sequence_number_head_flap = 0;
+	    check_head_flap_sequence();
 	 }
 	 
 	 void animateHeadFlapUpperLeft() {
@@ -417,10 +430,10 @@ struct transformer {
 	        double angle = max_angle/steps*state_head_flap;
 	        glRotatef(angle, 0,0,1);
 	    }
-	    else if(state_head_flap == steps) {
+	    else if(state_head_flap >= steps) {
 	        glRotatef(max_angle, 0, 0, 1);
 	    }
-	    if(state_head_flap == steps || state_head_flap == 0) sequence_number_head_flap = 0;
+	    check_head_flap_sequence();
 	 }
 	 
 	 void animateHeadFlapRight() {
@@ -656,8 +669,25 @@ struct transformer {
 	    glTranslatef(0.0,0.0,-1);
 	 }
 	
+	void assign_states(){
+		if(main_state==0){
+			sequence_number_head_flap = 2;
+			sequence_number_hands = 0;
+			sequence_number_legs = 2;
+			sequence_number_wheels = 2;
+			sequence_number_flaps=0;
+		}
+		else{
+			 sequence_number_head_flap = 1;
+			sequence_number_hands = 0;
+			sequence_number_legs = 1;
+			sequence_number_wheels = 1;
+			sequence_number_flaps=0;
+		}
+	}
 	void drawRobot(){
 	    glScalef(0.08,0.08,0.08);
+	    assign_states();
 		glPushMatrix();
 		
 		    drawTorso();

@@ -53,17 +53,27 @@ namespace csX75
 		t.zrotate--;
 	}
 	if (key == 327 || key == 321 ) {
-		t.xrotate--;
+		t.yrotate--;
 	}
 	if (key == 329 || key == 323) {
-		t.xrotate++;
+		t.yrotate++;
 	}
-	/*
+	if (key == GLFW_KEY_UP){
+		t.y_offset++;
+	}
+	if (key == GLFW_KEY_DOWN){
+		t.y_offset--;
+	}
+	if (key == GLFW_KEY_RIGHT){
+		t.x_offset++;
+	}
+	if (key == GLFW_KEY_LEFT){
+		t.x_offset--;
+	}
 	if (key == GLFW_KEY_ENTER && action == GLFW_PRESS){
-		if(t.sequence_number == 22 || t.sequence_number == -1) t.sequence_number++;
-		else if(t.sequence_number == -2) t.sequence_number = t.last_sequence_number;
-		else t.sequence_number = 44 - t.sequence_number;
-	}*/
+		t.main_state++;
+		t.main_state%=2;
+	}
   }
 };  
   
