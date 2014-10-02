@@ -37,7 +37,6 @@ namespace csX75
   void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
   {
     //!Close the window if the ESC key was pressed
-    cout<<key<<endl;
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
       glfwSetWindowShouldClose(window, GL_TRUE);
 	if (key == 328) {
@@ -73,6 +72,11 @@ namespace csX75
 	if (key == GLFW_KEY_ENTER && action == GLFW_PRESS){
 		t.main_state++;
 		t.main_state%=2;
+		t.flap_toggle=0;
+		t.sequence_number_head_flap = 0;
+		t.sequence_number_legs = 0;
+        t.sequence_number_wheels = 0;
+        t.sequence_number_flaps=0;
 	}
   }
 };  

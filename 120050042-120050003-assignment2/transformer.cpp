@@ -16,6 +16,7 @@ struct transformer {
     int main_state;
     /// sequence_number_* 0 means nothing , 1 means transforming to car , 2 means transforming to ro
     int sequence_number_head_flap, sequence_number_hands, sequence_number_legs,sequence_number_wheels,sequence_number_flaps;
+    int flap_toggle;
     int state_head_flap,state_legs,state_wheels,state_flaps;
     double color_red, color_green, color_blue, color_variant;
     int steps;
@@ -27,9 +28,10 @@ struct transformer {
     * Constructor ;
     * */
     transformer () {
+		flap_toggle=-1;
 		main_state=0;
 		xrotate=0; yrotate=0; zrotate=0;
-        steps = 300;
+        steps = 150;
         sequence_number_head_flap = 0;
         sequence_number_hands = 0;
         sequence_number_legs = 0;
@@ -376,11 +378,11 @@ struct transformer {
 	    if(sequence_number_flaps!=0){
 			if(state_flaps >= steps)
 			{
-				 sequence_number_flaps = 2;
+				 sequence_number_flaps = 1;
 				 state_flaps=steps-1;
 			}
 			else if(state_flaps<=0){
-				sequence_number_flaps = 0;
+				sequence_number_flaps = 2;
 				state_flaps=1;
 			}
 		}
@@ -396,7 +398,7 @@ struct transformer {
 			 sequence_number_head_flap = 1;
 			 state_head_flap=steps-1;
 		}
-		else if(state_legs<=0){
+		else if(state_head_flap<=0){
 			sequence_number_head_flap = 2;
 			state_head_flap=1;
 		}
@@ -410,7 +412,6 @@ struct transformer {
 	    else if(state_head_flap >= steps) {
 	        glRotatef(max_angle, 0, 0, 1);
 	    }
-	    check_head_flap_sequence();
 	 }
 	 
 	 void animateHeadFlapBackLeft() {
@@ -421,7 +422,6 @@ struct transformer {
 	    else if(state_head_flap >= steps) {
 	        glRotatef(180.0, -1, 4, -0.5);
 	    }
-	    check_head_flap_sequence();
 	 }
 	 
 	 void animateHeadFlapUpperLeft() {
@@ -433,7 +433,6 @@ struct transformer {
 	    else if(state_head_flap >= steps) {
 	        glRotatef(max_angle, 0, 0, 1);
 	    }
-	    check_head_flap_sequence();
 	 }
 	 
 	 void animateHeadFlapRight() {
@@ -442,6 +441,7 @@ struct transformer {
 	    glScalef(-1,1,1);
 	    if(sequence_number_head_flap == 1) state_head_flap++;
 	    else if(sequence_number_head_flap == 2) state_head_flap--;
+	    check_head_flap_sequence();
 	 }
 	 
 	 void animateHeadFlapBackRight() {
@@ -509,11 +509,11 @@ struct transformer {
 	    if(sequence_number_legs!=0){
 			if(state_legs >= steps)
 			{
-				 sequence_number_legs = 0;
+				 sequence_number_legs = 1;
 				 state_legs=steps-1;
 			}
 			else if(state_legs<=0){
-				sequence_number_legs = 0;
+				sequence_number_legs = 2;
 				state_legs=1;
 			}
 		}
@@ -528,7 +528,7 @@ struct transformer {
 	 }
 	 
 	 void animateAxleLeft() {
-	    double angle = 180.0/steps*state_wheels;
+	    double angle = -180.0/steps*state_wheels;
 	    glRotatef(angle,0,1,0);
 	    
 	 }
@@ -538,17 +538,18 @@ struct transformer {
 	 }
 	 
 	 void animateAxleRight() {
-	    animateAxleLeft();
+	    double angle = 180.0/steps*state_wheels;
+	    glRotatef(angle,0,1,0);
 	    if(sequence_number_wheels == 1) state_wheels++;
 	    else if(sequence_number_wheels == 2) state_wheels--;
 	    if(sequence_number_wheels!=0){
 			if(state_wheels >= steps)
 			{
-				 sequence_number_wheels = 0;
+				 sequence_number_wheels = 1;
 				 state_wheels=steps-1;
 			}
 			else if(state_wheels<=0){
-				sequence_number_wheels = 0;
+				sequence_number_wheels = 2;
 				state_wheels=1;
 			}
 		}
@@ -670,19 +671,32 @@ struct transformer {
 	 }
 	
 	void assign_states(){
+		if(flap_toggle==-1){
+			return;
+		}
 		if(main_state==0){
-			sequence_number_head_flap = 2;
-			sequence_number_hands = 0;
-			sequence_number_legs = 2;
-			sequence_number_wheels = 2;
-			sequence_number_flaps=0;
+			if(sequence_number_flaps != 1 && flap_toggle==0)
+				{sequence_number_flaps = 1; flap_toggle=1; }
+			else if(sequence_number_wheels != 2 && state_flaps>= steps-1 && sequence_number_flaps == 1)
+				{sequence_number_wheels = 2;}
+			else if(sequence_number_legs!=2  && state_wheels<=1 && sequence_number_wheels==2 )
+				{sequence_number_legs = 2;}
+			else if(sequence_number_flaps != 2 && state_legs<=1 && sequence_number_legs == 2)
+				{sequence_number_flaps=2;} 
+			else if(sequence_number_head_flap != 2 && state_flaps<=1 && sequence_number_flaps == 2)
+				{sequence_number_head_flap = 2;}
 		}
 		else{
-			 sequence_number_head_flap = 1;
-			sequence_number_hands = 0;
-			sequence_number_legs = 1;
-			sequence_number_wheels = 1;
-			sequence_number_flaps=0;
+			if(sequence_number_flaps != 1 && flap_toggle==0)
+				{sequence_number_flaps = 1; flap_toggle=1; }
+			else if(sequence_number_legs!=1 && state_flaps>= steps-1 && sequence_number_flaps == 1)
+				{sequence_number_legs = 1;}
+			else if(sequence_number_wheels != 1 && state_legs>= steps-1 &&sequence_number_legs==1 )
+				{sequence_number_wheels = 1;}
+			else if(sequence_number_flaps != 2 && state_wheels>= steps-1 && sequence_number_wheels == 1)
+				{sequence_number_flaps=2;} 
+			else if(sequence_number_head_flap != 1 && state_flaps<=1 && sequence_number_flaps == 2)
+				{sequence_number_head_flap = 1;}
 		}
 	}
 	void drawRobot(){
