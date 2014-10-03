@@ -79,6 +79,38 @@ namespace csX75
         t.sequence_number_flaps=0;
         t.sequence_number_hands=0;
 	}
+	if (key == GLFW_KEY_Q && action == GLFW_PRESS){
+		if(t.sequence_number_hands==0)
+			t.sequence_number_hands=1;
+		else if(t.sequence_number_hands==1)
+			t.sequence_number_hands=2;
+		else
+			t.sequence_number_hands=1;	
+	}
+	if (key == GLFW_KEY_A && action == GLFW_PRESS){
+		if(t.sequence_number_head_flap==0)
+			t.sequence_number_head_flap=1;
+		else if(t.sequence_number_head_flap==1)
+			t.sequence_number_head_flap=2;
+		else
+			t.sequence_number_head_flap=1;	
+	}
+	if (key == GLFW_KEY_S && action == GLFW_PRESS){
+		if(t.sequence_number_flaps==0)
+			t.sequence_number_flaps=1;
+		else if(t.sequence_number_flaps==1)
+			t.sequence_number_flaps=2;
+		else
+			t.sequence_number_flaps=1;	
+	}
+	if (key == GLFW_KEY_W && action == GLFW_PRESS){
+		if(t.sequence_number_wheels==0)
+			t.sequence_number_wheels=1;
+		else if(t.sequence_number_wheels==1)
+			t.sequence_number_wheels=2;
+		else
+			t.sequence_number_wheels=1;	
+	}
   }
 };  
   

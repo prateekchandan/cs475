@@ -1,0 +1,58 @@
+===================
+Assignment 1:
+===================
+
+Anurag Shirolkar 120050003
+Prateek Chandan  120050042
+
+The code of the assignment has been written by us and not been plagiarised from anywhere else.
+
+Link to the html page of the assignment : http://www.cse.iitb.ac.in/~anuragshirolkar/cs475/asgn2
+                                        : http://www.cse.iitb.ac.in/~prateekchandan/cs475/asgn2
+
+1. To compile just type "make" on the command line.
+2. Pressing ESC will quit the program.
+3. Use 
+Pres <Enter> To transform car to robot and robot to car
+4. This code uses OpenGL 2.1.
+
+===================
+The Key Mappings
+===================
+
+Env Keys:
+
+    Key           |  Usage
+    --------------+--------------------------------------------------------
+    UP arraow     |  Translate all upward
+    Down arrow    |  Translate all downward
+    Left arrow    |  Translate all left
+    Right arrow   |  Translate all right
+    Num 8         |  Rotate model along x-axis clockwise
+    Num 2         |  Rotate model along x-axis anti-clockwise
+    Num 4         |  Rotate model along z-axis clockwise
+    Num 6         |  Rotate model along z-axis anti-clockwise
+    Num 7 or Num 1|  Rotate model along y-axis clockwise
+    Num 3 or Num 9|  Rotate model along y-axis anti-clockwise
+    Escape        |  Terminate the Program
+
+Keys for Animation:
+
+     Key          |  Usage
+    --------------+--------------------------------------------------------
+    Enter         |  Toggle between car and robot
+    Q			  |  Toggle animation of hand
+    A			  |  Toggle animation of head flaps
+    S			  |  Toggle animation of body flaps
+    W			  |  Toggle animation of wheels
+
+===================
+references:
+===================
+
+Images for texture taken from : http://opengameart.org/
+For texture mapping 		  : http://nehe.gamedev.net/tutorial/texture_mapping/12038/
+For display Lists			  : http://nehe.gamedev.net/tutorial/display_lists/15003/
+The official OpenGL site      : http://www.opengl.org/
+OpenGL.org tutorial listings  : http://www.opengl.org/code/
+Google and Stack Overflow 
