@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <cstdlib>
 #include <math.h>
+#include <string.h>
+
 typedef unsigned char BYTE; 
 using namespace std;
 
@@ -34,7 +36,7 @@ struct transformer {
     int steps;
 	
 	/// storage for one texture  
-	unsigned int texture[1];
+	unsigned int texture[5];
 
 
     // Variables for display list
@@ -150,29 +152,48 @@ struct transformer {
 		
 		
 		// Load Texture
-		Image *image1;
+		Image *image[5];
 		
 		// allocate space for texture
-		image1 = (Image *) malloc(sizeof(Image));
-		if (image1 == NULL) {
+		image[0] = (Image *) malloc(sizeof(Image));
+		image[1] = (Image *) malloc(sizeof(Image));
+		image[2] = (Image *) malloc(sizeof(Image));
+		image[3] = (Image *) malloc(sizeof(Image));
+		image[4] = (Image *) malloc(sizeof(Image));
+		if (image[0] == NULL || image[2]==NULL || image[3]==NULL || image[4]==NULL || image[1]==NULL) {
 		printf("Error allocating space for image");
 		exit(0);
 		}
-
-		if (!ImageLoad("./img/skulls.bmp", image1)) {
-		exit(1);
-		}        
-
-		// Create Texture	
-		glGenTextures(1, &texture[0]);
-		glBindTexture(GL_TEXTURE_2D, texture[0]);   // 2d texture (x and y size)
-
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); // scale linearly when image bigger than texture
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR); // scale linearly when image smalled than texture
-
-		// 2d texture, level of detail 0 (normal), 3 components (red, green, blue), x size from image, y size from image, 
-		// border 0 (normal), rgb color data, unsigned byte data, and finally the data itself.
-		glTexImage2D(GL_TEXTURE_2D, 0, 3, image1->sizeX, image1->sizeY, 0, GL_RGB, GL_UNSIGNED_BYTE, image1->data);
+		
+		char a[5][100];
+		strcpy(a[0],"./img/flap.bmp");
+		strcpy(a[1],"./img/cheetah.bmp");
+		strcpy(a[2],"./img/face.bmp");
+		strcpy(a[3],"./img/skin.bmp");
+		strcpy(a[4],"./img/flap.bmp");
+		/*a[0]="./img/flap.bmp";
+		a[1]="./img/cheetah.bmp";
+		a[2]="./img/skin.bmp";
+		a[3]="./img/flap.bmp";
+		a[4]="./img/flap.bmp";*/
+		
+		for (int i = 0; i < 4; i++)
+		{
+			if (!ImageLoad(a[i], image[i])) {
+				exit(1);
+			} 
+		}
+		
+		for (int i = 0; i < 4; i++)
+		{
+			glGenTextures(1, &texture[i]);
+			glBindTexture(GL_TEXTURE_2D, texture[i]);   // 2d texture (x and y size)
+			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); // scale linearly when image bigger than texture
+			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR); // scale linearly when image smalled than texture
+			glTexImage2D(GL_TEXTURE_2D, 0, 3, image[i]->sizeX, image[i]->sizeY, 0, GL_RGB, GL_UNSIGNED_BYTE, image[i]->data);
+		}
+		
+		glEnable(GL_TEXTURE_2D);
 	};
 
     /**
@@ -182,18 +203,16 @@ struct transformer {
         double radius = 1.0, width = 1.0;
 		int count = 18;
 		double angle = 0;// = i * 2.0*3.1415926/count;
-		glColor3f(0.3, 0.3, 0.3);
 		for(int i = 0; i < count; i++) {
 			double angle1 = angle;
 			angle += 2.0*3.1415926/count;
 			glBegin(GL_POLYGON);
-				glVertex3f(radius*cosf(angle), radius*sinf(angle), 0.0 - width/2);
-				glVertex3f(radius*cosf(angle), radius*sinf(angle), width/2);
-				glVertex3f(radius*cosf(angle1), radius*sinf(angle1), width/2);
-				glVertex3f(radius*cosf(angle1), radius*sinf(angle1), 0.0 - width/2);
+				glTexCoord2f(0.0f, 0.0f); glVertex3f(radius*cosf(angle), radius*sinf(angle), 0.0 - width/2);
+				glTexCoord2f(1.0f, 0.0f); glVertex3f(radius*cosf(angle), radius*sinf(angle), width/2);
+				glTexCoord2f(1.0f, 1.0f); glVertex3f(radius*cosf(angle1), radius*sinf(angle1), width/2);
+				glTexCoord2f(0.0f, 1.0f); glVertex3f(radius*cosf(angle1), radius*sinf(angle1), 0.0 - width/2);
 			glEnd();
 		}
-		glColor3f(0.2, 0.2, 0.2);
 		glBegin(GL_POLYGON);
 			for(int i = 0; i < count; i++) {
 				double angle = i * 2.0*3.1415926/count;
@@ -222,40 +241,40 @@ struct transformer {
     * */
     void drawUnitCube(){
 		glBegin(GL_POLYGON);
-			glVertex3f(0.0f,0.0f,0.0f);
-			glVertex3f(1.0f,0.0f,0.0f);
-			glVertex3f(1.0f,1.0f,0.0f);
-			glVertex3f(0.0f,1.0f,0.0f);
+			glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f,0.0f,0.0f);
+			glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,0.0f,0.0f);
+			glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,0.0f);
+			glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f,1.0f,0.0f);
 		glEnd();
 		glBegin(GL_POLYGON);	       
-			glVertex3f(0.0f,0.0f,1.0f);
-			glVertex3f(1.0f,0.0f,1.0f);
-			glVertex3f(1.0f,1.0f,1.0f);
-			glVertex3f(0.0f,1.0f,1.0f);
+			glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f,0.0f,1.0f);
+			glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,0.0f,1.0f);
+			glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
+			glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f,1.0f,1.0f);
 		glEnd();
 		glBegin(GL_POLYGON);
-		    glVertex3f(0.0f,0.0f,0.0f);
-			glVertex3f(1.0f,0.0f,0.0f);
-			glVertex3f(1.0f,0.0f,1.0f);
-			glVertex3f(0.0f,0.0f,1.0f);
+		    glTexCoord2f(0.0f, 0.0f);  glVertex3f(0.0f,0.0f,0.0f);
+			glTexCoord2f(1.0f, 0.0f);  glVertex3f(1.0f,0.0f,0.0f);
+			glTexCoord2f(1.0f, 1.0f);  glVertex3f(1.0f,0.0f,1.0f);
+			glTexCoord2f(0.0f, 1.0f);  glVertex3f(0.0f,0.0f,1.0f);
 		glEnd();
 		glBegin(GL_POLYGON);
-		    glVertex3f(0.0f,1.0f,0.0f);
-			glVertex3f(1.0f,1.0f,0.0f);
-			glVertex3f(1.0f,1.0f,1.0f);
-			glVertex3f(0.0f,1.0f,1.0f);
+		    glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f,1.0f,0.0f);
+			glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,1.0f,0.0f);
+			glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
+			glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f,1.0f,1.0f);
 		glEnd();
 		glBegin(GL_POLYGON);
-		    glVertex3f(0.0f,0.0f,0.0f);
-			glVertex3f(0.0f,1.0f,0.0f);
-			glVertex3f(0.0f,1.0f,1.0f);
-			glVertex3f(0.0f,0.0f,1.0f);
+		    glTexCoord2f(1.0f, 0.0f); glVertex3f(0.0f,0.0f,0.0f);
+			glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f,1.0f,0.0f);
+			glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f,1.0f,1.0f);
+			glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f,0.0f,1.0f);
 		glEnd();
 		glBegin(GL_POLYGON);
-			glVertex3f(1.0f,0.0f,0.0f);
-			glVertex3f(1.0f,1.0f,0.0f);
-			glVertex3f(1.0f,1.0f,1.0f);
-			glVertex3f(1.0f,0.0f,1.0f);
+			glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,0.0f,0.0f);
+			glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,0.0f);
+			glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
+			glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f,0.0f,1.0f);
 		glEnd();
 	}
 	
@@ -272,10 +291,10 @@ struct transformer {
     * */
     void drawUnitSquare(){
 		glBegin(GL_POLYGON);
-			glVertex3f(0.0f,0.0f,0.0f);
-			glVertex3f(1.0f,0.0f,0.0f);
-			glVertex3f(1.0f,1.0f,0.0f);
-			glVertex3f(0.0f,1.0f,0.0f);
+			glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f,0.0f,0.0f);
+			glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,0.0f,0.0f);
+			glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,0.0f);
+			glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f,1.0f,0.0f);
 		glEnd();
 	}
 	
@@ -339,43 +358,50 @@ struct transformer {
 	 
 	 /// The front flap of torso which opens up to hide legs
 	 void drawTorsoFlap() {
-		 
+		 glBindTexture(GL_TEXTURE_2D, texture[0]);  
 	     glColor3f(0.8,0.8,0);
-	     glTranslatef(0,-10,0);
-	     
-	     glEnable(GL_TEXTURE_2D);
-	     glBindTexture(GL_TEXTURE_2D, texture[0]);   // choose the texture to use.
-	     glBegin(GL_QUADS);		                // begin drawing a cube
-			 glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  1.0f);	// Bottom Left Of The Texture and Quad
-			 glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  1.0f);	// Bottom Right Of The Texture and Quad
-			 glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f,  1.0f);	// Top Right Of The Texture and Quad
-			 glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f,  1.0f);	// Top Left Of The Texture and Quad
-		 glEnd(); 
-		 glTranslatef(0,4,0);
+	     glTranslatef(0,-6,0);
 	     drawRectangle(4,6);
 	 }
 	 
 	 void drawHead() {
-	     glColor3f(0,0,1);
-	     drawCube(2,2,1);
-	     glColor3f(1,1,0);
+		 glBindTexture(GL_TEXTURE_2D, texture[2]);  
+	     glColor3f(1,1,1);
+	     glPushMatrix();
+			drawCube(2,2,1);
+			glColor3f(1,1,0);
+		 glPopMatrix();
+		 glBindTexture(GL_TEXTURE_2D, texture[3]); 
+		 glPushMatrix(); 
+			glTranslatef(1,-0.25,0.5);
+			glRotatef(90,1,0,0);
+			drawCylinder(0.6,0.3);
+		 glPopMatrix();
+		 glPushMatrix();
+			glTranslatef(1,-0.7,0.5);
+			glRotatef(90,1,0,0);
+			drawCylinder(0.6,0.3);
+		 glPopMatrix();
+		
 	 }
 	 
 	 void drawHeadFlapLeft() {
+	    glBindTexture(GL_TEXTURE_2D, texture[1]);  
+	    glColor3f(1,0,0);
 	    glBegin(GL_POLYGON);
-	        glVertex3f(0, 0, 0);
-	        glVertex3f(0, 0, -2);
-	        glVertex3f(-1, 4, -2);
-	        glVertex3f(-1, 4, -0.5);
+	       glTexCoord2f(0.0f, 0.0f); glVertex3f(0, 0, 0);
+	        glTexCoord2f(1.0f, 0.0f); glVertex3f(0, 0, -2);
+	        glTexCoord2f(1.0f, 1.0f); glVertex3f(-1, 4, -2);
+	        glTexCoord2f(0.0f, 1.0f); glVertex3f(-1, 4, -0.5);
 	    glEnd();
 	 }
 	 
 	 void drawHeadFlapBackLeft() {
 	    glBegin(GL_POLYGON);
-	        glVertex3f(0, 0, 0);
-	        glVertex3f(-2, 0, 0);
-	        glVertex3f(-2, 4, -0.5);
-	        glVertex3f(-1, 4, -0.5);
+	        glTexCoord2f(0.0f, 0.0f); glVertex3f(0, 0, 0);
+	        glTexCoord2f(1.0f, 0.0f); glVertex3f(-2, 0, 0);
+	        glTexCoord2f(1.0f, 1.0f); glVertex3f(-2, 4, -0.5);
+	        glTexCoord2f(0.0f, 1.0f); glVertex3f(-1, 4, -0.5);
 	    glEnd();
 	 }
 	 
@@ -404,11 +430,14 @@ struct transformer {
 	 }
 	 
 	 void drawHandUpperLeft() {
+		 glBindTexture(GL_TEXTURE_2D, texture[3]);  
+		 glColor3f(0.8,0.5,0.5);
 	     glTranslatef(0, -2, 0);
 	     drawCube(1, 2, 1.5);
 	 }
 	 
 	 void drawHandLowerLeft() {
+		glColor3f(1,0.86,0.76);
 	    glTranslatef(0,-1,0);
 	    glRotatef(90, -1,0,0);
 	    drawCylinder(0.5, 2);
@@ -429,6 +458,8 @@ struct transformer {
 	 }
 	 
 	 void drawHandWheelLeft() {
+		glColor3f(0.3,0.3,0.3);
+		glBindTexture(GL_TEXTURE_2D, texture[1]); 
 	    glRotatef(90,0,1,0);
 	    glTranslatef(0,1,1.25);
 	    drawCylinder(1,0.5);
@@ -457,12 +488,15 @@ struct transformer {
 	 }
 	 
 	 void drawThigh(){
+		 glBindTexture(GL_TEXTURE_2D, texture[3]);  
+		 glColor3f(0.8,0.5,0.5);
 	    glTranslatef(0,1.5,0);
 	    glRotatef(90,1,0,0);
 	    drawCylinder(0.75,3);
 	 }
 	 
 	 void drawLeg(){
+		 glColor3f(1,0.86,0.76);
 	    drawCylinder(0.5,3);
 	 }
 	 
@@ -493,6 +527,8 @@ struct transformer {
 	 }
 	 
 	 void drawAxleLeft() {
+		 glColor3f(0.3,0.3,0.3);
+		glBindTexture(GL_TEXTURE_2D, texture[1]);
 	     glTranslatef(-0.75,0,0);
 	     glRotatef(90,0,1,0);
 	    drawCylinder(0.1,1.5);

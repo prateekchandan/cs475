@@ -73,9 +73,8 @@ int main(int argc, char** argv)
 	//Initialize GL state
 	csX75::initGL();
 
-
-	t.createDisplayLists();
 	t.LoadGLTextures();
+	t.createDisplayLists();
 	
 	// Loop until the user closes the window
 	while (glfwWindowShouldClose(window) == 0)
