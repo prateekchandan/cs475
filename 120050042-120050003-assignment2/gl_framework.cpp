@@ -111,6 +111,14 @@ namespace csX75
 		else
 			t.sequence_number_wheels=1;	
 	}
+	if (key == GLFW_KEY_D && action == GLFW_PRESS){
+		if(t.sequence_number_legs==0)
+			t.sequence_number_legs=1;
+		else if(t.sequence_number_legs==1)
+			t.sequence_number_legs=2;
+		else
+			t.sequence_number_legs=1;	
+	}
   }
 };  
   
