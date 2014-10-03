@@ -41,24 +41,27 @@ namespace csX75
     //!Close the window if the ESC key was pressed
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
       glfwSetWindowShouldClose(window, GL_TRUE);
-	if (key == GLFW_KEY_I){//328) {
+    //! Pressing key I,J,K,L,O,U rotates the transformer 
+	if (key == GLFW_KEY_I){
 		t.xrotate++;
 	}
-	if (key == GLFW_KEY_K){//322) {
+	if (key == GLFW_KEY_K){
 		t.xrotate--;
 	}
-	if (key == GLFW_KEY_J){//324) {
+	if (key == GLFW_KEY_J){
 		t.zrotate++;
 	}
-	if (key == GLFW_KEY_L){//326) {
+	if (key == GLFW_KEY_L){
 		t.zrotate--;
 	}
-	if (key == GLFW_KEY_O){//327 || key == 321 ) {
+	if (key == GLFW_KEY_O){
 		t.yrotate--;
 	}
-	if (key == GLFW_KEY_U){//329 || key == 323) {
+	if (key == GLFW_KEY_U){
 		t.yrotate++;
 	}
+	
+	//! Pressing Arrow keys moves the Objects in X-Y Cordinate
 	if (key == GLFW_KEY_UP){
 		t.y_offset++;
 	}
@@ -71,6 +74,8 @@ namespace csX75
 	if (key == GLFW_KEY_LEFT){
 		t.x_offset--;
 	}
+	
+	//! Changes the main state upon pressing of Enter Key
 	if (key == GLFW_KEY_ENTER && action == GLFW_PRESS){
 		t.main_state++;
 		t.main_state%=2;
@@ -81,6 +86,8 @@ namespace csX75
         t.sequence_number_flaps=0;
         t.sequence_number_hands=0;
 	}
+	
+	//! Toggle Hand animation on pressing Q
 	if (key == GLFW_KEY_Q && action == GLFW_PRESS){
 		if(t.sequence_number_hands==0)
 			t.sequence_number_hands=1;
@@ -89,6 +96,8 @@ namespace csX75
 		else
 			t.sequence_number_hands=1;	
 	}
+	
+	//! Toggle Head Flap animation on pressing A
 	if (key == GLFW_KEY_A && action == GLFW_PRESS){
 		if(t.sequence_number_head_flap==0)
 			t.sequence_number_head_flap=1;
@@ -97,6 +106,7 @@ namespace csX75
 		else
 			t.sequence_number_head_flap=1;	
 	}
+	//! Toggle Body Flap animation on pressing S
 	if (key == GLFW_KEY_S && action == GLFW_PRESS){
 		if(t.sequence_number_flaps==0)
 			t.sequence_number_flaps=1;
@@ -105,6 +115,8 @@ namespace csX75
 		else
 			t.sequence_number_flaps=1;	
 	}
+	
+	//! Toggle Wheels animation on pressing W
 	if (key == GLFW_KEY_W && action == GLFW_PRESS){
 		if(t.sequence_number_wheels==0)
 			t.sequence_number_wheels=1;
@@ -113,6 +125,8 @@ namespace csX75
 		else
 			t.sequence_number_wheels=1;	
 	}
+	
+	//! Toggle Legs animation on pressing D
 	if (key == GLFW_KEY_D && action == GLFW_PRESS){
 		if(t.sequence_number_legs==0)
 			t.sequence_number_legs=1;

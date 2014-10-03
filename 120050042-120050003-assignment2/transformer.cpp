@@ -866,6 +866,11 @@ struct transformer {
 	 void placeWheelRight() {
 	    glTranslatef(0.0,0.0,-1);
 	 }
+	 
+	/**
+	 * depending on the value of main state and the current states
+	 * of the transformation the next states are assigned by this function
+	 */
 	
 	void assign_states(){
 		if(flap_toggle==-1){
@@ -896,9 +901,17 @@ struct transformer {
 				{sequence_number_head_flap = 1;sequence_number_hands = 1;}
 		}
 	}
+	
+	/**
+	 * Main Function for drawing the Robot. It contains all the hierarchy of the transformer model
+	 * 
+	 * */
 	void drawRobot(){
+	    // Scaled for robot to fit the screen
 	    glScalef(0.08,0.08,0.08);
 	    assign_states();
+	    
+	    // Model starts here
 		glPushMatrix();
 		
 		    drawTorso();

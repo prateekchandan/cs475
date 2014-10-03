@@ -12,15 +12,14 @@ void renderGL(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	glLoadIdentity();
+	
+	// World transformations 
 	glTranslatef(t.x_offset*0.01,t.y_offset*0.01,0);			
 	glRotatef(t.xrotate, 1, 0, 0);
 	glRotatef(t.yrotate, 0, 1, 0);
 	glRotatef(t.zrotate, 0, 0, 1);
-
-	//t.xrotate += 1;
-	//t.yrotate += 1;
-	//t.zrotate += 1;
-
+	
+	// Main Robot Drawing Function
 	t.drawRobot();
 
 }
@@ -59,13 +58,7 @@ int main(int argc, char** argv)
 		std::cerr<<"GLEW Init Failed : %s"<<std::endl;
 	}
 
-	//Print and see what context got enabled
-	//std::cout<<"Vendor: "<<glGetString (GL_VENDOR)<<std::endl;
-	//std::cout<<"Renderer: "<<glGetString (GL_RENDERER)<<std::endl;
-	//std::cout<<"Version: "<<glGetString (GL_VERSION)<<std::endl;
-	//std::cout<<"GLSL Version: "<<glGetString (GL_SHADING_LANGUAGE_VERSION)<<std::endl;
-
-
+	
 	//Keyboard Callback
 	glfwSetKeyCallback(window, csX75::key_callback);
 	//Framebuffer resize callback
@@ -76,8 +69,11 @@ int main(int argc, char** argv)
 
 	//Initialize GL state
 	csX75::initGL();
-
+	
+	// Load the textures required in the drawings
 	t.LoadGLTextures();
+	
+	// GEnerates all display lists required for rigid structures
 	t.createDisplayLists();
 	
 	// Loop until the user closes the window
