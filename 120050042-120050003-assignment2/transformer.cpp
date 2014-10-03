@@ -166,8 +166,8 @@ struct transformer {
 		}
 		
 		char a[5][100];
-		strcpy(a[0],"./img/flap.bmp");
-		strcpy(a[1],"./img/cheetah.bmp");
+		strcpy(a[0],"./img/logo.bmp");
+		strcpy(a[1],"./img/metal.bmp");
 		strcpy(a[2],"./img/face.bmp");
 		strcpy(a[3],"./img/skin.bmp");
 		strcpy(a[4],"./img/flap.bmp");
@@ -332,7 +332,7 @@ struct transformer {
 	 
 	 // main torso
 	 void drawTorso() {
-	   glColor3f(0,1,0);
+	   glColor4f(0,0,1,0.5);
 	    drawRectangle(4,8);
 	    glPushMatrix();
 	        glTranslatef(4,0,0);
@@ -359,13 +359,13 @@ struct transformer {
 	 /// The front flap of torso which opens up to hide legs
 	 void drawTorsoFlap() {
 		 glBindTexture(GL_TEXTURE_2D, texture[0]);  
-	     glColor3f(0.8,0.8,0);
+	     glColor3f(1,1,1);
 	     glTranslatef(0,-6,0);
 	     drawRectangle(4,6);
 	 }
 	 
 	 void drawHead() {
-		 glBindTexture(GL_TEXTURE_2D, texture[2]);  
+		 glBindTexture(GL_TEXTURE_2D, texture[0]);  
 	     glColor3f(1,1,1);
 	     glPushMatrix();
 			drawCube(2,2,1);
@@ -387,7 +387,7 @@ struct transformer {
 	 
 	 void drawHeadFlapLeft() {
 	    glBindTexture(GL_TEXTURE_2D, texture[1]);  
-	    glColor3f(1,0,0);
+	    glColor4f(1,0,0,0.8);
 	    glBegin(GL_POLYGON);
 	       glTexCoord2f(0.0f, 0.0f); glVertex3f(0, 0, 0);
 	        glTexCoord2f(1.0f, 0.0f); glVertex3f(0, 0, -2);

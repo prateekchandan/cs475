@@ -18,6 +18,8 @@ namespace csX75
 	glMatrixMode(GL_PROJECTION);
     //Enable Gourard shading
     glShadeModel(GL_SMOOTH);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   }
   
   //!GLFW Error Callback
@@ -39,22 +41,22 @@ namespace csX75
     //!Close the window if the ESC key was pressed
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
       glfwSetWindowShouldClose(window, GL_TRUE);
-	if (key == 328) {
+	if (key == GLFW_KEY_I){//328) {
 		t.xrotate++;
 	}
-	if (key == 322) {
+	if (key == GLFW_KEY_K){//322) {
 		t.xrotate--;
 	}
-	if (key == 324) {
+	if (key == GLFW_KEY_J){//324) {
 		t.zrotate++;
 	}
-	if (key == 326) {
+	if (key == GLFW_KEY_L){//326) {
 		t.zrotate--;
 	}
-	if (key == 327 || key == 321 ) {
+	if (key == GLFW_KEY_O){//327 || key == 321 ) {
 		t.yrotate--;
 	}
-	if (key == 329 || key == 323) {
+	if (key == GLFW_KEY_U){//329 || key == 323) {
 		t.yrotate++;
 	}
 	if (key == GLFW_KEY_UP){

@@ -6,6 +6,7 @@ Anurag Shirolkar 120050003
 Prateek Chandan  120050042
 
 The code of the assignment has been written by us and not been plagiarised from anywhere else.
+File Reading part of the texture mapping has been taken from sources mentioned in the references.
 
 Link to the html page of the assignment : http://www.cse.iitb.ac.in/~anuragshirolkar/cs475/asgn2
                                         : http://www.cse.iitb.ac.in/~prateekchandan/cs475/asgn2
@@ -28,12 +29,12 @@ Env Keys:
     Down arrow    |  Translate all downward
     Left arrow    |  Translate all left
     Right arrow   |  Translate all right
-    Num 8         |  Rotate model along x-axis clockwise
-    Num 2         |  Rotate model along x-axis anti-clockwise
-    Num 4         |  Rotate model along z-axis clockwise
-    Num 6         |  Rotate model along z-axis anti-clockwise
-    Num 7 or Num 1|  Rotate model along y-axis clockwise
-    Num 3 or Num 9|  Rotate model along y-axis anti-clockwise
+    key k         |  Rotate model along x-axis clockwise
+    key i         |  Rotate model along x-axis anti-clockwise
+    key l         |  Rotate model along z-axis clockwise
+    key j         |  Rotate model along z-axis anti-clockwise
+	key o         |  Rotate model along y-axis clockwise
+    key u         |  Rotate model along y-axis anti-clockwise
     Escape        |  Terminate the Program
 
 Keys for Animation:

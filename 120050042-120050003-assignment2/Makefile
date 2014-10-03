@@ -10,6 +10,8 @@ SRCS2=main.cpp gl_framework.cpp
 INCLUDES=gl_framework.hpp transformer.cpp
 
 all: $(BIN2)
+old:
+	g++ $(CPPFLAGS) $(SRCS2) -o transformer_old $(LDFLAGS) $(LIBS)
 
 
 $(BIN2): $(SRCS2) $(INCLUDES)

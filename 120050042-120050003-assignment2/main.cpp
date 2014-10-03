@@ -17,6 +17,10 @@ void renderGL(void)
 	glRotatef(t.yrotate, 0, 1, 0);
 	glRotatef(t.zrotate, 0, 0, 1);
 
+	//t.xrotate += 1;
+	//t.yrotate += 1;
+	//t.zrotate += 1;
+
 	t.drawRobot();
 
 }
