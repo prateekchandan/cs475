@@ -18,4 +18,4 @@ $(BIN2): $(SRCS2) $(INCLUDES)
 	g++ $(CPPFLAGS) $(SRCS2) -o $(BIN2) $(LDFLAGS) $(LIBS)
 
 clean:
-	rm -f *~ *.o  $(BIN2)
+	rm -f *~ *.o  $(BIN2) *.tar.gz
