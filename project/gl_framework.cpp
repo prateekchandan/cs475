@@ -1,6 +1,7 @@
 #include "gl_framework.hpp"
-#include "common.h"
-transformer t;
+#include "environment.hpp"
+#include "transformer.hpp"
+
 namespace csX75
 {
   //! Initialize GL State
@@ -41,39 +42,7 @@ namespace csX75
     //!Close the window if the ESC key was pressed
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
       glfwSetWindowShouldClose(window, GL_TRUE);
-    //! Pressing key I,J,K,L,O,U rotates the transformer 
-	if (key == GLFW_KEY_I){
-		t.xrotate++;
-	}
-	if (key == GLFW_KEY_K){
-		t.xrotate--;
-	}
-	if (key == GLFW_KEY_J){
-		t.zrotate++;
-	}
-	if (key == GLFW_KEY_L){
-		t.zrotate--;
-	}
-	if (key == GLFW_KEY_O){
-		t.yrotate--;
-	}
-	if (key == GLFW_KEY_U){
-		t.yrotate++;
-	}
-	
-	//! Pressing Arrow keys moves the Objects in X-Y Cordinate
-	if (key == GLFW_KEY_UP){
-		t.y_offset++;
-	}
-	if (key == GLFW_KEY_DOWN){
-		t.y_offset--;
-	}
-	if (key == GLFW_KEY_RIGHT){
-		t.x_offset++;
-	}
-	if (key == GLFW_KEY_LEFT){
-		t.x_offset--;
-	}
+    
 	
 	//! Changes the main state upon pressing of Enter Key
 	if (key == GLFW_KEY_ENTER && action == GLFW_PRESS){

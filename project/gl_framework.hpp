@@ -1,8 +1,6 @@
 #ifndef _GL_FRAMEWORK_HPP_
 #define _GL_FRAMEWORK_HPP_
 
-#include "transformer.cpp"
-
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 

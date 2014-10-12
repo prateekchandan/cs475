@@ -1,11 +1,14 @@
 #include "gl_framework.hpp"
-#include "common.h"
+#include "environment.hpp"
+#include "transformer.hpp"
 #include <math.h>
 #include <cstdlib>
 #include <iostream>
 #include <unistd.h>
 using namespace std;
 
+transformer t;
+environment Env;
 
 void renderGL(void)
 {
@@ -13,15 +16,10 @@ void renderGL(void)
 	
 	glLoadIdentity();
 	
-	// World transformations 
-	glTranslatef(t.x_offset*0.01,t.y_offset*0.01,0);			
-	glRotatef(t.xrotate, 1, 0, 0);
-	glRotatef(t.yrotate, 0, 1, 0);
-	glRotatef(t.zrotate, 0, 0, 1);
 	
 	// Main Robot Drawing Function
 	t.drawRobot();
-
+	Env.setup();
 }
 
 int main(int argc, char** argv)

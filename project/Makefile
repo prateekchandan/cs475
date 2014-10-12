@@ -6,8 +6,8 @@ LDFLAGS=-L/usr/local/lib
 CPPFLAGS=-I/usr/local/include
 
 BIN2=transformer
-SRCS2=main.cpp gl_framework.cpp
-INCLUDES=gl_framework.hpp transformer.cpp
+SRCS2=main.cpp gl_framework.cpp transformer.cpp environment.cpp
+INCLUDES=gl_framework.hpp transformer.hpp environment.hpp Imageloader.hpp
 
 all: $(BIN2)
 old:
