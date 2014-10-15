@@ -13,6 +13,9 @@ using namespace std;
 
 class environment{
 	
+	//! To hold world textures
+	GLuint texture[3];
+	
 	public:
 	
     environment(){
