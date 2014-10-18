@@ -112,15 +112,7 @@ namespace csX75
 	if(key == GLFW_KEY_RIGHT){
 		t.turnRobotRight();
 	}
-	
-	if(key == GLFW_KEY_UP){
-		t.accelerate();
-	}
-	
-	if(key == GLFW_KEY_DOWN){
-		t.breakCar();
-	}
-	
+		
   }
 };  
   

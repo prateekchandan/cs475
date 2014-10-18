@@ -86,8 +86,7 @@ void transformer::drawUnitCube(){
 	
 void transformer::drawRobot(){
 	    // Scaled for robot to fit the screen
-	    
-	    glTranslatef(0,0,velocity);
+	   
 	    
 	    glScalef(0.08,0.08,0.08);
 	    glRotatef(75, 1, 0, 0);
@@ -323,12 +322,3 @@ void transformer::turnRobotRight(){
 		turning_factor+=2;
 }
 
-void transformer::accelerate(){
-	if(velocity<10)
-		velocity+=0.003;
-}
-
-void transformer::breakCar(){
-	if(velocity>-10)
-		velocity-=0.003;
-}
