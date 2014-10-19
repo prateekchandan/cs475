@@ -21,7 +21,7 @@ struct transformer {
 	
 	//! The variable for turning the car left or right
 	double turning_factor;
-	
+	bool is_turning;
 	/// storage for one texture  
 	unsigned int texture[5];
 
@@ -52,6 +52,7 @@ struct transformer {
         color_variant = 0;
         
         turning_factor=0;
+        is_turning=false;
     }
     
     	
@@ -749,6 +750,9 @@ struct transformer {
 	
 	//! Function to turn Robot Right
 	void turnRobotRight();
+	
+	//! Function to turn Robot Right
+	void restoreTurning();
 	
 
 };

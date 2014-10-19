@@ -86,7 +86,7 @@ void transformer::drawUnitCube(){
 	
 void transformer::drawRobot(){
 	    // Scaled for robot to fit the screen
-	   
+	   t.restoreTurning();
 	    
 	    glScalef(0.08,0.08,0.08);
 	    glRotatef(75, 1, 0, 0);
@@ -308,17 +308,34 @@ void transformer::drawRobot(){
 		    glPopMatrix();
 		
 		glPopMatrix();
+		
+		is_turning=false;
 	    
 	}
 
 
 void transformer::turnRobotLeft(){
-	if(turning_factor>-25)
-		turning_factor-=2;
+	is_turning=true;
+	if(turning_factor>-24)
+		turning_factor-=4;
 }
 
 void transformer::turnRobotRight(){
-	if(turning_factor<25)
-		turning_factor+=2;
+	is_turning=true;
+	if(turning_factor<24)
+		turning_factor+=4;
+}
+
+void transformer::restoreTurning(){
+	if(is_turning){
+		//cout<<"success"<<endl;
+		return;
+	}
+	
+	//cout<<"poop"<<endl;
+	if(turning_factor>0)
+		turning_factor-=0.5;
+	else if(turning_factor<0)
+		turning_factor+=0.5;
 }
 

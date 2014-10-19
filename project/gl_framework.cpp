@@ -21,6 +21,7 @@ namespace csX75
     glShadeModel(GL_SMOOTH);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	
   }
   
   //!GLFW Error Callback
@@ -43,7 +44,7 @@ namespace csX75
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
       glfwSetWindowShouldClose(window, GL_TRUE);
     
-	
+	/*
 	//! Changes the main state upon pressing of Enter Key
 	if (key == GLFW_KEY_ENTER && action == GLFW_PRESS){
 		t.main_state++;
@@ -103,15 +104,15 @@ namespace csX75
 			t.sequence_number_legs=2;
 		else
 			t.sequence_number_legs=1;	
-	}
+	}*/
 	
 	if(key == GLFW_KEY_LEFT){
 		t.turnRobotLeft();
 	}
-	
 	if(key == GLFW_KEY_RIGHT){
 		t.turnRobotRight();
 	}
+	
 		
   }
 };  
