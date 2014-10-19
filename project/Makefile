@@ -1,4 +1,4 @@
-OPENGLLIB= -lGL
+OPENGLLIB= -lGL -lGLU
 GLEWLIB= -lGLEW
 GLFWLIB = -lglfw3 -lGL -lX11 -lXxf86vm -lXrandr -lpthread -lXi -Wall -lglut
 LIBS=$(OPENGLLIB) $(GLEWLIB) $(GLFWLIB)

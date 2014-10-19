@@ -641,7 +641,7 @@ struct transformer {
 	 }
 	 
 	 void placeHandWheelLeft() {
-		glTranslatef(1.7,1,1.25);
+		glTranslatef(1.7,1,0);
 	 }
 	 
 	 void placeHandUpperRight() {

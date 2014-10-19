@@ -17,8 +17,8 @@ void renderGL(void)
 	glLoadIdentity();
 	
 	// Main Robot Drawing Function
-	t.drawRobot();
 	Env.setup();
+	t.drawRobot();
 }
 
 int main(int argc, char** argv)

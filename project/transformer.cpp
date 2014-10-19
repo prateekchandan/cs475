@@ -89,8 +89,7 @@ void transformer::drawRobot(){
 	   t.restoreTurning();
 	    
 	    glScalef(0.08,0.08,0.08);
-	    glRotatef(75, 1, 0, 0);
-		glRotatef(180, 0, 1, 0);
+		glRotatef(-90, 1, 0, 0);
 		
 	    assign_states();
 	    

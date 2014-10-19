@@ -1,36 +1,34 @@
 #include "Imageloader.hpp"
 #include "environment.hpp"
-#include <iostream>
-#include <unistd.h>
-#include <GL/glut.h>    // Header File For The GLUT Library 
-#include <GL/gl.h>	// Header File For The OpenGL32 Library
-#include <GL/glu.h>	// Header File For The GLu32 Library
-#include <fstream>
-#include <stdio.h>
-#include <cstdlib>
-#include <math.h>
-#include <string.h>
 
 // Load Bitmaps And Convert To Textures
 void environment::LoadGLTextures() {	
 	
-	glEnable(GL_TEXTURE_2D);
 }
 
 
 void environment::setup(){
-	glLoadIdentity();
-	
-	
-   
-	
-	set_ground();
+    glClearDepth(1.0);
+    //Set depth test to less-than
+    glDepthFunc(GL_LESS);
+    //Enable depth testing
+    glEnable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_BUFFER_BIT); 
+	glEnable(GL_TEXTURE_2D);
+	glMatrixMode(GL_PROJECTION);
+    //Enable Gourard shading
+    glShadeModel(GL_SMOOTH);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();				// Reset The Projection Matrix
+    
+	gluPerspective(55,1, 0.1, 100);
+	gluLookAt(0,0.7,2 , 0,0.5,0 , 0,1,0);
+    glMatrixMode(GL_MODELVIEW);
 }
 
 
 void environment::set_ground(){
-	
-	
-   
 }
 
