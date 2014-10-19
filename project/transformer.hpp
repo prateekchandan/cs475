@@ -19,6 +19,10 @@ struct transformer {
     double color_red, color_green, color_blue, color_variant;
     int steps;
 	
+	//! The variable for turning the car left or right
+	double turning_factor;
+	double velocity;
+	
 	/// storage for one texture  
 	unsigned int texture[5];
 
@@ -47,6 +51,9 @@ struct transformer {
         color_green = 0.5;
         color_blue = 0.5;
         color_variant = 0;
+        
+        turning_factor=0;
+        velocity=0;
     }
     
     	
@@ -96,44 +103,7 @@ struct transformer {
     /**
     * drawUnitCube() : draws a unit cube and can be used as primitive
     * */
-    void drawUnitCube(){
-		glBegin(GL_POLYGON);
-			glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f,0.0f,0.0f);
-			glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,0.0f,0.0f);
-			glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,0.0f);
-			glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f,1.0f,0.0f);
-		glEnd();
-		glBegin(GL_POLYGON);	       
-			glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f,0.0f,1.0f);
-			glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,0.0f,1.0f);
-			glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
-			glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f,1.0f,1.0f);
-		glEnd();
-		glBegin(GL_POLYGON);
-		    glTexCoord2f(0.0f, 0.0f);  glVertex3f(0.0f,0.0f,0.0f);
-			glTexCoord2f(1.0f, 0.0f);  glVertex3f(1.0f,0.0f,0.0f);
-			glTexCoord2f(1.0f, 1.0f);  glVertex3f(1.0f,0.0f,1.0f);
-			glTexCoord2f(0.0f, 1.0f);  glVertex3f(0.0f,0.0f,1.0f);
-		glEnd();
-		glBegin(GL_POLYGON);
-		    glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f,1.0f,0.0f);
-			glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,1.0f,0.0f);
-			glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
-			glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f,1.0f,1.0f);
-		glEnd();
-		glBegin(GL_POLYGON);
-		    glTexCoord2f(1.0f, 0.0f); glVertex3f(0.0f,0.0f,0.0f);
-			glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f,1.0f,0.0f);
-			glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f,1.0f,1.0f);
-			glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f,0.0f,1.0f);
-		glEnd();
-		glBegin(GL_POLYGON);
-			glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,0.0f,0.0f);
-			glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,0.0f);
-			glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
-			glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f,0.0f,1.0f);
-		glEnd();
-	}
+    void drawUnitCube();
 	
 	void drawCube(double width, double height, double length) {
 	    glScalef(width, height, length);
@@ -318,7 +288,6 @@ struct transformer {
 		glColor3f(0.3,0.3,0.3);
 		glBindTexture(GL_TEXTURE_2D, texture[1]); 
 	    glRotatef(90,0,1,0);
-	    glTranslatef(0,1,1.25);
 	    drawCylinder(1,0.5);
 	 }
 	 
@@ -522,7 +491,12 @@ struct transformer {
 	 }
 	 
 	 void animateHandWheelLeft() {
-	 
+		 glPushMatrix();
+			glTranslatef(-0.4,0,0);
+			glRotatef(90,0,1,0);
+			drawCylinder(.1,0.5);
+		 glPopMatrix();
+		 glRotatef(turning_factor,0,0,1);
 	 }
 	 
 	 void animateHandUpperRight() {
@@ -539,7 +513,12 @@ struct transformer {
 	 }
 	 
 	 void animateHandWheelRight() {
-	 
+		glPushMatrix();
+			glTranslatef(0.4,0,0);
+			glRotatef(90,0,1,0);
+			drawCylinder(.1,0.5);
+		 glPopMatrix();
+		 glRotatef(turning_factor,0,0,1);
 	 }
 	 
 	 void animateThighLeft() {
@@ -663,7 +642,7 @@ struct transformer {
 	 }
 	 
 	 void placeHandWheelLeft() {
-	 
+		glTranslatef(1.7,1,1.25);
 	 }
 	 
 	 void placeHandUpperRight() {
@@ -681,7 +660,9 @@ struct transformer {
 	 }
 	 
 	 void placeHandWheelRight() {
-	 
+		glScalef(-1,1,1);
+	    placeHandWheelLeft();
+	    glScalef(-1,1,1);
 	 }
 	 
 	 void placeThighLeft() {
@@ -763,230 +744,16 @@ struct transformer {
 	 * Main Function for drawing the Robot. It contains all the hierarchy of the transformer model
 	 * 
 	 * */
-	void drawRobot(){
-	    // Scaled for robot to fit the screen
-	    glScalef(0.08,0.08,0.08);
-	    glRotatef(75, 1, 0, 0);
-		glRotatef(180, 0, 1, 0);
+	void drawRobot();
 	
-	    assign_states();
-	    
-	    // Model starts here
-		glPushMatrix();
-		
-		    drawTorso();
-		    
-		    glPushMatrix();
-		    
-		        placeTorsoFlap();
-		        animateTorsoFlap();
-		        drawTorsoFlap();
-		    
-		    glPopMatrix();
-		    
-		    glPushMatrix();
-		        
-		        placeHead();
-		        animateHead();
-		        drawHead();
-		    
-		    glPopMatrix();
-		    
-		    glPushMatrix();
-		        
-		        placeHeadFlapLeft();
-		        animateHeadFlapLeft();
-		        drawHeadFlapLeft();
-		        
-		        glPushMatrix();
-		            
-		            placeHeadFlapBackLeft();
-		            animateHeadFlapBackLeft();
-		            drawHeadFlapBackLeft();
-		        
-		        glPopMatrix();
-		        
-		        glPushMatrix();
-		            
-		            placeHeadFlapUpperLeft();
-		            animateHeadFlapUpperLeft();
-		            drawHeadFlapUpperLeft();
-		        
-		        glPopMatrix();
-		    
-		    glPopMatrix();
-		    
-		    glPushMatrix();
-		        
-		        placeHeadFlapRight();
-		        animateHeadFlapRight();
-		        drawHeadFlapRight();
-		        
-		        glPushMatrix();
-		            
-		            placeHeadFlapBackRight();
-		            animateHeadFlapBackRight();
-		            drawHeadFlapBackRight();
-		        
-		        glPopMatrix();
-		        
-		        glPushMatrix();
-		            
-		            placeHeadFlapUpperRight();
-		            animateHeadFlapUpperRight();
-		            drawHeadFlapUpperRight();
-		        
-		        glPopMatrix();
-		    
-		    glPopMatrix();
-		    
-		    glPushMatrix();
-		        
-		        placeHandUpperLeft();
-		        animateHandUpperLeft();
-		        drawHandUpperLeft();
-		        
-		        glPushMatrix();
-		            
-		            placeHandLowerLeft();
-		            animateHandLowerLeft();
-		            drawHandLowerLeft();
-		            
-		            glPushMatrix();
-		                
-		                placeFistLeft();
-		                animateFistLeft();
-		                drawFistLeft();
-		        
-		            glPopMatrix();
-		        
-		        glPopMatrix();
-		        
-		        glPushMatrix();
-		            
-		            placeHandWheelLeft();
-		            animateHandWheelLeft();
-		            drawHandWheelLeft();
-		        
-		        glPopMatrix();
-		    
-		    glPopMatrix();
-		    
-		    glPushMatrix();
-		        
-		        placeHandUpperRight();
-		        animateHandUpperRight();
-		        drawHandUpperRight();
-		        
-		        glPushMatrix();
-		            
-		            placeHandLowerRight();
-		            animateHandLowerRight();
-		            drawHandLowerRight();
-		            
-		            glPushMatrix();
-		                
-		                placeFistRight();
-		                animateFistRight();
-		                drawFistRight();
-		        
-		            glPopMatrix();
-		        
-		        glPopMatrix();
-		        
-		        glPushMatrix();
-		            
-		            placeHandWheelRight();
-		            animateHandWheelRight();
-		            drawHandWheelRight();
-		        
-		        glPopMatrix();
-		        
-		    glPopMatrix();
-		    
-		    glPushMatrix();
-		        
-		        placeThighLeft();
-		        animateThighLeft();
-		        drawThighLeft();
-		        
-		        glPushMatrix();
-		            
-		            placeLegLeft();
-		            animateLegLeft();
-		            drawLegLeft();
-		            
-		            glPushMatrix();
-		                
-		                placeToeLeft();
-		                animateToeLeft();
-		                drawToeLeft();
-		            
-		            glPopMatrix();
-		        
-		        glPopMatrix();
-		    
-		    glPopMatrix();
-		    
-		    glPushMatrix();
-		        
-		        placeThighRight();
-		        animateThighRight();
-		        drawThighRight();
-		        
-		        glPushMatrix();
-		            
-		            placeLegRight();
-		            animateLegRight();
-		            drawLegRight();
-		            
-		            glPushMatrix();
-		                
-		                placeToeRight();
-		                animateToeRight();
-		                drawToeRight();
-		            
-		            glPopMatrix();
-		        
-		        glPopMatrix();
-		    
-		    glPopMatrix();
-		    
-		    glPushMatrix();
-		        
-		        placeAxleLeft();
-		        animateAxleLeft();
-		        drawAxleLeft();
-		        
-		        glPushMatrix();
-		            
-		            placeWheelLeft();
-                    animateWheelLeft();
-		            drawWheelLeft();
-		        
-		        glPopMatrix();
-		    
-		    glPopMatrix();
-		    
-		    glPushMatrix();
-		        
-		        placeAxleRight();
-		        animateAxleRight();
-		        drawAxleRight();
-		        
-		        glPushMatrix();
-		            
-		            placeWheelRight();
-		            animateWheelRight();
-		            drawWheelRight();
-		        
-		        glPopMatrix();
-		    
-		    glPopMatrix();
-		
-		glPopMatrix();
-	    
-	}
+	//! Function to turn Robot Left
+	void turnRobotLeft();
+	
+	//! Function to turn Robot Right
+	void turnRobotRight();
+	
+	void accelerate();
+	
+	void breakCar();
 };
-
 extern transformer t;

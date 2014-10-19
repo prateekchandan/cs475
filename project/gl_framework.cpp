@@ -104,6 +104,23 @@ namespace csX75
 		else
 			t.sequence_number_legs=1;	
 	}
+	
+	if(key == GLFW_KEY_LEFT){
+		t.turnRobotLeft();
+	}
+	
+	if(key == GLFW_KEY_RIGHT){
+		t.turnRobotRight();
+	}
+	
+	if(key == GLFW_KEY_UP){
+		t.accelerate();
+	}
+	
+	if(key == GLFW_KEY_DOWN){
+		t.breakCar();
+	}
+	
   }
 };  
   
