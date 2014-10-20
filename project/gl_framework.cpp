@@ -106,14 +106,54 @@ namespace csX75
 			t.sequence_number_legs=1;	
 	}*/
 	
-	if(key == GLFW_KEY_LEFT){
+	if(key == GLFW_KEY_LEFT && action == GLFW_PRESS){
+		t.turning_state = -1;
 		t.turnRobotLeft();
 	}
-	if(key == GLFW_KEY_RIGHT){
+	if(key == GLFW_KEY_LEFT && action == GLFW_RELEASE){
+		t.turning_state = 0;
+	}
+	if(key == GLFW_KEY_RIGHT && action == GLFW_PRESS){
+		t.turning_state = 1;
 		t.turnRobotRight();
+	}
+	if(key == GLFW_KEY_RIGHT && action == GLFW_RELEASE){
+		t.turning_state = 0;
+	}
+
+	if(key == GLFW_KEY_UP && action == GLFW_PRESS){
+		t.motion_state = 1;
+	}
+	if(key == GLFW_KEY_DOWN && action == GLFW_PRESS){
+		t.motion_state = -1;
+	}
+
+	if((key == GLFW_KEY_UP || key == GLFW_KEY_DOWN) && action == GLFW_RELEASE) {
+		t.motion_state = 0;
 	}
 	
 		
+  }
+
+  void doTurnings(){
+	  if(t.turning_state < 0) {
+		  t.turnRobotLeft();
+	  }
+	  if(t.turning_state > 0) {
+		  t.turnRobotRight();
+	  }
+	  if(t.motion_state < 0) {
+		t.position_z -= 0.03*(t.dir_z);
+		t.position_x -= 0.03*(t.dir_x);
+		t.angle+=1*(t.turning_factor/24);
+	  }
+	  if(t.motion_state > 0) {
+		t.position_z += 0.03*(t.dir_z);
+		t.position_x += 0.03*(t.dir_x);
+		t.angle-=1*(t.turning_factor/24);
+	  }
+	  t.dir_z = -cosf(3.1416*t.angle/180.0);
+	  t.dir_x = sinf(3.1416*t.angle/180.0);
   }
 };  
   

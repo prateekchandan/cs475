@@ -25,6 +25,10 @@ struct transformer {
 	/// storage for one texture  
 	unsigned int texture[5];
 
+	int turning_state, motion_state;
+	double position_x, position_z;
+	double dir_x, dir_z;
+	double angle;
 
     // Variables for display list
     double cube_index,cylinder_index,square_index;
@@ -53,6 +57,16 @@ struct transformer {
         
         turning_factor=0;
         is_turning=false;
+
+		turning_state = 0;
+		motion_state = 0;
+
+		position_x = 0;
+		position_z = 0;
+
+		dir_x = 0;
+		dir_z = -1;
+		angle = 0;
     }
     
     	
@@ -158,7 +172,7 @@ struct transformer {
 	 
 	 // main torso
 	 void drawTorso() {
-	   glColor4f(0,0,1,0.5);
+	   glColor3f(0,0,1);
 	    drawRectangle(4,8);
 	    glPushMatrix();
 	        glTranslatef(4,0,0);
@@ -213,7 +227,7 @@ struct transformer {
 	 
 	 void drawHeadFlapLeft() {
 	    glBindTexture(GL_TEXTURE_2D, texture[1]);  
-	    glColor4f(1,0,0,0.8);
+	    glColor3f(1,0,0);
 	    glBegin(GL_POLYGON);
 	       glTexCoord2f(0.0f, 0.0f); glVertex3f(0, 0, 0);
 	        glTexCoord2f(1.0f, 0.0f); glVertex3f(0, 0, -2);

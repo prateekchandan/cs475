@@ -18,6 +18,8 @@ namespace csX75
   void framebuffer_size_callback(GLFWwindow* window, int width, int height);
   //!GLFW keyboard callback
   void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+  
+  void doTurnings(void);
 };
 
 #endif

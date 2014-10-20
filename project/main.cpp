@@ -17,7 +17,8 @@ void renderGL(void)
 	glLoadIdentity();
 	
 	// Main Robot Drawing Function
-	Env.setup();
+	gluLookAt(t.position_x-t.dir_x/5, -0.1, t.position_z-t.dir_z/5, t.position_x, 0, t.position_z, 0,1,0);
+	Env.set_ground();
 	t.drawRobot();
 }
 
@@ -72,6 +73,7 @@ int main(int argc, char** argv)
 	
 	// GEnerates all display lists required for rigid structures
 	t.createDisplayLists();
+	Env.setup();
 	
 	// Loop until the user closes the window
 	while (glfwWindowShouldClose(window) == 0)
@@ -85,6 +87,9 @@ int main(int argc, char** argv)
 
 		// Poll for and process events
 		glfwPollEvents();
+
+		csX75::doTurnings();
+
 	}
 
 	glfwTerminate();

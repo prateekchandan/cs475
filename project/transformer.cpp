@@ -88,7 +88,10 @@ void transformer::drawRobot(){
 	    // Scaled for robot to fit the screen
 	   t.restoreTurning();
 	    
-	    glScalef(0.08,0.08,0.08);
+		glTranslatef(position_x, 0, position_z);
+	    glScalef(0.2,0.2,0.2);
+		glTranslatef(-2, 3, 0);
+		glRotatef(-angle, 0, 1, 0);
 		glRotatef(-90, 1, 0, 0);
 		
 	    assign_states();
@@ -315,14 +318,14 @@ void transformer::drawRobot(){
 
 void transformer::turnRobotLeft(){
 	is_turning=true;
-	if(turning_factor>-24)
-		turning_factor-=4;
+	if(turning_factor<24)
+		turning_factor+=1;
 }
 
 void transformer::turnRobotRight(){
 	is_turning=true;
-	if(turning_factor<24)
-		turning_factor+=4;
+	if(turning_factor>-24)
+		turning_factor-=1;
 }
 
 void transformer::restoreTurning(){
@@ -330,8 +333,7 @@ void transformer::restoreTurning(){
 		//cout<<"success"<<endl;
 		return;
 	}
-	
-	//cout<<"poop"<<endl;
+
 	if(turning_factor>0)
 		turning_factor-=0.5;
 	else if(turning_factor<0)

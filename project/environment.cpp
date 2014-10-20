@@ -24,11 +24,18 @@ void environment::setup(){
     glLoadIdentity();				// Reset The Projection Matrix
     
 	gluPerspective(55,1, 0.1, 100);
-	gluLookAt(0,0.7,2 , 0,0.5,0 , 0,1,0);
+	gluLookAt(0,5,2 , 0,0.5,0 , 0,1,0);
     glMatrixMode(GL_MODELVIEW);
 }
 
 
 void environment::set_ground(){
+	glBegin(GL_POLYGON);
+	glColor3f(0.5,0.5,0.5);
+	glVertex3f(0,0,0);
+	glVertex3f(0,0,3);
+	glVertex3f(10,0,3);
+	glVertex3f(10,0,0);
+	glEnd();
 }
 
