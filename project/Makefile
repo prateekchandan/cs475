@@ -1,4 +1,4 @@
-OPENGLLIB= -lGL -lGLU
+OPENGLLIB= -lGL -lGLU -lSOIL
 GLEWLIB= -lGLEW
 GLFWLIB = -lglfw3 -lGL -lX11 -lXxf86vm -lXrandr -lpthread -lXi -Wall -lglut
 LIBS=$(OPENGLLIB) $(GLEWLIB) $(GLFWLIB)
@@ -7,7 +7,7 @@ CPPFLAGS=-I/usr/local/include
 
 BIN2=transformer
 SRCS2=main.cpp gl_framework.cpp transformer.cpp environment.cpp
-INCLUDES=gl_framework.hpp transformer.hpp environment.hpp Imageloader.hpp
+INCLUDES=gl_framework.hpp transformer.hpp environment.hpp
 
 all: $(BIN2)
 old:
