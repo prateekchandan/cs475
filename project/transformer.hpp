@@ -26,6 +26,7 @@ struct transformer {
 	unsigned int texture[5];
 
 	int turning_state, motion_state;
+	double speed;
 	double position_x, position_z;
 	double dir_x, dir_z;
 	double angle;
@@ -60,6 +61,7 @@ struct transformer {
 
 		turning_state = 0;
 		motion_state = 0;
+		speed = 0;
 
 		position_x = 0;
 		position_z = 0;

@@ -142,15 +142,19 @@ namespace csX75
 	  if(t.turning_state > 0) {
 		  t.turnRobotRight();
 	  }
+	t.position_z += t.speed*(t.dir_z);
+	t.position_x += t.speed*(t.dir_x);
 	  if(t.motion_state < 0) {
-		t.position_z -= 0.03*(t.dir_z);
-		t.position_x -= 0.03*(t.dir_x);
 		t.angle+=1*(t.turning_factor/24);
+		if(t.speed > -0.05) t.speed -= 0.005;
 	  }
-	  if(t.motion_state > 0) {
-		t.position_z += 0.03*(t.dir_z);
-		t.position_x += 0.03*(t.dir_x);
+	  else if(t.motion_state > 0) {
 		t.angle-=1*(t.turning_factor/24);
+		if(t.speed < 0.05) t.speed += 0.005;
+	  }
+	  else {
+		  if(t.speed < 0) t.speed += 0.001;
+		  else if (t.speed > 0) t.speed -= 0.001;
 	  }
 	  t.dir_z = -cosf(3.1416*t.angle/180.0);
 	  t.dir_x = sinf(3.1416*t.angle/180.0);

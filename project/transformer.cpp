@@ -91,9 +91,10 @@ void transformer::drawRobot(){
 	    
 		glTranslatef(position_x, 0, position_z);
 	    glScalef(0.2,0.2,0.2);
-		glTranslatef(-2, 3, 0);
 		glRotatef(-angle, 0, 1, 0);
+		glTranslatef(0, 3, 0);
 		glRotatef(-90, 1, 0, 0);
+		glTranslatef(-2, 0, 0);
 		
 	    assign_states();
 	    
@@ -320,13 +321,13 @@ void transformer::drawRobot(){
 void transformer::turnRobotLeft(){
 	is_turning=true;
 	if(turning_factor<24)
-		turning_factor+=1;
+		turning_factor+=3;
 }
 
 void transformer::turnRobotRight(){
 	is_turning=true;
 	if(turning_factor>-24)
-		turning_factor-=1;
+		turning_factor-=3;
 }
 
 void transformer::restoreTurning(){
@@ -336,8 +337,8 @@ void transformer::restoreTurning(){
 	}
 
 	if(turning_factor>0)
-		turning_factor-=0.5;
+		turning_factor-=3;
 	else if(turning_factor<0)
-		turning_factor+=0.5;
+		turning_factor+=3;
 }
 
