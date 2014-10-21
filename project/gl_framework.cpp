@@ -144,8 +144,9 @@ namespace csX75
 	  }
 	t.position_z += t.speed*(t.dir_z);
 	t.position_x += t.speed*(t.dir_x);
+	if(t.speed < 0) t.angle+=1*(t.turning_factor/24);
+	else if (t.speed > 0) t.angle-=1*(t.turning_factor/24);
 	  if(t.motion_state < 0) {
-		t.angle+=1*(t.turning_factor/24);
 		if(t.speed > -0.05) t.speed -= 0.005;
 	  }
 	  else if(t.motion_state > 0) {
