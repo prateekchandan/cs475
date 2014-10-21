@@ -11,12 +11,15 @@ class environment{
 	GLuint texture[100]; // Max 100 textures
 	int no_of_textures;
 	
+	int sunlight,moonlight;
 	
 	public:
 	
     environment(){
 		no_of_textures=4;
 		
+		sunlight=1;
+		moonlight=0;
 	}
 	
 	// Load Bitmaps And Convert To Textures
@@ -27,6 +30,10 @@ class environment{
 	void set_ground();
 	/// For Complete setup of environment
 	void setup();
+	
+	void set_env_lightings();
+	
+	void toggle_Sunlight();
 
     
 };

@@ -132,6 +132,10 @@ namespace csX75
 		t.motion_state = 0;
 	}
 	
+	if(key == GLFW_KEY_L && action == GLFW_PRESS){
+		Env.toggle_Sunlight();
+	}
+	
 		
   }
 

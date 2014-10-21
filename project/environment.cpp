@@ -1,4 +1,5 @@
 #include "environment.hpp"
+#include "transformer.hpp"
 #include <iostream>
 #include <SOIL/SOIL.h>
 
@@ -51,11 +52,60 @@ void environment::setup(){
 	gluPerspective(50,1, 0.1, -1000);
 	gluLookAt(0,5,2 , 0,0.5,0 , 0,1,0);
     glMatrixMode(GL_MODELVIEW);
+        
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHT1);
+    glClearColor (0.0, 0.0, 0.0, 0.0);
+	glShadeModel (GL_SMOOTH);
+    
+    GLfloat light_position[] = { 0.0, 5.0, 0.0, 0.0 };
+	GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 0.2 };
+	GLfloat light_ambient[] = { 1.0, 1.0, 1.0, 1.0 };
+	
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+	
+	
+	GLfloat light_position1[] = { 0.0, 5.0, 5.0, 0.0 };
+	GLfloat light_diffuse1[] = { 0.1, 0.1, 0.1, 1.0 };
+	GLfloat light_ambient1[] = { 0.0, 0.0, 0.0, 1.0};
+	
+	glLightfv(GL_LIGHT1, GL_POSITION, light_position1);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse1);
+	glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient1);
+	
+	glEnable(GL_DEPTH_TEST);
+	
     
 }
 
+void environment::set_env_lightings(){
+	
+	if(sunlight)
+		glEnable(GL_LIGHT0);
+	else
+		glDisable(GL_LIGHT0);
+		
+	if(moonlight)
+		glEnable(GL_LIGHT1);
+	else
+		glDisable(GL_LIGHT1);
+	
+}
+
+void environment::toggle_Sunlight(){
+	sunlight++;
+	sunlight%=2;
+	
+	moonlight++;
+	moonlight%=2;
+}
 
 void environment::set_ground(){
+	
+		set_env_lightings();
 	
 	glEnable(GL_TEXTURE_2D);
 	
