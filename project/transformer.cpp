@@ -21,7 +21,6 @@ void transformer::LoadGLTextures() {
 		{
 			cout<<"Failed to load "<<a[i]<<" : "<<SOIL_last_result()<<"\n";
 		}
-		glBindTexture(GL_TEXTURE_2D, texture[i]);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 	}

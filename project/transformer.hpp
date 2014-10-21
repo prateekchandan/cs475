@@ -174,6 +174,7 @@ struct transformer {
 	 
 	 // main torso
 	 void drawTorso() {
+		 glBindTexture(GL_TEXTURE_2D, texture[1]);
 	   glColor3f(0,0,1);
 	    drawRectangle(4,8);
 	    glPushMatrix();

@@ -17,7 +17,7 @@ void renderGL(void)
 	glLoadIdentity();
 	
 	// Main Robot Drawing Function
-	gluLookAt(t.position_x-t.dir_x/5, -0.1, t.position_z-t.dir_z/5, t.position_x, 0, t.position_z, 0,1,0);
+	gluLookAt(t.position_x-t.dir_x/6, -0.2, t.position_z-t.dir_z/6, t.position_x, 0, t.position_z, 0,1,0);
 	Env.set_ground();
 	t.drawRobot();
 }
@@ -25,8 +25,6 @@ void renderGL(void)
 int main(int argc, char** argv)
 {
 
-	cout <<	"Animation sequence can be toggled even while the transformation is in progress. ";
-	cout << "Press <ENTER> to toggle animation.\n";
 	//! The pointer to the GLFW window
 	GLFWwindow* window;
 
@@ -69,7 +67,7 @@ int main(int argc, char** argv)
 	csX75::initGL();
 	
 	// Load the textures required in the drawings
-	//Env.LoadGLTextures();
+	Env.LoadGLTextures();
 	t.LoadGLTextures();
 	
 	// GEnerates all display lists required for rigid structures

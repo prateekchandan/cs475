@@ -15,7 +15,7 @@ class environment{
 	public:
 	
     environment(){
-		no_of_textures=1;
+		no_of_textures=4;
 		
 	}
 	
