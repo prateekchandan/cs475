@@ -139,7 +139,7 @@ namespace csX75
 		
   }
 
-  void doTurnings(){
+    void doTurnings(){
 	  if(t.turning_state < 0) {
 		  t.turnRobotLeft();
 	  }
@@ -148,14 +148,13 @@ namespace csX75
 	  }
 	t.position_z += t.speed*(t.dir_z);
 	t.position_x += t.speed*(t.dir_x);
-	if(t.speed < 0) t.angle+=1*(t.turning_factor/24);
-	else if (t.speed > 0) t.angle-=1*(t.turning_factor/24);
+	if(t.speed < 0) t.angle-=5*t.speed*(t.turning_factor/24);
+	else if (t.speed > 0) t.angle-=5*t.speed*(t.turning_factor/24);
 	  if(t.motion_state < 0) {
-		if(t.speed > -0.05) t.speed -= 0.005;
+		if(t.speed > -0.3) t.speed -= 0.005;
 	  }
 	  else if(t.motion_state > 0) {
-		t.angle-=1*(t.turning_factor/24);
-		if(t.speed < 0.05) t.speed += 0.005;
+		if(t.speed < 0.3) t.speed += 0.005;
 	  }
 	  else {
 		  if(t.speed < 0) t.speed += 0.001;
@@ -164,6 +163,7 @@ namespace csX75
 	  t.dir_z = -cosf(3.1416*t.angle/180.0);
 	  t.dir_x = sinf(3.1416*t.angle/180.0);
   }
+
 };  
   
 

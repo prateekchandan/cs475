@@ -49,8 +49,7 @@ void environment::setup(){
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();				// Reset The Projection Matrix
     
-	gluPerspective(50,1, 0.1, -1000);
-	gluLookAt(0,5,2 , 0,0.5,0 , 0,1,0);
+	gluPerspective(50,1, 0.1, 1000);
     glMatrixMode(GL_MODELVIEW);
         
     glEnable(GL_LIGHTING);

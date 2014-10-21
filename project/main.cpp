@@ -16,10 +16,12 @@ void renderGL(void)
 	
 	glLoadIdentity();
 	
-	// Main Robot Drawing Function
-	gluLookAt(t.position_x-t.dir_x/6, -0.2, t.position_z-t.dir_z/6, t.position_x, 0, t.position_z, 0,1,0);
+	glPushMatrix();
+	gluLookAt(t.position_x-4*t.dir_x, 2, t.position_z-4*t.dir_z, t.position_x, 2, t.position_z, 0,1,0);
 	Env.set_ground();
 	t.drawRobot();
+	glPopMatrix();
+
 }
 
 int main(int argc, char** argv)
