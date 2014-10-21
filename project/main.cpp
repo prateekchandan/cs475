@@ -69,6 +69,7 @@ int main(int argc, char** argv)
 	csX75::initGL();
 	
 	// Load the textures required in the drawings
+	//Env.LoadGLTextures();
 	t.LoadGLTextures();
 	
 	// GEnerates all display lists required for rigid structures

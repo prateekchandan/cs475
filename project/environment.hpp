@@ -1,5 +1,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <string.h>
 
 typedef unsigned char BYTE; 
 using namespace std;
@@ -7,11 +8,15 @@ using namespace std;
 class environment{
 	
 	//! To hold world textures
-	GLuint texture[3];
+	GLuint texture[100]; // Max 100 textures
+	int no_of_textures;
+	
 	
 	public:
 	
     environment(){
+		no_of_textures=1;
+		
 	}
 	
 	// Load Bitmaps And Convert To Textures

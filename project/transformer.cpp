@@ -12,9 +12,10 @@ void transformer::LoadGLTextures() {
 	image[2] = (Image *) malloc(sizeof(Image));
 	image[3] = (Image *) malloc(sizeof(Image));
 	image[4] = (Image *) malloc(sizeof(Image));
+	
 	if (image[0] == NULL || image[2]==NULL || image[3]==NULL || image[4]==NULL || image[1]==NULL) {
-	printf("Error allocating space for image");
-	exit(0);
+		printf("Error allocating space for image");
+		exit(0);
 	}
 	
 	char a[5][100];
