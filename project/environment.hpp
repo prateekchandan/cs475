@@ -62,6 +62,10 @@ class environment{
 	void toggle_Sunlight();
 	
 	void set_roads();
+	
+	void draw_curved_road();
+	void draw_curved_road_90();
+	void draw_straight_road();
     
 };
 

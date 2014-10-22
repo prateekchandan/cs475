@@ -17,7 +17,7 @@ void renderGL(void)
 	glLoadIdentity();
 	
 	glPushMatrix();
-	gluLookAt(t.position_x-4*t.dir_x, 2, t.position_z-4*t.dir_z, t.position_x, 2, t.position_z, 0,1,0);
+	gluLookAt(t.position_x-4*t.dir_x, 3, t.position_z-4*t.dir_z, t.position_x, 2, t.position_z, 0,1,0);
 	Env.set_ground();
 	t.drawRobot();
 	glPopMatrix();
