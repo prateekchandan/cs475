@@ -3,6 +3,7 @@
 #include <iostream>
 #include <SOIL/SOIL.h>
 
+
 // Load Bitmaps And Convert To Textures
 void environment::LoadGLTextures() {
 	
@@ -129,29 +130,45 @@ void environment::set_ground(){
 	// Drawing sky
 	glBindTexture(GL_TEXTURE_2D, texture[2]);
 	glBegin(GL_POLYGON);
-				glTexCoord2f(0.0f, 0.0f);glVertex3f(-100,5,100+t.position_z);
-				glTexCoord2f(1.0f, 0.0f);glVertex3f(100,5,100+t.position_z);
-				glTexCoord2f(1.0f, 1.0f);glVertex3f(100,5.1,-100+t.position_z);
-				glTexCoord2f(0.0f, 1.0f);glVertex3f(-100,5,-100+t.position_z);
+				glTexCoord2f(0.0f, 0.0f);glVertex3f(-100,30,100+t.position_z);
+				glTexCoord2f(1.0f, 0.0f);glVertex3f(100,30,100+t.position_z);
+				glTexCoord2f(1.0f, 1.0f);glVertex3f(100,30,-100+t.position_z);
+				glTexCoord2f(0.0f, 1.0f);glVertex3f(-100,30,-100+t.position_z);
 	glEnd();
 	
-	// Draeing horizon
+	// Drawing horizon
 	
-	glBindTexture(GL_TEXTURE_2D, texture[3]);
+	glBindTexture(GL_TEXTURE_2D, texture[2]);
 	glBegin(GL_POLYGON);
-		glTexCoord2f(0.0f, 0.0f);glVertex3f(-100,5.2,80+t.position_z);
-		glTexCoord2f(1.0f, 0.0f);glVertex3f(100,5.2,80+t.position_z);
+		glTexCoord2f(0.0f, 0.0f);glVertex3f(-100,31,80+t.position_z);
+		glTexCoord2f(1.0f, 0.0f);glVertex3f(100,31,80+t.position_z);
 		glTexCoord2f(1.0f, 1.0f);glVertex3f(100,-0.2,80+t.position_z);
 		glTexCoord2f(0.0f, 1.0f);glVertex3f(-100,-0.2,80+t.position_z);
 	glEnd();
 	
 	glBegin(GL_POLYGON);
-		glTexCoord2f(0.0f, 0.0f);glVertex3f(-100,5.2,-80+t.position_z);
-		glTexCoord2f(1.0f, 0.0f);glVertex3f(100,5.2,-80+t.position_z);
+		glTexCoord2f(0.0f, 0.0f);glVertex3f(-100,31,-80+t.position_z);
+		glTexCoord2f(1.0f, 0.0f);glVertex3f(100,31,-80+t.position_z);
 		glTexCoord2f(1.0f, 1.0f);glVertex3f(100,-0.2,-80+t.position_z);
 		glTexCoord2f(0.0f, 1.0f);glVertex3f(-100,-0.2,-80+t.position_z);
 	glEnd();
+	glBegin(GL_POLYGON);
+		glTexCoord2f(0.0f, 0.0f);glVertex3f(100,31.2,-100+t.position_z);
+		glTexCoord2f(1.0f, 0.0f);glVertex3f(100,31.2,100+t.position_z);
+		glTexCoord2f(1.0f, 1.0f);glVertex3f(100,-0.2,100+t.position_z);
+		glTexCoord2f(0.0f, 1.0f);glVertex3f(100,-0.2,-100+t.position_z);
+	glEnd();
 	
+	glBegin(GL_POLYGON);
+		glTexCoord2f(0.0f, 0.0f);glVertex3f(-100,31.2,-100+t.position_z);
+		glTexCoord2f(1.0f, 0.0f);glVertex3f(-100,31.2,100+t.position_z);
+		glTexCoord2f(1.0f, 1.0f);glVertex3f(-100,-0.2,100+t.position_z);
+		glTexCoord2f(0.0f, 1.0f);glVertex3f(-100,-0.2,-100+t.position_z);
+	glEnd();
+	set_roads();
+	
+	// Drawing side walls
+	glBindTexture(GL_TEXTURE_2D, texture[3]);
 	glBegin(GL_POLYGON);
 		glTexCoord2f(0.0f, 0.0f);glVertex3f(20,5.2,-100+t.position_z);
 		glTexCoord2f(1.0f, 0.0f);glVertex3f(20,5.2,100+t.position_z);
@@ -165,19 +182,87 @@ void environment::set_ground(){
 		glTexCoord2f(1.0f, 1.0f);glVertex3f(-20,-0.2,100+t.position_z);
 		glTexCoord2f(0.0f, 1.0f);glVertex3f(-20,-0.2,-100+t.position_z);
 	glEnd();
-	
-	
-	
-	//ROAD
-	glBindTexture(GL_TEXTURE_2D, texture[0]);
-	glPushMatrix();
-	glBegin(GL_POLYGON);
-		glColor3f(0.0,0.1,0.3);
-		glTexCoord2f(0.0f, 0.0f);glVertex3f(-2,0,5);
-		glTexCoord2f(1.0f, 0.0f);glVertex3f(2,0,5);
-		glTexCoord2f(1.0f, 1.0f);glVertex3f(2,0,-5);
-		glTexCoord2f(0.0f, 1.0f);glVertex3f(-2,0,-5);
-	glEnd();
-	glPopMatrix();
+	set_roads();
 }
 
+void environment::set_roads(){
+	
+	float x1=-2,x2=2,x3=2,x4=-2,z1=-5,z2=-5,z3=5,z4=5,a=0,cum_a=0;
+	float x=0,z=0;
+	float car_z=t.position_z;
+	//float car_x=t.position_x;
+	
+	int road_cur_no=0;//(int)car_z/10;
+	
+	int random_no=(rand()%10 - 5)*M_PI/180.0;
+	if(road_no<road_cur_no)
+	{
+		road_angles.push_back(random_no);
+		road_angles.pop_front();
+	}
+	else if(road_no>road_cur_no)
+	{
+		road_angles.push_front(random_no);
+		road_angles.pop_back();
+	}
+	road_no=road_cur_no;
+	
+	glBindTexture(GL_TEXTURE_2D, texture[0]);
+	glPushMatrix();
+	
+	for (int i = 100; i >=0 ; i--)
+	{
+		glBegin(GL_POLYGON);
+			glColor3f(0.0,0.1,0.3);
+			glTexCoord2f(0.0f, 0.0f);glVertex3f(x1,0,z1);
+			glTexCoord2f(1.0f, 0.0f);glVertex3f(x2,0,z2);
+			glTexCoord2f(1.0f, 1.0f);glVertex3f(x3,0,z3);
+			glTexCoord2f(0.0f, 1.0f);glVertex3f(x4,0,z4);
+		glEnd();
+		
+		x1= x1 + 8* sin(cum_a);
+		z1 = z1 + 8* cos(cum_a);
+		x2= x2 + 8* sin(cum_a);
+		z2 = z2 + 8* cos(cum_a);
+		
+		if(i>0)
+			a=road_angles.at(i-1);
+			
+		cum_a+=a;
+		
+		x3= x2 + 10* sin(cum_a);
+		z3 = z2 + 10* cos(cum_a);
+		x4= x1 + 10* sin(cum_a);
+		z4 = z1 + 10* cos(cum_a);
+		
+	}
+	
+	x1=-2;x2=2;x3=2;x4=-2;z1=5;z2=5;z3=-5;z4=-5;cum_a=0;
+	for (int i = 100; i <200 ; i++)
+	{
+		glBegin(GL_POLYGON);
+			glColor3f(0.0,0.1,0.3);
+			glTexCoord2f(0.0f, 0.0f);glVertex3f(x1,0,z1);
+			glTexCoord2f(1.0f, 0.0f);glVertex3f(x2,0,z2);
+			glTexCoord2f(1.0f, 1.0f);glVertex3f(x3,0,z3);
+			glTexCoord2f(0.0f, 1.0f);glVertex3f(x4,0,z4);
+		glEnd();
+	
+		
+		x1= x1 + 8* sin(cum_a);
+		z1 = z1 - 8* cos(cum_a);
+		x2= x2 + 8* sin(cum_a);
+		z2 = z2 - 8* cos(cum_a);
+		
+		if(i<200)
+		a=road_angles.at(i+1);
+		cum_a+=a;
+		
+		x3= x2 + 10* sin(cum_a);
+		z3 = z2 - 10* cos(cum_a);
+		x4= x1 + 10* sin(cum_a);
+		z4 = z1 - 10* cos(cum_a);
+		
+	}
+	glPopMatrix();
+}
