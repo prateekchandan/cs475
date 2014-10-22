@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <string.h>
 #include <deque>
+#include <vector>
 #include <cstdlib>
 #include <iostream>
 #include <time.h> 
@@ -20,11 +21,12 @@ class environment{
 	int road_no;
 	
 	int sunlight,moonlight;
-	
+	double tree[15];
+	vector<pair<double,double> > tree_cordinates;
 	public:
 	
     environment(){
-		no_of_textures=4;
+		no_of_textures=6;
 		
 		sunlight=1;
 		moonlight=0;
@@ -45,17 +47,21 @@ class environment{
 			road_angles.push_front(a);
 		}
 		
-		
+		tree_cordinates.push_back(pair<double,double>(-15,-15));
 	}
 	
 	// Load Bitmaps And Convert To Textures
 	void LoadGLTextures();
 
+	void LoadGenList();
+	
 	/// For setting up ground
 	
 	void set_ground();
 	/// For Complete setup of environment
 	void setup();
+	
+	
 	
 	void set_env_lightings();
 	
@@ -71,6 +77,12 @@ class environment{
 	
 	void makeCylinder(float height, float base);
 	
+	void drawTree(int color);
+	
+	void drawTreehelp(int depth,float height,float x,float y ,float z,int color);
+	
+	void setTreeCordinates();
+	void plantTrees();
 	
     
 };

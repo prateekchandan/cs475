@@ -21,7 +21,7 @@ void renderGL(void)
 	Env.set_ground();
 	t.drawRobot();
 	glPopMatrix();
-
+	
 
 }
 

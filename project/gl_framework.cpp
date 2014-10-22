@@ -45,7 +45,7 @@ namespace csX75
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
       glfwSetWindowShouldClose(window, GL_TRUE);
     
-	/*
+	
 	//! Changes the main state upon pressing of Enter Key
 	if (key == GLFW_KEY_ENTER && action == GLFW_PRESS){
 		t.main_state++;
@@ -57,7 +57,7 @@ namespace csX75
         t.sequence_number_flaps=0;
         t.sequence_number_hands=0;
 	}
-	
+	/*
 	//! Toggle Hand animation on pressing Q
 	if (key == GLFW_KEY_Q && action == GLFW_PRESS){
 		if(t.sequence_number_hands==0)
@@ -144,19 +144,23 @@ namespace csX75
 	
 	if(key == GLFW_KEY_C && action == GLFW_PRESS){
 		camera_state++;
-		camera_state%=3;
+		camera_state%=4;
 	}
 		
   }
   
   void setCamera(){
-	  if(camera_state==0)
-		gluLookAt(t.position_x-30*t.dir_x, 29.1, t.position_z-30*t.dir_z, t.position_x, 2, t.position_z, 0,1,0);
+	 if(camera_state==0)
+		gluLookAt(t.position_x-10*t.dir_x, 9.1, t.position_z-10*t.dir_z, t.position_x, 2, t.position_z, 0,1,0);
 	else if(camera_state==1)
 		gluLookAt(t.position_x-4*t.dir_x, 2.1, t.position_z-4*t.dir_z, t.position_x, 2, t.position_z, 0,1,0);
 	else if(camera_state==2)
 	{
 		gluLookAt(t.position_x+1*t.dir_x, 0.8, t.position_z+1*t.dir_z, t.position_x+4*t.dir_x, 1, t.position_z+4*t.dir_z, 0,1,0);
+	}
+	else if(camera_state==3)
+	{
+		gluLookAt(t.position_x-30*t.dir_x, 29.1, t.position_z-30*t.dir_z, t.position_x, 2, t.position_z, 0,1,0);
 	}
 }
 
@@ -175,6 +179,16 @@ namespace csX75
 			t.position_x += t.speed*(t.dir_x);
 		
 	}
+	else if(t.position_z >= -25 && t.position_z<=25 && t.position_x>=35&& t.position_x<=45)
+	{
+		if(t.speed*(t.dir_x)<0)
+			t.position_x += t.speed*(t.dir_x);
+	}
+	else if(t.position_z >= -25 && t.position_z<=25 && t.position_x<=210&& t.position_x>=200)
+	{
+		if(t.speed*(t.dir_x)>0)
+			t.position_x += t.speed*(t.dir_x);
+	}
 	else if(t.position_x<=-20)
 	{
 		if(t.speed*(t.dir_x)>0)
@@ -187,10 +201,19 @@ namespace csX75
 	if(t.position_z>=60)
 	{
 		if(t.speed*(t.dir_z)<0)
-			t.position_z += t.speed*(t.dir_z);
-		
+			t.position_z += t.speed*(t.dir_z);	
 	}
-	else if(t.position_z<=-190)
+	else if(t.position_x >= 35&& t.position_x<=205 && t.position_z<=25 && t.position_z>20)
+	{
+		if(t.speed*(t.dir_z)>0)
+			t.position_z += t.speed*(t.dir_z);	
+	}
+	else if(t.position_x >= 35&& t.position_x<=205 && t.position_z>-25 && t.position_z<-20)
+	{
+		if(t.speed*(t.dir_z)<0)
+			t.position_z += t.speed*(t.dir_z);	
+	}
+	else if(t.position_z <= -190)
 	{
 		if(t.speed*(t.dir_z)>0)
 			t.position_z += t.speed*(t.dir_z);

@@ -13,6 +13,8 @@ void environment::LoadGLTextures() {
 	strcpy(a[1],"img/grass.jpg");
 	strcpy(a[2],"img/sky.jpg");
 	strcpy(a[3],"img/audience.jpg");
+	strcpy(a[4],"img/leaf.jpg");
+	strcpy(a[5],"img/lake.jpg");
 	
 	for (int i = 0; i < no_of_textures; i++)
 	{
@@ -33,6 +35,15 @@ void environment::LoadGLTextures() {
 	glEnable(GL_TEXTURE_2D);
 };
 
+void environment::LoadGenList(){
+	for (int i = 0; i < 15; i++)
+	{
+		tree[i]= glGenLists(1);
+		glNewList(tree[i], GL_COMPILE);
+			drawTree(1);
+		glEndList();
+	}
+}
 
 void environment::setup(){
     glClearDepth(1.0);
@@ -77,8 +88,28 @@ void environment::setup(){
 	glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient1);
 	
 	glEnable(GL_DEPTH_TEST);
+	LoadGenList();
+	setTreeCordinates();
 	
     
+}
+void environment::setTreeCordinates(){
+	tree_cordinates.push_back(pair<double,double>(-15,-80));
+	tree_cordinates.push_back(pair<double,double>(145,-92));
+	tree_cordinates.push_back(pair<double,double>(140,-96));
+	tree_cordinates.push_back(pair<double,double>(145,30));
+	tree_cordinates.push_back(pair<double,double>(140,35));
+	tree_cordinates.push_back(pair<double,double>(130,25));
+	tree_cordinates.push_back(pair<double,double>(207,-128));
+	tree_cordinates.push_back(pair<double,double>(223,-120));
+	tree_cordinates.push_back(pair<double,double>(229,-90));
+	tree_cordinates.push_back(pair<double,double>(232,-52));
+	
+	for (int i = -55,j=1; i < 25; i+=20,j=(j+1)%2)
+	{
+			tree_cordinates.push_back(pair<double,double>(-25+j*5,i));
+	}
+	
 }
 
 void environment::set_env_lightings(){
@@ -167,11 +198,34 @@ void environment::set_ground(){
 		glTexCoord2f(0.0f, 1.0f);glVertex3f(-100+car_x,-0.2,-100+t.position_z);
 	glEnd();
 	
+	
+	// Drawing Lake
+	glBindTexture(GL_TEXTURE_2D, texture[5]);
+	glBegin(GL_POLYGON);
+			glTexCoord2f(0.0f, 0.0f);glVertex3f(40.0,0.01,20);
+			glTexCoord2f(1.0f, 0.0f);glVertex3f(200.0,0.01,20);
+			glTexCoord2f(1.0f, 1.0f);glVertex3f(200.0,0.01,-20);
+			glTexCoord2f(0.0f, 1.0f);glVertex3f(40.0,0.01,-20);
+	glEnd();
+	
 	set_roads();
 	draw_audience();
+	plantTrees();
+	
 	glPopMatrix();
 }
-
+void environment::plantTrees(){
+	int size=tree_cordinates.size(),no;
+	for (int i = 0; i < size; i++)
+	{
+		no=rand()%15;
+		glPushMatrix();
+			glTranslatef(tree_cordinates[i].first,0,tree_cordinates[i].second);
+			glCallList(tree[no]);
+		glPopMatrix();
+	}
+		
+}
 void environment::draw_curved_road(){
 	glBindTexture(GL_TEXTURE_2D, texture[0]);
 	float curve_point[][3]={{16.970562748477537, 0.0, 16.970562748476745},
@@ -346,4 +400,64 @@ void environment::draw_audience(){
 			glTexCoord2f(0, 1);glVertex3f(150.0,10.0,30.0);
 		glEnd();
 	glPopMatrix();
+}
+
+void environment::drawTree(int color){
+	srand(time(NULL));
+	glPushMatrix();
+		drawTreehelp(4,2.5,0,0,0,1);
+	glPopMatrix();
+}
+	
+void environment::drawTreehelp(int depth,float height,float x,float y ,float z,int color){
+	if(depth==0)
+	{
+	
+		int randt=rand()%3;
+		glBindTexture(GL_TEXTURE_2D, texture[4]);
+		switch(randt){
+			case 0:
+				glBegin(GL_TRIANGLES);
+					glTexCoord2f(0, 0);glVertex3f(x,y,z);
+					glTexCoord2f(0, 1);glVertex3f(x+height,y,z);
+					glTexCoord2f(1, 1);glVertex3f(x+height,y+height,z);
+				glEnd();
+			break;
+			case 1:
+				glBegin(GL_TRIANGLES);
+					glTexCoord2f(0, 0);glVertex3f(x,y,z);
+					glTexCoord2f(0, 1);glVertex3f(x+height,y,z);
+					glTexCoord2f(1, 1);glVertex3f(x+height,y,z+height);
+				glEnd();
+			break;
+			default:
+				glBegin(GL_TRIANGLES);
+					glTexCoord2f(0, 0);glVertex3f(x,y,z);
+					glTexCoord2f(0, 1);glVertex3f(x,y+height,z);
+					glTexCoord2f(1, 1);glVertex3f(x,y+height,z+height);
+				glEnd();	
+		}
+		
+	}
+	else
+	{
+		float x1,z1,y1,angle;
+		
+		for (int i = 0; i < 4; i++)
+		{
+			
+			angle=(rand()%180 - 90)*M_PI/180.0;
+			x1=x+height*sin(angle);
+			angle=(rand()%180 - 90)*M_PI/180.0;
+			z1=z+height*sin(angle);
+			y1=y+height-(rand()%((int)(height*100.0)))/200.0;
+			glBegin(GL_LINES);
+				glVertex3f(x,y,z);
+				glVertex3f(x1,y1,z1);
+			glEnd();
+			drawTreehelp(depth-1,height*2.0/3.0,x1,y1,z1,color);
+		}
+		
+		
+	}
 }
