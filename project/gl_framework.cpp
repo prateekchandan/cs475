@@ -4,6 +4,7 @@
 
 namespace csX75
 {
+	int camera_state=1;
   //! Initialize GL State
   void initGL(void)
   {
@@ -122,9 +123,13 @@ namespace csX75
 	}
 
 	if(key == GLFW_KEY_UP && action == GLFW_PRESS){
+		if(t.motion_state!=1)
+		t.speed/=3.0;
 		t.motion_state = 1;
 	}
 	if(key == GLFW_KEY_DOWN && action == GLFW_PRESS){
+		if(t.motion_state!=-1)
+		t.speed/=3.0;
 		t.motion_state = -1;
 	}
 
@@ -136,8 +141,24 @@ namespace csX75
 		Env.toggle_Sunlight();
 	}
 	
+	
+	if(key == GLFW_KEY_C && action == GLFW_PRESS){
+		camera_state++;
+		camera_state%=3;
+	}
 		
   }
+  
+  void setCamera(){
+	  if(camera_state==0)
+		gluLookAt(t.position_x-30*t.dir_x, 29.1, t.position_z-30*t.dir_z, t.position_x, 2, t.position_z, 0,1,0);
+	else if(camera_state==1)
+		gluLookAt(t.position_x-4*t.dir_x, 2.1, t.position_z-4*t.dir_z, t.position_x, 2, t.position_z, 0,1,0);
+	else if(camera_state==2)
+	{
+		gluLookAt(t.position_x+1*t.dir_x, 0.8, t.position_z+1*t.dir_z, t.position_x+4*t.dir_x, 1, t.position_z+4*t.dir_z, 0,1,0);
+	}
+}
 
     void doTurnings(){
 	  if(t.turning_state < 0) {
@@ -147,25 +168,44 @@ namespace csX75
 		  t.turnRobotRight();
 	  }
 	  
-	t.position_z += t.speed*(t.dir_z);
-	t.position_x += t.speed*(t.dir_x);
 	
-	/*if(t.position_x<18 && t.position_x>-18)
-		t.position_x += t.speed*(t.dir_x);
-	else
+	if(t.position_x>=280)
 	{
-		if(t.position_x<-18)
-			t.position_x=-16;
-		else if(t.position_x>18)
-			t.position_x=16;
-	}*/
+		if(t.speed*(t.dir_x)<0)
+			t.position_x += t.speed*(t.dir_x);
+		
+	}
+	else if(t.position_x<=-20)
+	{
+		if(t.speed*(t.dir_x)>0)
+			t.position_x += t.speed*(t.dir_x);
+	}
+	else{
+		t.position_x += t.speed*(t.dir_x);
+	}
+	
+	if(t.position_z>=60)
+	{
+		if(t.speed*(t.dir_z)<0)
+			t.position_z += t.speed*(t.dir_z);
+		
+	}
+	else if(t.position_z<=-190)
+	{
+		if(t.speed*(t.dir_z)>0)
+			t.position_z += t.speed*(t.dir_z);
+	}
+	else{
+		t.position_z += t.speed*(t.dir_z);
+	}
+	
 	if(t.speed < 0) t.angle-=5*t.speed*(t.turning_factor/24);
 	else if (t.speed > 0) t.angle-=5*t.speed*(t.turning_factor/24);
 	  if(t.motion_state < 0) {
-		if(t.speed > -0.3) t.speed -= 0.005;
+		if(t.speed > -0.5) t.speed -= 0.005;
 	  }
 	  else if(t.motion_state > 0) {
-		if(t.speed < 0.3) t.speed += 0.005;
+		if(t.speed < 0.5) t.speed += 0.005;
 	  }
 	  else {
 		  if(t.speed < 0) t.speed += 0.001;

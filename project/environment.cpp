@@ -12,7 +12,7 @@ void environment::LoadGLTextures() {
 	strcpy(a[0],"img/road.jpg");
 	strcpy(a[1],"img/grass.jpg");
 	strcpy(a[2],"img/sky.jpg");
-	strcpy(a[3],"img/horizon.jpg");
+	strcpy(a[3],"img/audience.jpg");
 	
 	for (int i = 0; i < no_of_textures; i++)
 	{
@@ -59,8 +59,8 @@ void environment::setup(){
     glClearColor (0.0, 0.0, 0.0, 0.0);
 	glShadeModel (GL_SMOOTH);
     
-    GLfloat light_position[] = { 0.0, 5.0, 5.0, 1.0 };
-	GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 0.2 };
+    GLfloat light_position[] = { 0.0, 50.0, 5.0, 1.0 };
+	GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
 	GLfloat light_ambient[] = { 1.0, 1.0, 1.0, 1.0 };
 	
 	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
@@ -105,7 +105,6 @@ void environment::toggle_Sunlight(){
 
 void environment::set_ground(){
 	glPushMatrix();
-	glScalef(2,2,2);
     float car_z=t.position_z,car_x=t.position_x;
     long long z_offset=(int)car_z/10;
     long long x_offset=(int)car_x/10;
@@ -167,9 +166,9 @@ void environment::set_ground(){
 		glTexCoord2f(1.0f, 1.0f);glVertex3f(-100+car_x,-0.2,100+t.position_z);
 		glTexCoord2f(0.0f, 1.0f);glVertex3f(-100+car_x,-0.2,-100+t.position_z);
 	glEnd();
-	set_roads();
 	
 	set_roads();
+	draw_audience();
 	glPopMatrix();
 }
 
@@ -240,6 +239,7 @@ void environment::draw_straight_road(){
 void environment::set_roads(){
 	
 	glPushMatrix();
+		glScalef(2,2,2);
 		draw_curved_road_90();
 		
 		glPushMatrix();
@@ -270,5 +270,80 @@ void environment::set_roads(){
 			draw_curved_road_90();
 		glPopMatrix();
 		
+		glPushMatrix();
+			glTranslatef(110,0,-88);
+			glRotatef(-90,0,1,0);
+			draw_curved_road_90();
+		glPopMatrix();
+		
+		glPushMatrix();
+			glTranslatef(132,0,-66);
+			glRotatef(-180,0,1,0);
+			draw_straight_road();
+		glPopMatrix();
+		
+		glPushMatrix();
+			glTranslatef(132,0,-44);
+			glRotatef(-180,0,1,0);
+			draw_straight_road();
+		glPopMatrix();
+		
+		glPushMatrix();
+			glTranslatef(132,0,-22);
+			glRotatef(-180,0,1,0);
+			draw_straight_road();
+		glPopMatrix();
+		
+		glPushMatrix();
+			glTranslatef(132,0,0);
+			glRotatef(-180,0,1,0);
+			draw_curved_road_90();
+		glPopMatrix();
+		
+		glPushMatrix();
+			glTranslatef(110,0,22);
+			glRotatef(-270,0,1,0);
+			draw_straight_road();
+		glPopMatrix();
+		
+		glPushMatrix();
+			glTranslatef(88,0,22);
+			glRotatef(-270,0,1,0);
+			draw_straight_road();
+		glPopMatrix();
+		
+		glPushMatrix();
+			glTranslatef(66,0,22);
+			glRotatef(-270,0,1,0);
+			draw_straight_road();
+		glPopMatrix();
+		
+		glPushMatrix();
+			glTranslatef(44,0,22);
+			glRotatef(-270,0,1,0);
+			draw_straight_road();
+		glPopMatrix();
+		
+		glPushMatrix();
+			glTranslatef(22,0,22);
+			glRotatef(-270,0,1,0);
+			draw_curved_road_90();
+		glPopMatrix();
+		
 	glPopMatrix();	
+}
+
+
+void environment::draw_audience(){
+	
+	glPushMatrix();
+		glScalef(2,2,2);
+		glBindTexture(GL_TEXTURE_2D, texture[3]);
+		glBegin(GL_POLYGON);
+			glTexCoord2f(0, 0);glVertex3f(150.0,-0.2,30.0);
+			glTexCoord2f(1, 0);glVertex3f(150.0,-0.2,-90.0);
+			glTexCoord2f(1, 1);glVertex3f(150.0,10.0,-92.0);
+			glTexCoord2f(0, 1);glVertex3f(150.0,10.0,30.0);
+		glEnd();
+	glPopMatrix();
 }

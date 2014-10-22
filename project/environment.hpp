@@ -66,6 +66,12 @@ class environment{
 	void draw_curved_road();
 	void draw_curved_road_90();
 	void draw_straight_road();
+	
+	void draw_audience();
+	
+	void makeCylinder(float height, float base);
+	
+	
     
 };
 
