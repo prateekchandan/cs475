@@ -59,7 +59,7 @@ void environment::setup(){
     glClearColor (0.0, 0.0, 0.0, 0.0);
 	glShadeModel (GL_SMOOTH);
     
-    GLfloat light_position[] = { 0.0, 5.0, 0.0, 0.0 };
+    GLfloat light_position[] = { 0.0, 5.0, 5.0, 1.0 };
 	GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 0.2 };
 	GLfloat light_ambient[] = { 1.0, 1.0, 1.0, 1.0 };
 	
@@ -168,7 +168,7 @@ void environment::set_ground(){
 	glEnd();
 	set_roads();
 	
-	// Drawing side walls
+	/*// Drawing side walls
 	glBindTexture(GL_TEXTURE_2D, texture[3]);
 	glBegin(GL_POLYGON);
 		glTexCoord2f(0.0f, 0.0f);glVertex3f(20,5.2,-100+t.position_z);
@@ -182,7 +182,7 @@ void environment::set_ground(){
 		glTexCoord2f(1.0f, 0.0f);glVertex3f(-20,5.2,100+t.position_z);
 		glTexCoord2f(1.0f, 1.0f);glVertex3f(-20,-0.2,100+t.position_z);
 		glTexCoord2f(0.0f, 1.0f);glVertex3f(-20,-0.2,-100+t.position_z);
-	glEnd();
+	glEnd();*/
 	set_roads();
 }
 
@@ -208,12 +208,27 @@ void environment::set_roads(){
 	}
 	road_no=road_cur_no;
 	
-	glBindTexture(GL_TEXTURE_2D, texture[0]);
 	glPushMatrix();
 	
-	x1=-2;x2=2;x3=2;x4=-2;z1=-5;z2=-5;z3=5;z4=5;cum_a=0;
+	x1=-2;x2=2;x3=2;x4=-2;z1=-10;z2=-10;z3=10;z4=10;cum_a=0;
 	for (int i = 100; i >=0 ; i--)
 	{
+		/*glBindTexture(GL_TEXTURE_2D, texture[3]);
+		glBegin(GL_POLYGON);
+			glTexCoord2f(0.0f, 0.0f);glVertex3f(x1+20,5.2,z1-10);
+			glTexCoord2f(1.0f, 0.0f);glVertex3f(x1+20,5.2,z1+10);
+			glTexCoord2f(1.0f, 1.0f);glVertex3f(x1+20,-0.2,z1+10);
+			glTexCoord2f(0.0f, 1.0f);glVertex3f(x1+20,-0.2,z1-10);
+		glEnd();
+		
+		glBegin(GL_POLYGON);
+			glTexCoord2f(0.0f, 0.0f);glVertex3f(x1-20,5.2,z1-10);
+			glTexCoord2f(1.0f, 0.0f);glVertex3f(x1-20,5.2,z1+10);
+			glTexCoord2f(1.0f, 1.0f);glVertex3f(x1-20,-0.2,z1+10);
+			glTexCoord2f(0.0f, 1.0f);glVertex3f(x1-20,-0.2,z1-10);
+		glEnd();
+		*/
+		glBindTexture(GL_TEXTURE_2D, texture[0]);
 		glBegin(GL_POLYGON);
 			glColor3f(0.0,0.1,0.3);
 			glTexCoord2f(0.0f, 0.0f);glVertex3f(x1,0,z1);
@@ -222,26 +237,42 @@ void environment::set_roads(){
 			glTexCoord2f(0.0f, 1.0f);glVertex3f(x4,0,z4);
 		glEnd();
 		
-		x1= x1 + 8* sin(cum_a);
-		z1 = z1 + 8* cos(cum_a);
-		x2= x2 + 8* sin(cum_a);
-		z2 = z2 + 8* cos(cum_a);
+		x1= x1 + 18* sin(cum_a);
+		z1 = z1 + 18* cos(cum_a);
+		x2= x2 + 18* sin(cum_a);
+		z2 = z2 + 18* cos(cum_a);
 		
 		if(i>0)
 			a=road_angles.at(i-1);
 			
 		cum_a+=a;
 		
-		x3= x2 + 10* sin(cum_a);
-		z3 = z2 + 10* cos(cum_a);
-		x4= x1 + 10* sin(cum_a);
-		z4 = z1 + 10* cos(cum_a);
+		x3= x2 + 20* sin(cum_a);
+		z3 = z2 + 20* cos(cum_a);
+		x4= x1 + 20* sin(cum_a);
+		z4 = z1 + 20* cos(cum_a);
 		
 	}
 	
-	x1=-2;x2=2;x3=2;x4=-2;z1=5;z2=5;z3=-5;z4=-5;cum_a=0;
+	x1=-2;x2=2;x3=2;x4=-2;z1=10;z2=10;z3=-10;z4=-10;cum_a=0;
 	for (int i = 100; i <200 ; i++)
 	{
+		/*glBindTexture(GL_TEXTURE_2D, texture[3]);
+		glBegin(GL_POLYGON);
+			glTexCoord2f(0.0f, 0.0f);glVertex3f(x1+20,5.2,z1-10);
+			glTexCoord2f(1.0f, 0.0f);glVertex3f(x1+20,5.2,z1+10);
+			glTexCoord2f(1.0f, 1.0f);glVertex3f(x1+20,-0.2,z1+10);
+			glTexCoord2f(0.0f, 1.0f);glVertex3f(x1+20,-0.2,z1-10);
+		glEnd();
+		
+		glBegin(GL_POLYGON);
+			glTexCoord2f(0.0f, 0.0f);glVertex3f(x1-20,5.2,z1-10);
+			glTexCoord2f(1.0f, 0.0f);glVertex3f(x1-20,5.2,z1+10);
+			glTexCoord2f(1.0f, 1.0f);glVertex3f(x1-20,-0.2,z1+10);
+			glTexCoord2f(0.0f, 1.0f);glVertex3f(x1-20,-0.2,z1-10);
+		glEnd();*/
+		
+		glBindTexture(GL_TEXTURE_2D, texture[0]);
 		glBegin(GL_POLYGON);
 			glColor3f(0.0,0.1,0.3);
 			glTexCoord2f(0.0f, 0.0f);glVertex3f(x1,0,z1);
@@ -251,19 +282,19 @@ void environment::set_roads(){
 		glEnd();
 	
 		
-		x1= x1 + 8* sin(cum_a);
-		z1 = z1 - 8* cos(cum_a);
-		x2= x2 + 8* sin(cum_a);
-		z2 = z2 - 8* cos(cum_a);
+		x1= x1 + 18* sin(cum_a);
+		z1 = z1 - 18* cos(cum_a);
+		x2= x2 + 18* sin(cum_a);
+		z2 = z2 - 18* cos(cum_a);
 		
 		if(i<200)
 		a=road_angles.at(i+1);
 		cum_a+=a;
 		
-		x3= x2 + 10* sin(cum_a);
-		z3 = z2 - 10* cos(cum_a);
-		x4= x1 + 10* sin(cum_a);
-		z4 = z1 - 10* cos(cum_a);
+		x3= x2 + 20* sin(cum_a);
+		z3 = z2 - 20* cos(cum_a);
+		x4= x1 + 20* sin(cum_a);
+		z4 = z1 - 20* cos(cum_a);
 		
 	}
 	glPopMatrix();

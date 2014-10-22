@@ -35,13 +35,13 @@ class environment{
 		srand (time(NULL));
 		for (int i = 0; i < 100; i++)
 		{
-			a=(rand()%10 - 5)*M_PI/180.0;
+			a=(rand()%40 - 20)*M_PI/180.0;
 			road_angles.push_back(a);
 		}
 		a=0;
 		for (int i = 0; i < 100; i++)
 		{
-			a=(rand()%10 - 5)*M_PI/180.0;
+			a=(rand()%40 - 20)*M_PI/180.0;
 			road_angles.push_front(a);
 		}
 		
