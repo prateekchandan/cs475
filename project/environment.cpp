@@ -70,7 +70,7 @@ void environment::setup(){
     glClearColor (0.0, 0.0, 0.0, 0.0);
 	glShadeModel (GL_SMOOTH);
     
-    GLfloat light_position[] = { 0.0, 50.0, 5.0, 1.0 };
+    GLfloat light_position[] = { 20.0, 50.0, 0.0, 1.0 };
 	GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
 	GLfloat light_ambient[] = { 1.0, 1.0, 1.0, 1.0 };
 	
@@ -79,13 +79,14 @@ void environment::setup(){
 	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
 	
 	
-	GLfloat light_position1[] = { 0.0, 5.0, 5.0, 0.0 };
-	GLfloat light_diffuse1[] = { 0.1, 0.1, 0.1, 1.0 };
-	GLfloat light_ambient1[] = { 0.0, 0.0, 0.0, 1.0};
-	
+	GLfloat light_position1[] = { 0.0, 5.0, 0.0 };
+	GLfloat light_ambient1[] = { 0.1, 0.1, 0.1 };
+	GLfloat light_diffuse1[] = { 1.1, 0.1, 0.1 };
+
 	glLightfv(GL_LIGHT1, GL_POSITION, light_position1);
-	glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse1);
 	glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient1);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse1);
+
 	
 	glEnable(GL_DEPTH_TEST);
 	LoadGenList();
@@ -109,6 +110,12 @@ void environment::setTreeCordinates(){
 	{
 			tree_cordinates.push_back(pair<double,double>(-25+j*5,i));
 	}
+	
+	for (int i = tree_cordinates.size()-1; i >= 0 ; i--)
+	{
+		tree_cordinates_map.push_back(rand()%15);
+	}
+	
 	
 }
 
@@ -218,7 +225,7 @@ void environment::plantTrees(){
 	int size=tree_cordinates.size(),no;
 	for (int i = 0; i < size; i++)
 	{
-		no=rand()%15;
+		no=tree_cordinates_map[i];
 		glPushMatrix();
 			glTranslatef(tree_cordinates[i].first,0,tree_cordinates[i].second);
 			glCallList(tree[no]);
@@ -403,7 +410,6 @@ void environment::draw_audience(){
 }
 
 void environment::drawTree(int color){
-	srand(time(NULL));
 	glPushMatrix();
 		drawTreehelp(4,2.5,0,0,0,1);
 	glPopMatrix();

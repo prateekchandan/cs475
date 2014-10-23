@@ -71,6 +71,11 @@ void transformer::drawUnitCube(){
 void transformer::drawRobot(){
 	    // Scaled for robot to fit the screen
 	   t.restoreTurning();
+	    wheel_rotation+=speed*30;
+	    if(wheel_rotation>360)
+			wheel_rotation-=360;
+		if(wheel_rotation<-360)
+			wheel_rotation+=360;
 	    
 		glTranslatef(position_x, 0, position_z);
 	    glScalef(0.2,0.2,0.2);

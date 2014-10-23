@@ -23,6 +23,7 @@ class environment{
 	int sunlight,moonlight;
 	double tree[15];
 	vector<pair<double,double> > tree_cordinates;
+	vector<int> tree_cordinates_map;
 	public:
 	
     environment(){

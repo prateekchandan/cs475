@@ -18,6 +18,7 @@ struct transformer {
     int state_head_flap,state_legs,state_wheels,state_flaps,state_hands;
     double color_red, color_green, color_blue, color_variant;
     int steps;
+    float wheel_rotation;
 	
 	//! The variable for turning the car left or right
 	double turning_factor;
@@ -69,6 +70,8 @@ struct transformer {
 		dir_x = 0;
 		dir_z = -1;
 		angle = 0;
+		
+		wheel_rotation=0;
     }
     
     	
@@ -114,6 +117,54 @@ struct transformer {
         glScalef(1/radius, 1/radius, 1/width);
     }
     
+    void drawWheelUnitCylinder(){
+		double radius = 1.0, width = 1.0;
+		int count = 18;
+		double angle = 0;// = i * 2.0*3.1415926/count;
+		for(int i = 0; i < count; i++) {
+			double angle1 = angle;
+			angle += 2.0*3.1415926/count;
+			if(count%3==0)
+			{
+				glBegin(GL_POLYGON);
+					glTexCoord2f(0.0f, 0.0f); glVertex3f(radius*cosf(angle), radius*sinf(angle), 0.0 - width/2);
+					glTexCoord2f(1.0f, 0.0f); glVertex3f(radius*cosf(angle), radius*sinf(angle), width/2);
+					glTexCoord2f(1.0f, 1.0f); glVertex3f(radius*cosf(angle1), radius*sinf(angle1), width/2);
+					glTexCoord2f(0.0f, 1.0f); glVertex3f(radius*cosf(angle1), radius*sinf(angle1), 0.0 - width/2);
+				glEnd();
+			}
+			else
+			{
+				glBegin(GL_POLYGON);
+					glVertex3f(radius*cosf(angle), radius*sinf(angle), 0.0 - width/2);
+					glVertex3f(radius*cosf(angle), radius*sinf(angle), width/2);
+					glVertex3f(radius*cosf(angle1), radius*sinf(angle1), width/2);
+					glVertex3f(radius*cosf(angle1), radius*sinf(angle1), 0.0 - width/2);
+				glEnd();
+			}
+			
+		}
+		glBegin(GL_POLYGON);
+			for(int i = 0; i < count; i++) {
+				double angle = i * 2.0*3.1415926/count;
+				glVertex3f(radius*cosf(angle), radius*sinf(angle), 0.0 - width/2);
+			}
+		glEnd();
+		glBegin(GL_POLYGON);
+			for(int i = 0; i < count; i++) {
+				double angle = i * 2.0*3.1415926/count;
+				glVertex3f(radius*cosf(angle), radius*sinf(angle), width/2);
+			}
+		glEnd();
+	}
+	
+    void drawWheelCylinder(double radius, double width){
+		glScalef(radius, radius, width);
+        glPushMatrix();
+			drawWheelUnitCylinder();
+		glPopMatrix();
+        glScalef(1/radius, 1/radius, 1/width);
+	}
     
     /**
     * drawUnitCube() : draws a unit cube and can be used as primitive
@@ -304,7 +355,7 @@ struct transformer {
 		glColor3f(0.3,0.3,0.3);
 		glBindTexture(GL_TEXTURE_2D, texture[1]); 
 	    glRotatef(90,0,1,0);
-	    drawCylinder(1,0.5);
+	    drawWheelCylinder(1,0.5);
 	 }
 	 
 	 void drawHandUpperRight() {
@@ -377,7 +428,7 @@ struct transformer {
 	 }
 	 
 	 void drawWheelLeft() {
-	    drawCylinder(1.25,0.5);
+	    drawWheelCylinder(1.25,0.5);
 	 }
 	 
 	 void drawAxleRight() {
@@ -387,7 +438,7 @@ struct transformer {
 	 }
 	 
 	 void drawWheelRight() {
-	    drawCylinder(1.25,0.5);
+	    drawWheelCylinder(1.25,0.5);
 	 }
 	 
 	 /**
@@ -513,6 +564,7 @@ struct transformer {
 			drawCylinder(.1,0.5);
 		 glPopMatrix();
 		 glRotatef(turning_factor,0,0,1);
+		 glRotatef(wheel_rotation,1,0,0);
 	 }
 	 
 	 void animateHandUpperRight() {
@@ -535,6 +587,7 @@ struct transformer {
 			drawCylinder(.1,0.5);
 		 glPopMatrix();
 		 glRotatef(turning_factor,0,0,1);
+		 glRotatef(wheel_rotation,1,0,0);
 	 }
 	 
 	 void animateThighLeft() {
@@ -583,7 +636,7 @@ struct transformer {
 	 }
 	 
 	 void animateWheelLeft() {
-	 
+		glRotatef(wheel_rotation,0,0,1);
 	 }
 	 
 	 void animateAxleRight() {
@@ -605,7 +658,7 @@ struct transformer {
 	 }
 	 
 	 void animateWheelRight() {
-	 
+		glRotatef(wheel_rotation,0,0,1);
 	 }
 
     /**
