@@ -21,7 +21,7 @@ class environment{
 	int road_no;
 	
 	int sunlight,moonlight;
-	double tree[15];
+	double tree[16];
 	vector<pair<double,double> > tree_cordinates;
 	vector<int> tree_cordinates_map;
 	public:

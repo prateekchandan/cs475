@@ -31,7 +31,8 @@ struct transformer {
 	double position_x, position_z;
 	double dir_x, dir_z;
 	double angle;
-
+	
+	int headlight;
     // Variables for display list
     double cube_index,cylinder_index,square_index;
     
@@ -72,6 +73,8 @@ struct transformer {
 		angle = 0;
 		
 		wheel_rotation=0;
+		
+		headlight=1;
     }
     
     	
@@ -124,24 +127,21 @@ struct transformer {
 		for(int i = 0; i < count; i++) {
 			double angle1 = angle;
 			angle += 2.0*3.1415926/count;
-			if(count%3==0)
+			
+			if(count%2==0)
 			{
-				glBegin(GL_POLYGON);
+				glBindTexture(GL_TEXTURE_2D, texture[1]); 
+			}
+			else
+			{
+				glBindTexture(GL_TEXTURE_2D, texture[3]); 
+			}
+			glBegin(GL_POLYGON);
 					glTexCoord2f(0.0f, 0.0f); glVertex3f(radius*cosf(angle), radius*sinf(angle), 0.0 - width/2);
 					glTexCoord2f(1.0f, 0.0f); glVertex3f(radius*cosf(angle), radius*sinf(angle), width/2);
 					glTexCoord2f(1.0f, 1.0f); glVertex3f(radius*cosf(angle1), radius*sinf(angle1), width/2);
 					glTexCoord2f(0.0f, 1.0f); glVertex3f(radius*cosf(angle1), radius*sinf(angle1), 0.0 - width/2);
 				glEnd();
-			}
-			else
-			{
-				glBegin(GL_POLYGON);
-					glVertex3f(radius*cosf(angle), radius*sinf(angle), 0.0 - width/2);
-					glVertex3f(radius*cosf(angle), radius*sinf(angle), width/2);
-					glVertex3f(radius*cosf(angle1), radius*sinf(angle1), width/2);
-					glVertex3f(radius*cosf(angle1), radius*sinf(angle1), 0.0 - width/2);
-				glEnd();
-			}
 			
 		}
 		glBegin(GL_POLYGON);
@@ -823,6 +823,8 @@ struct transformer {
 	
 	//! Function to turn Robot Right
 	void restoreTurning();
+	
+	void drawHeadLight();
 	
 
 };

@@ -146,6 +146,11 @@ namespace csX75
 		camera_state++;
 		camera_state%=4;
 	}
+	
+	if(key == GLFW_KEY_H && action == GLFW_PRESS){
+		t.headlight++;
+		t.headlight%=2;
+	}
 		
   }
   

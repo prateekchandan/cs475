@@ -40,9 +40,13 @@ void environment::LoadGenList(){
 	{
 		tree[i]= glGenLists(1);
 		glNewList(tree[i], GL_COMPILE);
-			drawTree(1);
+			drawTree(4);
 		glEndList();
 	}
+	tree[15]=glGenLists(1);
+	glNewList(tree[15], GL_COMPILE);
+		drawTree(7);
+	glEndList();
 }
 
 void environment::setup(){
@@ -70,7 +74,7 @@ void environment::setup(){
     glClearColor (0.0, 0.0, 0.0, 0.0);
 	glShadeModel (GL_SMOOTH);
     
-    GLfloat light_position[] = { 20.0, 50.0, 0.0, 1.0 };
+    GLfloat light_position[] = { 0.0, 10.0, 10.0, 0.0 };
 	GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
 	GLfloat light_ambient[] = { 1.0, 1.0, 1.0, 1.0 };
 	
@@ -79,9 +83,9 @@ void environment::setup(){
 	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
 	
 	
-	GLfloat light_position1[] = { 0.0, 5.0, 0.0 };
-	GLfloat light_ambient1[] = { 0.1, 0.1, 0.1 };
-	GLfloat light_diffuse1[] = { 1.1, 0.1, 0.1 };
+	GLfloat light_position1[] = { 0.0, 10.0, -10.0 ,0.0};
+	GLfloat light_ambient1[] = { 0.1, 0.1, 0.1,1.0 };
+	GLfloat light_diffuse1[] = { 0.1, 0.08, 0.0 ,1.0};
 
 	glLightfv(GL_LIGHT1, GL_POSITION, light_position1);
 	glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient1);
@@ -143,6 +147,7 @@ void environment::toggle_Sunlight(){
 
 void environment::set_ground(){
 	glPushMatrix();
+	t.drawHeadLight();
     float car_z=t.position_z,car_x=t.position_x;
     long long z_offset=(int)car_z/10;
     long long x_offset=(int)car_x/10;
@@ -158,10 +163,10 @@ void environment::set_ground(){
 		for (long long j = z_offset-20; j < z_offset+20; j++)
 		{
 			glBegin(GL_POLYGON);
-				glTexCoord2f(0.0f, 0.0f);glVertex3f(-100+10*i,-0.1,-90+10*j);
-				glTexCoord2f(1.0f, 0.0f);glVertex3f(-90+10*i,-0.1,-90+10*j);
-				glTexCoord2f(1.0f, 1.0f);glVertex3f(-90+10*i,-0.1,-100+10*j);
-				glTexCoord2f(0.0f, 1.0f);glVertex3f(-100+10*i,-0.1,-100+10*j);
+				glTexCoord2f(0.0f, 0.0f);glVertex3f(0+10*i,-0.1,10+10*j);
+				glTexCoord2f(1.0f, 0.0f);glVertex3f(10+10*i,-0.1,10+10*j);
+				glTexCoord2f(1.0f, 1.0f);glVertex3f(10+10*i,-0.1,0+10*j);
+				glTexCoord2f(0.0f, 1.0f);glVertex3f(0+10*i,-0.1,0+10*j);
 			glEnd();
 		}
 	}
@@ -169,40 +174,40 @@ void environment::set_ground(){
 	// Drawing sky
 	glBindTexture(GL_TEXTURE_2D, texture[2]);
 	glBegin(GL_POLYGON);
-				glTexCoord2f(0.0f, 0.0f);glVertex3f(-100+car_x,30,100+t.position_z);
-				glTexCoord2f(1.0f, 0.0f);glVertex3f(100+car_x,30,100+t.position_z);
-				glTexCoord2f(1.0f, 1.0f);glVertex3f(100+car_x,30,-100+t.position_z);
-				glTexCoord2f(0.0f, 1.0f);glVertex3f(-100+car_x,30,-100+t.position_z);
+				glTexCoord2f(0.0f, 0.0f);glVertex3f(-200+car_x,30,200+t.position_z);
+				glTexCoord2f(1.0f, 0.0f);glVertex3f(200+car_x,30,200+t.position_z);
+				glTexCoord2f(1.0f, 1.0f);glVertex3f(200+car_x,30,-200+t.position_z);
+				glTexCoord2f(0.0f, 1.0f);glVertex3f(-200+car_x,30,-200+t.position_z);
 	glEnd();
 	
 	// Drawing horizon
 	
 	glBindTexture(GL_TEXTURE_2D, texture[2]);
 	glBegin(GL_POLYGON);
-		glTexCoord2f(0.0f, 0.0f);glVertex3f(-100+car_x,31,80+t.position_z);
-		glTexCoord2f(1.0f, 0.0f);glVertex3f(100+car_x,31,80+t.position_z);
-		glTexCoord2f(1.0f, 1.0f);glVertex3f(100+car_x,-0.2,80+t.position_z);
-		glTexCoord2f(0.0f, 1.0f);glVertex3f(-100+car_x,-0.2,80+t.position_z);
+		glTexCoord2f(0.0f, 0.0f);glVertex3f(-200+car_x,31,200+t.position_z);
+		glTexCoord2f(1.0f, 0.0f);glVertex3f(200+car_x,31,200+t.position_z);
+		glTexCoord2f(1.0f, 1.0f);glVertex3f(200+car_x,-0.2,200+t.position_z);
+		glTexCoord2f(0.0f, 1.0f);glVertex3f(-200+car_x,-0.2,200+t.position_z);
 	glEnd();
 	
 	glBegin(GL_POLYGON);
-		glTexCoord2f(0.0f, 0.0f);glVertex3f(-100+car_x,31,-80+t.position_z);
-		glTexCoord2f(1.0f, 0.0f);glVertex3f(100+car_x,31,-80+t.position_z);
-		glTexCoord2f(1.0f, 1.0f);glVertex3f(100+car_x,-0.2,-80+t.position_z);
-		glTexCoord2f(0.0f, 1.0f);glVertex3f(-100+car_x,-0.2,-80+t.position_z);
+		glTexCoord2f(0.0f, 0.0f);glVertex3f(-200+car_x,31,-200+t.position_z);
+		glTexCoord2f(1.0f, 0.0f);glVertex3f(200+car_x,31,-200+t.position_z);
+		glTexCoord2f(1.0f, 1.0f);glVertex3f(200+car_x,-0.2,-200+t.position_z);
+		glTexCoord2f(0.0f, 1.0f);glVertex3f(-200+car_x,-0.2,-200+t.position_z);
 	glEnd();
 	glBegin(GL_POLYGON);
-		glTexCoord2f(0.0f, 0.0f);glVertex3f(100+car_x,31.2,-100+t.position_z);
-		glTexCoord2f(1.0f, 0.0f);glVertex3f(100+car_x,31.2,100+t.position_z);
-		glTexCoord2f(1.0f, 1.0f);glVertex3f(100+car_x,-0.2,100+t.position_z);
-		glTexCoord2f(0.0f, 1.0f);glVertex3f(100+car_x,-0.2,-100+t.position_z);
+		glTexCoord2f(0.0f, 0.0f);glVertex3f(200+car_x,31.2,-200+t.position_z);
+		glTexCoord2f(1.0f, 0.0f);glVertex3f(200+car_x,31.2,200+t.position_z);
+		glTexCoord2f(1.0f, 1.0f);glVertex3f(200+car_x,-0.2,200+t.position_z);
+		glTexCoord2f(0.0f, 1.0f);glVertex3f(200+car_x,-0.2,-200+t.position_z);
 	glEnd();
 	
 	glBegin(GL_POLYGON);
-		glTexCoord2f(0.0f, 0.0f);glVertex3f(-100+car_x,31.2,-100+t.position_z);
-		glTexCoord2f(1.0f, 0.0f);glVertex3f(-100+car_x,31.2,100+t.position_z);
-		glTexCoord2f(1.0f, 1.0f);glVertex3f(-100+car_x,-0.2,100+t.position_z);
-		glTexCoord2f(0.0f, 1.0f);glVertex3f(-100+car_x,-0.2,-100+t.position_z);
+		glTexCoord2f(0.0f, 0.0f);glVertex3f(-200+car_x,31.2,-200+t.position_z);
+		glTexCoord2f(1.0f, 0.0f);glVertex3f(-200+car_x,31.2,200+t.position_z);
+		glTexCoord2f(1.0f, 1.0f);glVertex3f(-200+car_x,-0.2,200+t.position_z);
+		glTexCoord2f(0.0f, 1.0f);glVertex3f(-200+car_x,-0.2,-200+t.position_z);
 	glEnd();
 	
 	
@@ -400,18 +405,22 @@ void environment::draw_audience(){
 	glPushMatrix();
 		glScalef(2,2,2);
 		glBindTexture(GL_TEXTURE_2D, texture[3]);
-		glBegin(GL_POLYGON);
-			glTexCoord2f(0, 0);glVertex3f(150.0,-0.2,30.0);
-			glTexCoord2f(1, 0);glVertex3f(150.0,-0.2,-90.0);
-			glTexCoord2f(1, 1);glVertex3f(150.0,10.0,-92.0);
-			glTexCoord2f(0, 1);glVertex3f(150.0,10.0,30.0);
-		glEnd();
+		for (int i = 0; i < 5; i++)
+		{
+			glBegin(GL_POLYGON);
+			glTexCoord2f(0, 0);glVertex3f(150.0,-0.2,30.0-i*30);
+			glTexCoord2f(1, 0);glVertex3f(150.0,-0.2,0-i*30);
+			glTexCoord2f(1, 1);glVertex3f(160.0,10.0,0-i*30);
+			glTexCoord2f(0, 1);glVertex3f(160.0,10.0,30.0-i*30);
+			glEnd();
+		}
+		
 	glPopMatrix();
 }
 
-void environment::drawTree(int color){
+void environment::drawTree(int depth){
 	glPushMatrix();
-		drawTreehelp(4,2.5,0,0,0,1);
+		drawTreehelp(depth,2.5,0,0,0,1);
 	glPopMatrix();
 }
 	

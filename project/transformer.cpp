@@ -69,6 +69,7 @@ void transformer::drawUnitCube(){
 }
 	
 void transformer::drawRobot(){
+	
 	    // Scaled for robot to fit the screen
 	   t.restoreTurning();
 	    wheel_rotation+=speed*30;
@@ -88,6 +89,7 @@ void transformer::drawRobot(){
 	    
 	    // Model starts here
 		glPushMatrix();
+
 		
 		    drawTorso();
 		    
@@ -125,6 +127,7 @@ void transformer::drawRobot(){
 		            
 		            placeHeadFlapUpperLeft();
 		            animateHeadFlapUpperLeft();
+		            //drawHeadLight();
 		            drawHeadFlapUpperLeft();
 		        
 		        glPopMatrix();
@@ -149,6 +152,7 @@ void transformer::drawRobot(){
 		            
 		            placeHeadFlapUpperRight();
 		            animateHeadFlapUpperRight();
+		            //drawHeadLight();
 		            drawHeadFlapUpperRight();
 		        
 		        glPopMatrix();
@@ -328,5 +332,26 @@ void transformer::restoreTurning(){
 		turning_factor-=3;
 	else if(turning_factor<0)
 		turning_factor+=3;
+}
+
+void transformer::drawHeadLight(){
+		if(headlight==0)
+		{
+			glDisable(GL_LIGHT2);
+			return;
+		}
+		glEnable(GL_LIGHT2);
+	
+	GLfloat light_position[] = {position_x+dir_x*4,1,position_z+dir_z*4,1};
+	GLfloat light_ambient[] = { 1.0, 1.0, 1.0, 1.0 };
+	
+	glLightfv(GL_LIGHT2, GL_POSITION, light_position);
+	glLightfv(GL_LIGHT2, GL_DIFFUSE, light_ambient);
+	glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 30);
+	GLfloat spot_direction[] = {dir_x, -0.5, dir_z ,0};
+	glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, spot_direction);
+	 glLightf(GL_LIGHT2,GL_SPOT_EXPONENT,1000.0f);
+	
+		
 }
 
