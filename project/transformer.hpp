@@ -28,8 +28,8 @@ struct transformer {
 
 	int turning_state, motion_state;
 	double speed;
-	double position_x, position_z;
-	double dir_x, dir_z;
+	float position_x, position_z;
+	float dir_x, dir_z;
 	double angle;
 	
 	int headlight;
@@ -39,43 +39,7 @@ struct transformer {
     /**
     * Constructor ;
     * */
-    transformer () {
-		flap_toggle=-1;
-		main_state=0;
-        steps = 150;
-        sequence_number_head_flap = 0;
-        sequence_number_hands = 0;
-        sequence_number_legs = 0;
-        sequence_number_wheels = 0;
-        sequence_number_flaps=0;
-        state_head_flap = 0;
-        state_legs=0;
-        state_wheels=0;
-        state_flaps=0;
-        state_hands=0;
-        color_red = 0.5;
-        color_green = 0.5;
-        color_blue = 0.5;
-        color_variant = 0;
-        
-        turning_factor=0;
-        is_turning=false;
-
-		turning_state = 0;
-		motion_state = 0;
-		speed = 0;
-
-		position_x = 0;
-		position_z = 0;
-
-		dir_x = 0;
-		dir_z = -1;
-		angle = 0;
-		
-		wheel_rotation=0;
-		
-		headlight=1;
-    }
+    transformer ();
     
     	
 	// Load Bitmaps And Convert To Textures
@@ -84,100 +48,19 @@ struct transformer {
     /**
     * draws a cylinder of unit length
     * */
-    void drawUnitCylinder() {
-        double radius = 1.0, width = 1.0;
-		int count = 18;
-		double angle = 0;// = i * 2.0*3.1415926/count;
-		for(int i = 0; i < count; i++) {
-			double angle1 = angle;
-			angle += 2.0*3.1415926/count;
-			glBegin(GL_POLYGON);
-				glTexCoord2f(0.0f, 0.0f); glVertex3f(radius*cosf(angle), radius*sinf(angle), 0.0 - width/2);
-				glTexCoord2f(1.0f, 0.0f); glVertex3f(radius*cosf(angle), radius*sinf(angle), width/2);
-				glTexCoord2f(1.0f, 1.0f); glVertex3f(radius*cosf(angle1), radius*sinf(angle1), width/2);
-				glTexCoord2f(0.0f, 1.0f); glVertex3f(radius*cosf(angle1), radius*sinf(angle1), 0.0 - width/2);
-			glEnd();
-		}
-		glBegin(GL_POLYGON);
-			for(int i = 0; i < count; i++) {
-				double angle = i * 2.0*3.1415926/count;
-				glVertex3f(radius*cosf(angle), radius*sinf(angle), 0.0 - width/2);
-			}
-		glEnd();
-		glBegin(GL_POLYGON);
-			for(int i = 0; i < count; i++) {
-				double angle = i * 2.0*3.1415926/count;
-				glVertex3f(radius*cosf(angle), radius*sinf(angle), width/2);
-			}
-		glEnd();
-	}
+    void drawUnitCylinder();
 
-    void drawCylinder(double radius, double width) {
-        glScalef(radius, radius, width);
-        glPushMatrix();
-        glCallList(cylinder_index);
-        glPopMatrix();
-        glScalef(1/radius, 1/radius, 1/width);
-    }
-    
-    void drawWheelUnitCylinder(){
-		double radius = 1.0, width = 1.0;
-		int count = 18;
-		double angle = 0;// = i * 2.0*3.1415926/count;
-		for(int i = 0; i < count; i++) {
-			double angle1 = angle;
-			angle += 2.0*3.1415926/count;
-			
-			if(count%2==0)
-			{
-				glBindTexture(GL_TEXTURE_2D, texture[1]); 
-			}
-			else
-			{
-				glBindTexture(GL_TEXTURE_2D, texture[3]); 
-			}
-			glBegin(GL_POLYGON);
-					glTexCoord2f(0.0f, 0.0f); glVertex3f(radius*cosf(angle), radius*sinf(angle), 0.0 - width/2);
-					glTexCoord2f(1.0f, 0.0f); glVertex3f(radius*cosf(angle), radius*sinf(angle), width/2);
-					glTexCoord2f(1.0f, 1.0f); glVertex3f(radius*cosf(angle1), radius*sinf(angle1), width/2);
-					glTexCoord2f(0.0f, 1.0f); glVertex3f(radius*cosf(angle1), radius*sinf(angle1), 0.0 - width/2);
-				glEnd();
-			
-		}
-		glBegin(GL_POLYGON);
-			for(int i = 0; i < count; i++) {
-				double angle = i * 2.0*3.1415926/count;
-				glVertex3f(radius*cosf(angle), radius*sinf(angle), 0.0 - width/2);
-			}
-		glEnd();
-		glBegin(GL_POLYGON);
-			for(int i = 0; i < count; i++) {
-				double angle = i * 2.0*3.1415926/count;
-				glVertex3f(radius*cosf(angle), radius*sinf(angle), width/2);
-			}
-		glEnd();
-	}
-	
-    void drawWheelCylinder(double radius, double width){
-		glScalef(radius, radius, width);
-        glPushMatrix();
-			drawWheelUnitCylinder();
-		glPopMatrix();
-        glScalef(1/radius, 1/radius, 1/width);
-	}
+    void drawCylinder(double radius, double width);
+    /// Draws differently textured wheel
+    void drawWheelUnitCylinder();
+    void drawWheelCylinder(double radius, double width);
     
     /**
     * drawUnitCube() : draws a unit cube and can be used as primitive
     * */
     void drawUnitCube();
 	
-	void drawCube(double width, double height, double length) {
-	    glScalef(width, height, length);
-		glPushMatrix();
-		glCallList(cube_index);
-		glPopMatrix();
-		glScalef(1/width, 1/height, 1/length);
-	}
+	void drawCube(double width, double height, double length);
 	
 	/**
     * drawUnitSquare() : draws a unit square and can be used as primitive
@@ -202,21 +85,7 @@ struct transformer {
 	/**
 	* createDisplayLists() : Creates all display lists required for the animation 
 	* */
-	void createDisplayLists(){
-	    cube_index = glGenLists(1);
-	    cylinder_index = glGenLists(1);
-	    square_index = glGenLists(1);
-		
-		glNewList(cube_index, GL_COMPILE);
-			drawUnitCube();
-		glEndList();
-		glNewList(cylinder_index, GL_COMPILE);
-			drawUnitCylinder();
-		glEndList();
-		glNewList(square_index, GL_COMPILE);
-			drawUnitSquare();
-		glEndList();
-	}
+	void createDisplayLists();
 	
 	
 	/**
@@ -779,35 +648,7 @@ struct transformer {
 	 * of the transformation the next states are assigned by this function
 	 */
 	
-	void assign_states(){
-		if(flap_toggle==-1){
-			return;
-		}
-		if(main_state==0){
-			if(sequence_number_flaps != 1 && flap_toggle==0)
-				{sequence_number_flaps = 1; flap_toggle=1; }
-			else if(sequence_number_wheels != 2 && state_flaps>= steps-1 && sequence_number_flaps == 1)
-				{sequence_number_wheels = 2;}
-			else if(sequence_number_legs!=2  && state_wheels<=1 && sequence_number_wheels==2 )
-				{sequence_number_legs = 2;}
-			else if(sequence_number_flaps != 2 && state_legs<=1 && sequence_number_legs == 2)
-				{sequence_number_flaps=2;} 
-			else if(sequence_number_head_flap != 2 && state_flaps<=1 && sequence_number_flaps == 2)
-				{sequence_number_head_flap = 2;sequence_number_hands = 2;}
-		}
-		else{
-			if(sequence_number_flaps != 1 && flap_toggle==0)
-				{sequence_number_flaps = 1; flap_toggle=1; }
-			else if(sequence_number_legs!=1 && state_flaps>= steps-1 && sequence_number_flaps == 1)
-				{sequence_number_legs = 1;}
-			else if(sequence_number_wheels != 1 && state_legs>= steps-1 &&sequence_number_legs==1 )
-				{sequence_number_wheels = 1;}
-			else if(sequence_number_flaps != 2 && state_wheels>= steps-1 && sequence_number_wheels == 1)
-				{sequence_number_flaps=2;} 
-			else if(sequence_number_head_flap != 1 && state_flaps<=1 && sequence_number_flaps == 2)
-				{sequence_number_head_flap = 1;sequence_number_hands = 1;}
-		}
-	}
+	void assign_states();
 	
 	/**
 	 * Main Function for drawing the Robot. It contains all the hierarchy of the transformer model
