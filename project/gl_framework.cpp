@@ -57,55 +57,7 @@ namespace csX75
         t.sequence_number_flaps=0;
         t.sequence_number_hands=0;
 	}
-	/*
-	//! Toggle Hand animation on pressing Q
-	if (key == GLFW_KEY_Q && action == GLFW_PRESS){
-		if(t.sequence_number_hands==0)
-			t.sequence_number_hands=1;
-		else if(t.sequence_number_hands==1)
-			t.sequence_number_hands=2;
-		else
-			t.sequence_number_hands=1;	
-	}
 	
-	//! Toggle Head Flap animation on pressing A
-	if (key == GLFW_KEY_A && action == GLFW_PRESS){
-		if(t.sequence_number_head_flap==0)
-			t.sequence_number_head_flap=1;
-		else if(t.sequence_number_head_flap==1)
-			t.sequence_number_head_flap=2;
-		else
-			t.sequence_number_head_flap=1;	
-	}
-	//! Toggle Body Flap animation on pressing S
-	if (key == GLFW_KEY_S && action == GLFW_PRESS){
-		if(t.sequence_number_flaps==0)
-			t.sequence_number_flaps=1;
-		else if(t.sequence_number_flaps==1)
-			t.sequence_number_flaps=2;
-		else
-			t.sequence_number_flaps=1;	
-	}
-	
-	//! Toggle Wheels animation on pressing W
-	if (key == GLFW_KEY_W && action == GLFW_PRESS){
-		if(t.sequence_number_wheels==0)
-			t.sequence_number_wheels=1;
-		else if(t.sequence_number_wheels==1)
-			t.sequence_number_wheels=2;
-		else
-			t.sequence_number_wheels=1;	
-	}
-	
-	//! Toggle Legs animation on pressing D
-	if (key == GLFW_KEY_D && action == GLFW_PRESS){
-		if(t.sequence_number_legs==0)
-			t.sequence_number_legs=1;
-		else if(t.sequence_number_legs==1)
-			t.sequence_number_legs=2;
-		else
-			t.sequence_number_legs=1;	
-	}*/
 	
 	if(key == GLFW_KEY_LEFT && action == GLFW_PRESS){
 		t.turning_state = -1;
@@ -150,6 +102,10 @@ namespace csX75
 	if(key == GLFW_KEY_H && action == GLFW_PRESS){
 		t.headlight++;
 		t.headlight%=2;
+	}
+	
+	if(key == GLFW_KEY_B && action == GLFW_PRESS){
+		t.speed=0;
 	}
 		
   }

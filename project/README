@@ -5,17 +5,21 @@ Assignment 1:
 Anurag Shirolkar 120050003
 Prateek Chandan  120050042
 
-The code of the assignment has been written by us and not been plagiarised from anywhere else.
-File Reading part of the texture mapping has been taken from sources mentioned in the references.
+The code of the assignment has been written by us and not been plagiarised from anywhere else. Also the model for environment , objects etc are completely designed by us
 
-Link to the html page of the assignment : http://www.cse.iitb.ac.in/~anuragshirolkar/cs475/asgn2
-                                        : http://www.cse.iitb.ac.in/~prateekchandan/cs475/asgn2
+Dependencies : 
+1. opengl
+2. glfw
+3. Opengl Soil Library : To install run "sudo apt-get install libsoil-dev"
+
+
+Link to the html page of the assignment : http://www.cse.iitb.ac.in/~anuragshirolkar/cs475/asgn3
+                                        : http://www.cse.iitb.ac.in/~prateekchandan/cs475/asgn3
 
 1. To compile just type "make" on the command line.
 2. Pressing ESC will quit the program.
-3. Use 
-Pres <Enter> To transform car to robot and robot to car
-4. This code uses OpenGL 2.1.
+3. This code uses OpenGL 2.1.
+
 
 ===================
 The Key Mappings
@@ -25,35 +29,24 @@ Env Keys:
 
     Key           |  Usage
     --------------+--------------------------------------------------------
-    UP arraow     |  Translate all upward
-    Down arrow    |  Translate all downward
-    Left arrow    |  Translate all left
-    Right arrow   |  Translate all right
-    key k         |  Rotate model along x-axis clockwise
-    key i         |  Rotate model along x-axis anti-clockwise
-    key l         |  Rotate model along z-axis clockwise
-    key j         |  Rotate model along z-axis anti-clockwise
-	key o         |  Rotate model along y-axis clockwise
-    key u         |  Rotate model along y-axis anti-clockwise
+    UP arraow     |  Accelerates the car front 
+    Down arrow    |  Deaccelerates the car backward
+    Left arrow    |  Turn to left
+    Right arrow   |  Turn to right
+    key l         |  Switch between two directional lights (Daylight / NightLiht)
+    key h         |  Toggle the headlight of car (Use it in night. Turn it off gor energy saving in daytime)
+    key c         |  Change Camera Mode (there are 4 camera modes)
+    key b         |  Power brake (stops car instantly)
+    Enter         |  Transform to flying robo
     Escape        |  Terminate the Program
 
-Keys for Animation:
-
-     Key          |  Usage
-    --------------+--------------------------------------------------------
-    Enter         |  Toggle between car and robot
-    Q			  |  Toggle animation of hand
-    A			  |  Toggle animation of head flaps
-    S			  |  Toggle animation of body flaps
-    W			  |  Toggle animation of wheels
-    D			  |  Toggle animation of legs
 
 ===================
 references:
 ===================
 
 Images for texture taken from : http://opengameart.org/
-For texture mapping 		  : http://nehe.gamedev.net/tutorial/texture_mapping/12038/
+For texture mapping 		  : http://www.lonesock.net/soil.html
 For display Lists			  : http://nehe.gamedev.net/tutorial/display_lists/15003/
 The official OpenGL site      : http://www.opengl.org/
 OpenGL.org tutorial listings  : http://www.opengl.org/code/
