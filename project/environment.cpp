@@ -49,6 +49,10 @@ void environment::LoadGenList(){
 	glEndList();
 }
 
+
+/**
+ * necessary settings regarding opengl
+ */
 void environment::setup(){
     glClearDepth(1.0);
     //Set depth test to less-than
@@ -123,6 +127,9 @@ void environment::setTreeCordinates(){
 	
 }
 
+/**
+ * Setting environment lighting as per the state variables
+ */
 void environment::set_env_lightings(){
 	
 	if(sunlight)
@@ -145,7 +152,10 @@ void environment::toggle_Sunlight(){
 	moonlight%=2;
 }
 
-void environment::set_ground(){
+/**
+ * setting the environment
+ */
+void environment::set_environment(){
 	glPushMatrix();
 	t.drawHeadLight();
     float car_z=t.position_z,car_x=t.position_x;
@@ -226,6 +236,10 @@ void environment::set_ground(){
 	
 	glPopMatrix();
 }
+
+/**
+ * Drawing trees
+ */
 void environment::plantTrees(){
 	int size=tree_cordinates.size(),no;
 	for (int i = 0; i < size; i++)
@@ -238,6 +252,10 @@ void environment::plantTrees(){
 	}
 		
 }
+
+/**
+ * below 3 are functions for drawing roads
+ */
 void environment::draw_curved_road(){
 	glBindTexture(GL_TEXTURE_2D, texture[0]);
 	float curve_point[][3]={{16.970562748477537, 0.0, 16.970562748476745},
@@ -302,6 +320,10 @@ void environment::draw_straight_road(){
 	glPopMatrix();	
 	
 }
+
+/**
+ * drawing arena
+ */
 void environment::set_roads(){
 	
 	glPushMatrix();
@@ -424,6 +446,9 @@ void environment::drawTree(int depth){
 	glPopMatrix();
 }
 	
+/**
+ * Drawing trees as fractals
+ */
 void environment::drawTreehelp(int depth,float height,float x,float y ,float z,int color){
 	if(depth==0)
 	{

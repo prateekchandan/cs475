@@ -58,7 +58,7 @@ class environment{
 	
 	/// For setting up ground
 	
-	void set_ground();
+	void set_environment();
 	/// For Complete setup of environment
 	void setup();
 	

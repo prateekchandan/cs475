@@ -18,7 +18,7 @@ void renderGL(void)
 	
 	glPushMatrix();
 	csX75::setCamera();
-	Env.set_ground();
+	Env.set_environment();
 	t.drawRobot();
 	glPopMatrix();
 	
