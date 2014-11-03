@@ -9,6 +9,13 @@ using namespace std;
 
 transformer t;
 environment Env;
+int key;
+bool recording = false;
+
+
+struct keyframe{
+	
+};
 
 void renderGL(void)
 {
@@ -20,6 +27,13 @@ void renderGL(void)
 	csX75::setCamera();
 	Env.set_environment();
 	t.drawRobot();
+	if(recording) {
+		if(key % 1 == 0) t.exportKeyframe();
+	}
+	else{
+		if(key % 1 == 0)t.importKeyframe();
+	}
+	key++;
 	glPopMatrix();
 	
 

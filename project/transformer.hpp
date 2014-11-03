@@ -666,6 +666,10 @@ struct transformer {
 	void restoreTurning();
 	
 	void drawHeadLight();
+
+	void exportKeyframe();
+
+	void importKeyframe();
 	
 
 };

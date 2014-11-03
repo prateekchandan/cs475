@@ -19,3 +19,9 @@ $(BIN2): $(SRCS2) $(INCLUDES)
 
 clean:
 	rm -f *~ *.o  $(BIN2) *.tar.gz transformer_old
+
+rec:
+	@./transformer >keyframes.txt
+
+play:
+	@./transformer <keyframes.txt

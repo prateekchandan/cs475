@@ -5,7 +5,7 @@ transformer::transformer()
 {
 	flap_toggle=-1;
 	main_state=0;
-	steps = 150;
+	steps = 30;
 	sequence_number_head_flap = 0;
 	sequence_number_hands = 0;
 	sequence_number_legs = 0;
@@ -534,6 +534,14 @@ void transformer::drawHeadLight(){
 	glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, spot_direction);
 	glLightf(GL_LIGHT2,GL_SPOT_EXPONENT,1000.0f);
 
-
+	
 }
 
+void transformer::exportKeyframe(){
+	cout << t.position_x << " " << t.position_z << " " << t.angle << " " << t.turning_state << " " << t.motion_state << " " << t.speed << endl;
+}
+
+
+void transformer::importKeyframe(){
+	cin >> t.position_x >> t.position_z >> t.angle >> t.turning_state >> t.motion_state >> t.speed;
+}
