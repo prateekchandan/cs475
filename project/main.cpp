@@ -27,13 +27,10 @@ void renderGL(void)
 	csX75::setCamera();
 	Env.set_environment();
 	t.drawRobot();
-	if(recording) {
-		if(key % 1 == 0) t.exportKeyframe();
-	}
-	else{
-		if(key % 1 == 0)t.importKeyframe();
-	}
 	key++;
+	t.frame_index++;
+	if(!recording) t.importKeyframe();
+	//t.store_past();
 	glPopMatrix();
 	
 

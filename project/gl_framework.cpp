@@ -61,27 +61,25 @@ namespace csX75
 
 		if(key == GLFW_KEY_LEFT && action == GLFW_PRESS){
 			t.turning_state = -1;
-			t.turnRobotLeft();
 		}
 		if(key == GLFW_KEY_LEFT && action == GLFW_RELEASE){
 			t.turning_state = 0;
 		}
 		if(key == GLFW_KEY_RIGHT && action == GLFW_PRESS){
 			t.turning_state = 1;
-			t.turnRobotRight();
 		}
 		if(key == GLFW_KEY_RIGHT && action == GLFW_RELEASE){
 			t.turning_state = 0;
 		}
 
 		if(key == GLFW_KEY_UP && action == GLFW_PRESS){
-			if(t.motion_state!=1)
-				t.speed/=3.0;
+			//if(t.motion_state!=1)
+				//t.speed/=3.0;
 			t.motion_state = 1;
 		}
 		if(key == GLFW_KEY_DOWN && action == GLFW_PRESS){
-			if(t.motion_state!=-1)
-				t.speed/=3.0;
+			//if(t.motion_state!=-1)
+				//t.speed/=3.0;
 			t.motion_state = -1;
 		}
 
@@ -106,6 +104,9 @@ namespace csX75
 
 		if(key == GLFW_KEY_B && action == GLFW_PRESS){
 			t.speed=0;
+		}
+		if(key == GLFW_KEY_R && action == GLFW_PRESS){
+			t.exportKeyframe();
 		}
 
 	}

@@ -31,6 +31,40 @@ struct transformer {
 	float position_x, position_z;
 	float dir_x, dir_z;
 	double angle;
+
+	int frame_index;
+
+
+	double prev_state_head_flap;
+	double prev_state_legs;
+	double prev_state_wheels;
+	double prev_state_flaps;
+	double prev_state_hands;
+	double prev_turning_factor;
+	double prev_speed;
+	double prev_position_x;
+	double prev_position_z;
+	double prev_dir_x;
+	double prev_dir_z;
+	double prev_angle;
+	double prev_wheel_rotation;
+
+	double next_state_head_flap;
+	double next_state_legs;
+	double next_state_wheels;
+	double next_state_flaps;
+	double next_state_hands;
+	double next_turning_factor;
+	double next_speed;
+	double next_position_x;
+	double next_position_z;
+	double next_dir_x;
+	double next_dir_z;
+	double next_angle;
+	double next_wheel_rotation;
+
+	int next_frame;
+	int prev_frame;
 	
 	int headlight;
     // Variables for display list
@@ -670,6 +704,10 @@ struct transformer {
 	void exportKeyframe();
 
 	void importKeyframe();
+
+	bool state_change();
+
+	void store_past();
 	
 
 };

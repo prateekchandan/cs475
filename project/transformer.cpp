@@ -38,6 +38,42 @@ transformer::transformer()
 	wheel_rotation=0;
 
 	headlight=1;
+
+
+	frame_index = 0;
+
+
+	prev_state_head_flap = 0;
+	prev_state_legs=0;
+	prev_state_wheels=0;
+	prev_state_flaps=0;
+	prev_state_hands=0; 
+	prev_turning_factor=0;
+	prev_speed = 0;
+	prev_position_x = 0;
+	prev_position_z = 0;
+	prev_dir_x = 0;
+	prev_dir_z = -1;
+	prev_angle = 0;
+	prev_wheel_rotation=0;
+
+	next_state_head_flap = 0;
+	next_state_legs=0;
+	next_state_wheels=0;
+	next_state_flaps=0;
+	next_state_hands=0;
+	next_turning_factor=0;
+	next_speed = 0;
+	next_position_x = 0;
+	next_position_z = 0;
+	next_dir_x = 0;
+	next_dir_z = -1;
+	next_angle = 0;
+	next_wheel_rotation=0;
+
+	next_frame = 0;
+	prev_frame = 0;
+
 }
 
 void transformer::drawUnitCylinder() {
@@ -538,10 +574,133 @@ void transformer::drawHeadLight(){
 }
 
 void transformer::exportKeyframe(){
-	cout << t.position_x << " " << t.position_z << " " << t.angle << " " << t.turning_state << " " << t.motion_state << " " << t.speed << endl;
+	//cerr << position_x << " " << position_z << " " << angle << " " << turning_state << " " << motion_state << " " << speed << endl;
+	//if(state_change()) cout << frame_index << " " << turning_state << " " << motion_state << endl;
+	cout
+	       <<  frame_index
+	<< " " <<  state_head_flap
+	<< " " <<  state_legs
+	<< " " <<  state_wheels
+	<< " " <<  state_flaps
+	<< " " <<  state_hands
+	<< " " <<  turning_factor
+	<< " " <<  speed
+	<< " " <<  position_x
+	<< " " <<  position_z
+	<< " " <<  dir_x
+	<< " " <<  dir_z
+	<< " " <<  angle
+	<< " " <<  wheel_rotation << endl;
 }
 
 
 void transformer::importKeyframe(){
-	cin >> t.position_x >> t.position_z >> t.angle >> t.turning_state >> t.motion_state >> t.speed;
+	//cin >> position_x >> position_z >> angle >> turning_state >> motion_state >> speed;
+	if(frame_index == next_frame || frame_index == 1) {
+		//turning_state = next_turning_state;
+		//motion_state = next_motion_state;
+		//cin >> next_frame >> next_turning_state >> next_motion_state;
+		prev_frame = frame_index;
+		state_head_flap=next_state_head_flap;
+		state_legs     =next_state_legs     ;
+		state_wheels   =next_state_wheels   ;
+		state_flaps    =next_state_flaps    ;
+		state_hands    =next_state_hands    ;
+		turning_factor =next_turning_factor ;
+		speed          =next_speed          ;
+		position_x     =next_position_x     ;
+		position_z     =next_position_z     ;
+		dir_x          =next_dir_x          ;
+		dir_z          =next_dir_z          ;
+		angle          =next_angle          ;
+		wheel_rotation =next_wheel_rotation;;
+
+		prev_state_head_flap=state_head_flap;
+		prev_state_legs     =state_legs     ;
+		prev_state_wheels   =state_wheels   ;
+		prev_state_flaps    =state_flaps    ;
+		prev_state_hands    =state_hands    ;
+		prev_turning_factor =turning_factor ;
+		prev_speed          =speed          ;
+		prev_position_x     =position_x     ;
+		prev_position_z     =position_z     ;
+		prev_dir_x          =dir_x          ;
+		prev_dir_z          =dir_z          ;
+		prev_angle          =angle          ;
+		prev_wheel_rotation =wheel_rotation;;
+
+		cin
+		>> next_frame 
+		>> next_state_head_flap
+		>> next_state_legs
+		>> next_state_wheels
+		>> next_state_flaps
+		>> next_state_hands
+		>> next_turning_factor
+		>> next_speed
+		>> next_position_x
+		>> next_position_z
+		>> next_dir_x
+		>> next_dir_z
+		>> next_angle
+		>> next_wheel_rotation;
+
+	}
+	else {
+		state_head_flap= next_state_head_flap*float(frame_index-prev_frame)/float(next_frame-prev_frame)+prev_state_head_flap*float(next_frame-frame_index)/float(next_frame-prev_frame);
+		state_legs     = next_state_legs     *float(frame_index-prev_frame)/float(next_frame-prev_frame)+prev_state_legs     *float(next_frame-frame_index)/float(next_frame-prev_frame);
+		state_wheels   = next_state_wheels   *float(frame_index-prev_frame)/float(next_frame-prev_frame)+prev_state_wheels   *float(next_frame-frame_index)/float(next_frame-prev_frame);
+		state_flaps    = next_state_flaps    *float(frame_index-prev_frame)/float(next_frame-prev_frame)+prev_state_flaps    *float(next_frame-frame_index)/float(next_frame-prev_frame);
+		state_hands    = next_state_hands    *float(frame_index-prev_frame)/float(next_frame-prev_frame)+prev_state_hands    *float(next_frame-frame_index)/float(next_frame-prev_frame);
+		turning_factor = next_turning_factor *float(frame_index-prev_frame)/float(next_frame-prev_frame)+prev_turning_factor *float(next_frame-frame_index)/float(next_frame-prev_frame);
+		speed          = next_speed          *float(frame_index-prev_frame)/float(next_frame-prev_frame)+prev_speed          *float(next_frame-frame_index)/float(next_frame-prev_frame);
+		position_x     = next_position_x     *float(frame_index-prev_frame)/float(next_frame-prev_frame)+prev_position_x     *float(next_frame-frame_index)/float(next_frame-prev_frame);
+		position_z     = next_position_z     *float(frame_index-prev_frame)/float(next_frame-prev_frame)+prev_position_z     *float(next_frame-frame_index)/float(next_frame-prev_frame);
+		dir_x          = next_dir_x          *float(frame_index-prev_frame)/float(next_frame-prev_frame)+prev_dir_x          *float(next_frame-frame_index)/float(next_frame-prev_frame);
+		dir_z          = next_dir_z          *float(frame_index-prev_frame)/float(next_frame-prev_frame)+prev_dir_z          *float(next_frame-frame_index)/float(next_frame-prev_frame);
+		angle          = next_angle          *float(frame_index-prev_frame)/float(next_frame-prev_frame)+prev_angle          *float(next_frame-frame_index)/float(next_frame-prev_frame);
+		wheel_rotation = next_wheel_rotation *float(frame_index-prev_frame)/float(next_frame-prev_frame)+prev_wheel_rotation *float(next_frame-frame_index)/float(next_frame-prev_frame);
+
+
+
+
+
+		//state_head_flap=(next_state_head_flap+prev_state_head_flap)*float(frame_index-prev_frame)/(next_frame-prev_frame);
+		//state_legs     =(next_state_legs     +prev_state_legs     )*float(frame_index-prev_frame)/(next_frame-prev_frame);
+		//state_wheels   =(next_state_wheels   +prev_state_wheels   )*float(frame_index-prev_frame)/(next_frame-prev_frame);
+		//state_flaps    =(next_state_flaps    +prev_state_flaps    )*float(frame_index-prev_frame)/(next_frame-prev_frame);
+		//state_hands    =(next_state_hands    +prev_state_hands    )*float(frame_index-prev_frame)/(next_frame-prev_frame);
+		//turning_factor =(next_turning_factor +prev_turning_factor )*float(frame_index-prev_frame)/(next_frame-prev_frame);
+		//speed          =(next_speed          +prev_speed          )*float(frame_index-prev_frame)/(next_frame-prev_frame);
+		//position_x     =(next_position_x     +prev_position_x     )*float(frame_index-prev_frame)/(next_frame-prev_frame);
+		//position_z     =(next_position_z     +prev_position_z     )*float(frame_index-prev_frame)/(next_frame-prev_frame);
+		//dir_x          =(next_dir_x          +prev_dir_x          )*float(frame_index-prev_frame)/(next_frame-prev_frame);
+		//dir_z          =(next_dir_z          +prev_dir_z          )*float(frame_index-prev_frame)/(next_frame-prev_frame);
+		//angle          =(next_angle          +prev_angle          )*float(frame_index-prev_frame)/(next_frame-prev_frame);
+		//wheel_rotation =(next_wheel_rotation +prev_wheel_rotation )*float(frame_index-prev_frame)/(next_frame-prev_frame);
+	}
+}
+
+
+void transformer::store_past(){
+	//prev_turning_state = turning_state;
+	//prev_motion_state = motion_state;
+	prev_state_head_flap=state_head_flap;
+	prev_state_legs     =state_legs     ;
+	prev_state_wheels   =state_wheels   ;
+	prev_state_flaps    =state_flaps    ;
+	prev_state_hands    =state_hands    ;
+	prev_turning_factor =turning_factor ;
+	prev_speed          =speed          ;
+	prev_position_x     =position_x     ;
+	prev_position_z     =position_z     ;
+	prev_dir_x          =dir_x          ;
+	prev_dir_z          =dir_z          ;
+	prev_angle          =angle          ;
+	prev_wheel_rotation =wheel_rotation;;
+}
+
+bool transformer::state_change(){
+	//return (turning_state != prev_turning_state) || (motion_state != prev_motion_state);
+	return true;
 }
