@@ -16,6 +16,14 @@ transformer::transformer()
 	state_wheels=0;
 	state_flaps=0;
 	state_hands=0;
+	state_left_hand_upper = 0;
+	state_right_hand_upper = 0;
+	state_left_hand_lower = 0;
+	state_right_hand_lower = 0;
+	state_left_thigh = 0;
+	state_right_thigh = 0;
+	state_left_knee = 0;
+	state_right_knee = 0;
 	color_red = 0.5;
 	color_green = 0.5;
 	color_blue = 0.5;
@@ -30,6 +38,7 @@ transformer::transformer()
 
 	position_x = 0;
 	position_z = 0;
+	position_y = 0;
 
 	dir_x = 0;
 	dir_z = -1;
@@ -48,10 +57,19 @@ transformer::transformer()
 	prev_state_wheels=0;
 	prev_state_flaps=0;
 	prev_state_hands=0; 
+	prev_state_left_hand_upper = 0;
+	prev_state_right_hand_upper = 0;
+	prev_state_left_hand_lower = 0;
+	prev_state_right_hand_lower = 0;
+	prev_state_left_thigh = 0;
+	prev_state_right_thigh = 0;
+	prev_state_left_knee = 0;
+	prev_state_right_knee = 0;
 	prev_turning_factor=0;
 	prev_speed = 0;
 	prev_position_x = 0;
 	prev_position_z = 0;
+	prev_position_y = 0;
 	prev_dir_x = 0;
 	prev_dir_z = -1;
 	prev_angle = 0;
@@ -62,10 +80,19 @@ transformer::transformer()
 	next_state_wheels=0;
 	next_state_flaps=0;
 	next_state_hands=0;
+	next_state_left_hand_upper = 0;
+	next_state_right_hand_upper = 0;
+	next_state_left_hand_lower = 0;
+	next_state_right_hand_lower = 0;
+	next_state_left_thigh = 0;
+	next_state_right_thigh = 0;
+	next_state_left_knee = 0;
+	next_state_right_knee = 0;
 	next_turning_factor=0;
 	next_speed = 0;
 	next_position_x = 0;
 	next_position_z = 0;
+	next_position_y = 0; 
 	next_dir_x = 0;
 	next_dir_z = -1;
 	next_angle = 0;
@@ -74,7 +101,8 @@ transformer::transformer()
 	next_frame = 0;
 	prev_frame = 0;
 
-	state_export = true;
+	state_export = false;
+	next_state_export = false;
 
 
 
@@ -94,7 +122,13 @@ transformer::transformer()
 	next_turning_state = 0;
 	next_motion_state = 0;
 
-	keyfile.open("keys.txt" ,  ios::out | ios::in);
+
+	continuous = false;
+
+
+	//keyfile.open("keys.txt" , ios::in | ios::out);
+	
+
 
 
 }
@@ -282,12 +316,7 @@ void transformer::drawRobot(){
 	if(wheel_rotation<-360)
 		wheel_rotation+=360;
 
-	glTranslatef(position_x, 0, position_z);
-	glScalef(0.2,0.2,0.2);
-	glRotatef(-angle, 0, 1, 0);
-	glTranslatef(0, 3, 0);
-	glRotatef(-90, 1, 0, 0);
-	glTranslatef(-2, 0, 0);
+	animateTorso();
 
 	assign_states();
 
@@ -296,7 +325,6 @@ void transformer::drawRobot(){
 
 
 	drawTorso();
-
 	glPushMatrix();
 
 	placeTorsoFlap();

@@ -15,6 +15,7 @@ int SCREEN_HEIGHT=640 , SCREEN_WIDTH=640;
 unsigned char *pRGB;
 unsigned int framenum=0;
 
+
 struct keyframe{
 	
 };
@@ -32,11 +33,13 @@ void renderGL(void)
 	Env.set_environment();
 	t.drawRobot();
 	key++;
-	t.frame_index++;
+	if(t.continuous || !recording)t.frame_index++;
 	if(!recording) csX75::importKeyframe(); 
-	if(t.state_export) csX75::exportStateKeyframe();
+	if(t.state_export && recording) csX75::exportStateKeyframe();
+	if(t.continuous) csX75::exportKeyframe();
 	csX75::store_past();
 	glPopMatrix();
+
 	
 	/*if(!recording)
 	capture_frame(framenum++);*/
@@ -87,6 +90,7 @@ int main(int argc, char** argv)
 		}
 	}
 
+
 	//! The pointer to the GLFW window
 	GLFWwindow* window;
 
@@ -135,6 +139,11 @@ int main(int argc, char** argv)
 	// GEnerates all display lists required for rigid structures
 	t.createDisplayLists();
 	Env.setup();
+	if(!recording) t.keyfile.open("keys.txt" , ios::in);
+	else t.keyfile.open("keys.txt" , ios::out);
+
+
+
 	
 	// Loop until the user closes the window
 	while (glfwWindowShouldClose(window) == 0)

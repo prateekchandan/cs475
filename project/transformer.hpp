@@ -28,11 +28,20 @@ struct transformer {
 
 	int turning_state, motion_state;
 	double speed;
-	float position_x, position_z;
-	float dir_x, dir_z;
-	double angle;
+	float position_x, position_z, position_y;
+	float dir_x, dir_z, dir_y;
+	double angle, angle1, angle2;
 
 	int frame_index;
+
+	double state_left_hand_upper;
+	double state_right_hand_upper;
+	double state_left_hand_lower;
+	double state_right_hand_lower;
+	double state_left_thigh;
+	double state_right_thigh;
+	double state_left_knee;
+	double state_right_knee;
 
 
 	double prev_state_head_flap;
@@ -40,13 +49,25 @@ struct transformer {
 	double prev_state_wheels;
 	double prev_state_flaps;
 	double prev_state_hands;
+	double prev_state_left_hand_upper;
+	double prev_state_right_hand_upper;
+	double prev_state_left_hand_lower;
+	double prev_state_right_hand_lower;
+	double prev_state_left_thigh;
+	double prev_state_right_thigh;
+	double prev_state_left_knee;
+	double prev_state_right_knee;
 	double prev_turning_factor;
 	double prev_speed;
 	double prev_position_x;
 	double prev_position_z;
+	double prev_position_y;
 	double prev_dir_x;
 	double prev_dir_z;
+	double prev_dir_y;
 	double prev_angle;
+	double prev_angle1;
+	double prev_angle2;
 	double prev_wheel_rotation;
 
 	double next_state_head_flap;
@@ -54,16 +75,30 @@ struct transformer {
 	double next_state_wheels;
 	double next_state_flaps;
 	double next_state_hands;
+	double next_state_left_hand_upper;
+	double next_state_right_hand_upper;
+	double next_state_left_hand_lower;
+	double next_state_right_hand_lower;
+	double next_state_left_thigh;
+	double next_state_right_thigh;
+	double next_state_left_knee;
+	double next_state_right_knee;
 	double next_turning_factor;
 	double next_speed;
 	double next_position_x;
 	double next_position_z;
+	double next_position_y;
 	double next_dir_x;
 	double next_dir_z;
+	double next_dir_y;
 	double next_angle;
+	double next_angle1;
+	double next_angle2;
 	double next_wheel_rotation;
 
-	int state_export;
+	bool state_export;
+	bool next_state_export;
+
 
 
 
@@ -85,6 +120,8 @@ struct transformer {
 
 	int next_frame;
 	int prev_frame;
+	
+	bool continuous;
 	
 	int headlight;
     // Variables for display list
@@ -368,6 +405,18 @@ struct transformer {
 	 /**
 	  * Animating single parts of the body
 	  */
+
+	 void animateTorso(){
+		glTranslatef(position_x, position_y, position_z);
+		glScalef(0.2,0.2,0.2);
+		glRotatef(angle2, 0, 0, 1);
+		glRotatef(angle1, 1, 0, 0);
+		glRotatef(-angle, 0, 1, 0);
+		glTranslatef(0, 3, 0);
+		glRotatef(-90, 1, 0, 0);
+		glTranslatef(-2, 0, 0);
+		
+	 }
 	 
 	 void animateTorsoFlap() {
 	      double angle = 90.0/steps*state_flaps;
@@ -457,7 +506,7 @@ struct transformer {
 	 
 	 void animateHandUpperLeft() {
 		double angle = 25.0/steps*state_hands;
-	    glRotatef(angle, -0.1,0,1);
+	    glRotatef(angle, 0,0,1);
 	    if(sequence_number_hands == 1) state_hands++;
 	    else if(sequence_number_hands == 2) state_hands--;
 	    if(sequence_number_hands!=0){
@@ -471,10 +520,11 @@ struct transformer {
 				state_hands=1;
 			}
 		}
+		glRotatef(state_left_hand_upper, 1,0,0);
 	 }
 	 
 	 void animateHandLowerLeft() {
-		
+		glRotatef(state_left_hand_lower, 1, 0, 0);
 	 }
 	 
 	 void animateFistLeft() {
@@ -493,11 +543,12 @@ struct transformer {
 	 
 	 void animateHandUpperRight() {
 		double angle = -25.0/steps*state_hands;
-	    glRotatef(angle, 0.1,0,1);
+	    glRotatef(angle, 0,0,1);
+		glRotatef(state_right_hand_upper, 1,0,0);
 	 }
 	 
 	 void animateHandLowerRight() {
-	 
+		glRotatef(state_right_hand_lower, 1, 0, 0);
 	 }
 	 
 	 void animateFistRight() {
@@ -517,11 +568,12 @@ struct transformer {
 	 void animateThighLeft() {
 	    double angle = -180.0/steps*state_legs;
 	    glRotatef(angle, 1,0,0);
+		glRotatef(state_left_thigh, 1, 0, 0);
 	   
 	 }
 	 
 	 void animateLegLeft() {
-	 
+		glRotatef(state_left_knee, 1, 0, 0);
 	 }
 	 
 	 void animateToeLeft() {
@@ -543,10 +595,11 @@ struct transformer {
 				state_legs=1;
 			}
 		}
+		glRotatef(state_right_thigh, 1, 0, 0);
 	 }
 	 
 	 void animateLegRight() {
-	 
+		glRotatef(state_right_knee, 1, 0, 0);
 	 }
 	 
 	 void animateToeRight() {
