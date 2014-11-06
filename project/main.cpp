@@ -38,6 +38,21 @@ void renderGL(void)
 
 int main(int argc, char** argv)
 {
+	while(1){
+		cerr<<"Recording or Not (y/n) : ";
+		char c;
+		cin>>c;
+		if(c=='y'||c=='Y')
+		{
+			recording=true;
+			break;
+		}
+		else if(c=='n' || c=='N')
+		{
+			recording=false;
+			break;
+		}
+	}
 
 	//! The pointer to the GLFW window
 	GLFWwindow* window;

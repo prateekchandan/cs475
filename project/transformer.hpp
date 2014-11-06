@@ -70,6 +70,7 @@ struct transformer {
     // Variables for display list
     double cube_index,cylinder_index,square_index;
     
+    fstream keyfile;
     /**
     * Constructor ;
     * */

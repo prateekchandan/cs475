@@ -74,6 +74,9 @@ transformer::transformer()
 	next_frame = 0;
 	prev_frame = 0;
 
+	keyfile.open("keys.txt" ,  ios::out | ios::in);
+
+
 }
 
 void transformer::drawUnitCylinder() {
@@ -576,7 +579,7 @@ void transformer::drawHeadLight(){
 void transformer::exportKeyframe(){
 	//cerr << position_x << " " << position_z << " " << angle << " " << turning_state << " " << motion_state << " " << speed << endl;
 	//if(state_change()) cout << frame_index << " " << turning_state << " " << motion_state << endl;
-	cout
+	keyfile
 	       <<  frame_index
 	<< " " <<  state_head_flap
 	<< " " <<  state_legs
@@ -629,7 +632,7 @@ void transformer::importKeyframe(){
 		prev_angle          =angle          ;
 		prev_wheel_rotation =wheel_rotation;;
 
-		cin
+		keyfile
 		>> next_frame 
 		>> next_state_head_flap
 		>> next_state_legs
