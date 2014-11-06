@@ -29,7 +29,7 @@ void renderGL(void)
 	t.drawRobot();
 	key++;
 	t.frame_index++;
-	if(!recording) t.importKeyframe();
+	if(!recording) csX75::importKeyframe(); 
 	//t.store_past();
 	glPopMatrix();
 	

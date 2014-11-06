@@ -63,6 +63,8 @@ struct transformer {
 	double next_angle;
 	double next_wheel_rotation;
 
+	int state_export;
+
 	int next_frame;
 	int prev_frame;
 	

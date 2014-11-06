@@ -3,6 +3,7 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <fstream>
 
 #include <iostream>
 
@@ -22,6 +23,12 @@ namespace csX75
   void doTurnings(void);
   
   void setCamera();
+
+  void importKeyframe();
+
+  void exportKeyframe();
+
+  void exportStateKeyframe();
 };
 
 #endif
