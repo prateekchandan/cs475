@@ -29,6 +29,10 @@ namespace csX75
   void exportKeyframe();
 
   void exportStateKeyframe();
+
+  bool state_change();
+
+  void store_past();
 };
 
 #endif

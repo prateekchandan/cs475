@@ -30,7 +30,8 @@ void renderGL(void)
 	key++;
 	t.frame_index++;
 	if(!recording) csX75::importKeyframe(); 
-	//t.store_past();
+	if(t.state_export) csX75::exportStateKeyframe();
+	csX75::store_past();
 	glPopMatrix();
 	
 

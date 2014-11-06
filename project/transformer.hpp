@@ -65,6 +65,24 @@ struct transformer {
 
 	int state_export;
 
+
+
+	double prev_sequence_number_head_flap;
+	double prev_sequence_number_hands;
+	double prev_sequence_number_legs;
+	double prev_sequence_number_wheels;
+	double prev_sequence_number_flaps;
+	double prev_turning_state;
+	double prev_motion_state;
+
+	double next_sequence_number_head_flap;
+	double next_sequence_number_hands;
+	double next_sequence_number_legs;
+	double next_sequence_number_wheels;
+	double next_sequence_number_flaps;
+	double next_turning_state;
+	double next_motion_state;
+
 	int next_frame;
 	int prev_frame;
 	

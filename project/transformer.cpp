@@ -74,7 +74,25 @@ transformer::transformer()
 	next_frame = 0;
 	prev_frame = 0;
 
-	state_export = false;
+	state_export = true;
+
+
+
+	prev_sequence_number_head_flap = 0;
+	prev_sequence_number_hands = 0;
+	prev_sequence_number_legs = 0;
+	prev_sequence_number_wheels = 0;
+	prev_sequence_number_flaps=0;
+	prev_turning_state = 0;
+	prev_motion_state = 0;
+
+	next_sequence_number_head_flap = 0;
+	next_sequence_number_hands = 0;
+	next_sequence_number_legs = 0;
+	next_sequence_number_wheels = 0;
+	next_sequence_number_flaps=0;
+	next_turning_state = 0;
+	next_motion_state = 0;
 
 	keyfile.open("keys.txt" ,  ios::out | ios::in);
 

@@ -214,7 +214,7 @@ namespace csX75
 		//if(state_change()) cout << frame_index << " " << turning_state << " " << motion_state << endl;
 		if(!t.state_export)
 		t.keyfile
-		       << 0
+			   << 0
 		<< " " <<  t.frame_index
 		<< " " <<  t.state_head_flap
 		<< " " <<  t.state_legs
@@ -232,76 +232,100 @@ namespace csX75
 	}
 
 	void exportStateKeyframe(){
-		
+		if(state_change()) 
+		t.keyfile << 1
+		<< " " << t.frame_index
+		<< " " << t.sequence_number_head_flap
+		<< " " << t.sequence_number_hands
+		<< " " << t.sequence_number_legs
+		<< " " << t.sequence_number_wheels
+		<< " " << t.sequence_number_flaps
+		<< " " << t.turning_state
+		<< " " << t.motion_state << endl;
 	}
 
 	void importKeyframe(){
+
 		//cin >> position_x >> position_z >> angle >> turning_state >> motion_state >> speed;
 		if(t.frame_index == t.next_frame || t.frame_index == 1) {
 			//turning_state = next_turning_state;
 			//motion_state = next_motion_state;
 			//cin >> next_frame >> next_turning_state >> next_motion_state;
-			t.prev_frame     =t.frame_index;
-			t.state_head_flap=t.next_state_head_flap;
-			t.state_legs     =t.next_state_legs     ;
-			t.state_wheels   =t.next_state_wheels   ;
-			t.state_flaps    =t.next_state_flaps    ;
-			t.state_hands    =t.next_state_hands    ;
-			t.turning_factor =t.next_turning_factor ;
-			t.speed          =t.next_speed          ;
-			t.position_x     =t.next_position_x     ;
-			t.position_z     =t.next_position_z     ;
-			t.dir_x          =t.next_dir_x          ;
-			t.dir_z          =t.next_dir_z          ;
-			t.angle          =t.next_angle          ;
-			t.wheel_rotation =t.next_wheel_rotation;;
+			t.keyfile >> t.state_export;
+			if(!t.state_export){
+				t.prev_frame     =t.frame_index;
+				t.state_head_flap=t.next_state_head_flap;
+				t.state_legs     =t.next_state_legs     ;
+				t.state_wheels   =t.next_state_wheels   ;
+				t.state_flaps    =t.next_state_flaps    ;
+				t.state_hands    =t.next_state_hands    ;
+				t.turning_factor =t.next_turning_factor ;
+				t.speed          =t.next_speed          ;
+				t.position_x     =t.next_position_x     ;
+				t.position_z     =t.next_position_z     ;
+				t.dir_x          =t.next_dir_x          ;
+				t.dir_z          =t.next_dir_z          ;
+				t.angle          =t.next_angle          ;
+				t.wheel_rotation =t.next_wheel_rotation;;
 
-			t.prev_state_head_flap=t.state_head_flap;
-			t.prev_state_legs     =t.state_legs     ;
-			t.prev_state_wheels   =t.state_wheels   ;
-			t.prev_state_flaps    =t.state_flaps    ;
-			t.prev_state_hands    =t.state_hands    ;
-			t.prev_turning_factor =t.turning_factor ;
-			t.prev_speed          =t.speed          ;
-			t.prev_position_x     =t.position_x     ;
-			t.prev_position_z     =t.position_z     ;
-			t.prev_dir_x          =t.dir_x          ;
-			t.prev_dir_z          =t.dir_z          ;
-			t.prev_angle          =t.angle          ;
-			t.prev_wheel_rotation =t.wheel_rotation;;
+				t.prev_state_head_flap=t.state_head_flap;
+				t.prev_state_legs     =t.state_legs     ;
+				t.prev_state_wheels   =t.state_wheels   ;
+				t.prev_state_flaps    =t.state_flaps    ;
+				t.prev_state_hands    =t.state_hands    ;
+				t.prev_turning_factor =t.turning_factor ;
+				t.prev_speed          =t.speed          ;
+				t.prev_position_x     =t.position_x     ;
+				t.prev_position_z     =t.position_z     ;
+				t.prev_dir_x          =t.dir_x          ;
+				t.prev_dir_z          =t.dir_z          ;
+				t.prev_angle          =t.angle          ;
+				t.prev_wheel_rotation =t.wheel_rotation;;
 
-			t.keyfile
-			>> t.next_frame 
-			>> t.next_state_head_flap
-			>> t.next_state_legs
-			>> t.next_state_wheels
-			>> t.next_state_flaps
-			>> t.next_state_hands
-			>> t.next_turning_factor
-			>> t.next_speed
-			>> t.next_position_x
-			>> t.next_position_z
-			>> t.next_dir_x
-			>> t.next_dir_z
-			>> t.next_angle
-			>> t.next_wheel_rotation;
-
+				t.keyfile
+				>> t.next_frame 
+				>> t.next_state_head_flap
+				>> t.next_state_legs
+				>> t.next_state_wheels
+				>> t.next_state_flaps
+				>> t.next_state_hands
+				>> t.next_turning_factor
+				>> t.next_speed
+				>> t.next_position_x
+				>> t.next_position_z
+				>> t.next_dir_x
+				>> t.next_dir_z
+				>> t.next_angle
+				>> t.next_wheel_rotation;
+			}
+			else {
+				t.keyfile
+				>> t.frame_index
+				>> t.sequence_number_head_flap
+				>> t.sequence_number_hands
+				>> t.sequence_number_legs
+				>> t.sequence_number_wheels
+				>> t.sequence_number_flaps
+				>> t.turning_state
+				>> t.motion_state;
+			}
 		}
 		else {
-			t.state_head_flap= t.next_state_head_flap*float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_state_head_flap*float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
-			t.state_legs     = t.next_state_legs     *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_state_legs     *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
-			t.state_wheels   = t.next_state_wheels   *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_state_wheels   *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
-			t.state_flaps    = t.next_state_flaps    *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_state_flaps    *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
-			t.state_hands    = t.next_state_hands    *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_state_hands    *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
-			t.turning_factor = t.next_turning_factor *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_turning_factor *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
-			t.speed          = t.next_speed          *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_speed          *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
-			t.position_x     = t.next_position_x     *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_position_x     *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
-			t.position_z     = t.next_position_z     *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_position_z     *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
-			t.dir_x          = t.next_dir_x          *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_dir_x          *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
-			t.dir_z          = t.next_dir_z          *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_dir_z          *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
-			t.angle          = t.next_angle          *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_angle          *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
-			t.wheel_rotation = t.next_wheel_rotation *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_wheel_rotation *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
-
+			if(!t.state_export){
+				t.state_head_flap= t.next_state_head_flap*float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_state_head_flap*float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
+				t.state_legs     = t.next_state_legs     *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_state_legs     *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
+				t.state_wheels   = t.next_state_wheels   *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_state_wheels   *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
+				t.state_flaps    = t.next_state_flaps    *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_state_flaps    *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
+				t.state_hands    = t.next_state_hands    *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_state_hands    *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
+				t.turning_factor = t.next_turning_factor *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_turning_factor *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
+				t.speed          = t.next_speed          *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_speed          *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
+				t.position_x     = t.next_position_x     *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_position_x     *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
+				t.position_z     = t.next_position_z     *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_position_z     *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
+				t.dir_x          = t.next_dir_x          *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_dir_x          *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
+				t.dir_z          = t.next_dir_z          *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_dir_z          *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
+				t.angle          = t.next_angle          *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_angle          *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
+				t.wheel_rotation = t.next_wheel_rotation *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_wheel_rotation *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
+			}
 
 
 
@@ -320,6 +344,27 @@ namespace csX75
 			//angle          =(next_angle          +prev_angle          )*float(frame_index-prev_frame)/(next_frame-prev_frame);
 			//wheel_rotation =(next_wheel_rotation +prev_wheel_rotation )*float(frame_index-prev_frame)/(next_frame-prev_frame);
 		}
+	}
+
+	bool state_change(){
+		return 
+		(t.sequence_number_head_flap != t.prev_sequence_number_head_flap) ||
+		(t.sequence_number_hands     != t.prev_sequence_number_hands    ) ||
+		(t.sequence_number_legs      != t.prev_sequence_number_legs     ) ||
+		(t.sequence_number_wheels    != t.prev_sequence_number_wheels   ) ||
+		(t.sequence_number_flaps     != t.prev_sequence_number_flaps    ) ||
+		(t.turning_state             != t.prev_turning_state            ) ||
+		(t.motion_state              != t.prev_motion_state             );
+	}
+
+	void store_past(){
+		t.prev_sequence_number_head_flap = t.sequence_number_head_flap;
+        t.prev_sequence_number_hands     = t.sequence_number_hands    ;
+        t.prev_sequence_number_legs      = t.sequence_number_legs     ;
+        t.prev_sequence_number_wheels    = t.sequence_number_wheels   ;
+        t.prev_sequence_number_flaps     = t.sequence_number_flaps    ;
+        t.prev_turning_state             = t.turning_state            ;
+        t.prev_motion_state              = t.motion_state             ;
 	}
 
 };  
