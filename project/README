@@ -13,8 +13,12 @@ Dependencies :
 3. Opengl Soil Library : To install run "sudo apt-get install libsoil-dev"
 
 
-Link to the html page of the assignment : http://www.cse.iitb.ac.in/~anuragshirolkar/cs475/asgn3
-                                        : http://www.cse.iitb.ac.in/~prateekchandan/cs475/asgn3
+Link to the html page of the assignment : http://www.cse.iitb.ac.in/~anuragshirolkar/cs475/asgn2.3
+                                        : http://www.cse.iitb.ac.in/~prateekchandan/cs475/asgn2.3
+
+Link to youtube Video : 
+
+Previous versions of youtubr video : https://www.youtube.com/watch?v=U52283hqNVs
 
 1. To compile just type "make" on the command line.
 2. Pressing ESC will quit the program.
