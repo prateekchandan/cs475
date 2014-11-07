@@ -409,9 +409,9 @@ struct transformer {
 	 void animateTorso(){
 		glTranslatef(position_x, position_y, position_z);
 		glScalef(0.2,0.2,0.2);
+		glRotatef(-angle, 0, 1, 0);
 		glRotatef(angle2, 0, 0, 1);
 		glRotatef(angle1, 1, 0, 0);
-		glRotatef(-angle, 0, 1, 0);
 		glTranslatef(0, 3, 0);
 		glRotatef(-90, 1, 0, 0);
 		glTranslatef(-2, 0, 0);

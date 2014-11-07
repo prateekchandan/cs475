@@ -135,10 +135,10 @@ namespace csX75
 			t.angle2--;
 		}
 		if(key == GLFW_KEY_5){
-			t.position_y++;
+			t.position_y+=0.1;
 		}
 		if(key == GLFW_KEY_6){
-			t.position_y--;
+			t.position_y-=0.1;
 		}
 		if(key == GLFW_KEY_7){
 			t.angle++;
@@ -278,7 +278,10 @@ namespace csX75
 		<< " " <<  t.angle
 		<< " " <<  t.angle1
 		<< " " <<  t.angle2
-		<< " " <<  t.wheel_rotation << endl;
+		<< " " <<  t.wheel_rotation 
+		<< " " <<  t.headlight
+		<< " " <<  camera_state
+		<< endl;
 	}
 
 	void exportStateKeyframe(){
@@ -291,7 +294,10 @@ namespace csX75
 		<< " " << t.sequence_number_wheels
 		<< " " << t.sequence_number_flaps
 		<< " " << t.turning_state
-		<< " " << t.motion_state << endl;
+		<< " " << t.motion_state
+		<< " " <<  t.headlight
+		<< " " <<  camera_state
+		<< endl;
 	}
 
 	void importKeyframe(){
@@ -407,7 +413,9 @@ namespace csX75
 				>> t.next_angle
 				>> t.next_angle1
 				>> t.next_angle2
-				>> t.next_wheel_rotation;
+				>> t.next_wheel_rotation
+				>> t.headlight
+				>> camera_state	;
 			}
 			else {
 				t.sequence_number_head_flap = t.next_sequence_number_head_flap;
@@ -425,8 +433,9 @@ namespace csX75
 				>> t.next_sequence_number_wheels
 				>> t.next_sequence_number_flaps
 				>> t.next_turning_state
-				>> t.next_motion_state;
-
+				>> t.next_motion_state
+				>> t.headlight
+				>> camera_state;
 				t.next_frame++;
 			}
 		}
