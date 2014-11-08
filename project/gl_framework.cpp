@@ -6,6 +6,8 @@ namespace csX75
 {
 	int camera_state=1;
 
+	int sign = 1;
+
 	//! Initialize GL State
 	void initGL(void)
 	{
@@ -74,13 +76,13 @@ namespace csX75
 		}
 
 		if(key == GLFW_KEY_UP && action == GLFW_PRESS){
-			//if(t.motion_state!=1)
-				//t.speed/=3.0;
+			if(t.motion_state!=1)
+				t.speed/=3.0;
 			t.motion_state = 1;
 		}
 		if(key == GLFW_KEY_DOWN && action == GLFW_PRESS){
-			//if(t.motion_state!=-1)
-				//t.speed/=3.0;
+			if(t.motion_state!=-1)
+				t.speed/=3.0;
 			t.motion_state = -1;
 		}
 
@@ -106,45 +108,63 @@ namespace csX75
 		if(key == GLFW_KEY_B && action == GLFW_PRESS){
 			t.speed=0;
 		}
-		if(key == GLFW_KEY_R && action == GLFW_PRESS){
+		if(key == GLFW_KEY_J && action == GLFW_PRESS){
 			if(!t.continuous){
-				t.frame_index+=20;
+				t.frame_index+=50;
 				exportKeyframe();
 			}
 		}
 		if(key == GLFW_KEY_K && action == GLFW_PRESS){
 			t.continuous = !t.continuous;
 		}
-		if(key == GLFW_KEY_X){
-			t.state_left_thigh++;
-		}
-		if(key == GLFW_KEY_Z){
-			t.state_left_thigh--;
-		}
 
 		if(key == GLFW_KEY_1){
-			t.angle1++;
+			t.position_y+=sign*0.1;
 		}
 		if(key == GLFW_KEY_2){
-			t.angle1--;
+			t.cam_angle+=sign;
 		}
 		if(key == GLFW_KEY_3){
-			t.angle2++;
+			t.state_right_hand_upper+= sign;
 		}
 		if(key == GLFW_KEY_4){
-			t.angle2--;
+			t.state_left_hand_upper+= sign;
 		}
 		if(key == GLFW_KEY_5){
-			t.position_y+=0.1;
+			t.state_right_hand_lower+= sign;
 		}
 		if(key == GLFW_KEY_6){
-			t.position_y-=0.1;
+			t.state_left_hand_lower+= sign;
 		}
 		if(key == GLFW_KEY_7){
-			t.angle++;
+			t.state_right_thigh+= sign;
 		}
 		if(key == GLFW_KEY_8){
-			t.angle--;
+			t.state_left_thigh+= sign;
+		}
+		if(key == GLFW_KEY_9){
+			t.state_right_knee+= sign;
+		}
+		if(key == GLFW_KEY_0){
+			t.state_left_knee+= sign;
+		}
+		if(key == GLFW_KEY_Q){
+			t.cam_dist+=sign*0.1;
+		}
+		if(key == GLFW_KEY_W){
+			t.angle1+=sign;
+		}
+		if(key == GLFW_KEY_E){
+			t.cam_pos_y+=0.1*sign;
+		}
+		if(key == GLFW_KEY_R){
+			t.angle2+=sign;
+		}
+		if(key == GLFW_KEY_P && action == GLFW_PRESS ){
+			sign = 0-sign;
+		}
+		if(key == GLFW_KEY_S){
+			t.speed=0;
 		}
 
 
@@ -159,7 +179,7 @@ namespace csX75
 		if(camera_state==0)
 			gluLookAt(t.position_x-10*t.dir_x, 9.1, t.position_z-10*t.dir_z, t.position_x, 2, t.position_z, 0,1,0);
 		else if(camera_state==1)
-			gluLookAt(t.position_x-4*t.dir_x, 2.1, t.position_z-4*t.dir_z, t.position_x, 2, t.position_z, 0,1,0);
+			gluLookAt(t.position_x-t.cam_dist*t.cam_dir_x, t.cam_pos_y, t.position_z-t.cam_dist*t.cam_dir_z, t.position_x, t.cam_pos_y, t.position_z, 0,1,0);
 		else if(camera_state==2)
 		{
 			gluLookAt(t.position_x+1*t.dir_x, 0.8, t.position_z+1*t.dir_z, t.position_x+4*t.dir_x, 1, t.position_z+4*t.dir_z, 0,1,0);
@@ -189,16 +209,16 @@ namespace csX75
 				t.position_x += t.speed*(t.dir_x);
 
 		}
-		else if(t.position_z >= -25 && t.position_z<=25 && t.position_x>=35&& t.position_x<=45)
-		{
-			if(t.speed*(t.dir_x)<0)
-				t.position_x += t.speed*(t.dir_x);
-		}
-		else if(t.position_z >= -25 && t.position_z<=25 && t.position_x<=210&& t.position_x>=200)
-		{
-			if(t.speed*(t.dir_x)>0)
-				t.position_x += t.speed*(t.dir_x);
-		}
+		//else if(t.position_z >= -25 && t.position_z<=25 && t.position_x>=35&& t.position_x<=45)
+		//{
+			//if(t.speed*(t.dir_x)<0)
+				//t.position_x += t.speed*(t.dir_x);
+		//}
+		//else if(t.position_z >= -25 && t.position_z<=25 && t.position_x<=210&& t.position_x>=200)
+		//{
+			//if(t.speed*(t.dir_x)>0)
+				//t.position_x += t.speed*(t.dir_x);
+		//}
 		else if(t.position_x<=-20)
 		{
 			if(t.speed*(t.dir_x)>0)
@@ -213,16 +233,16 @@ namespace csX75
 			if(t.speed*(t.dir_z)<0)
 				t.position_z += t.speed*(t.dir_z);	
 		}
-		else if(t.position_x >= 35&& t.position_x<=205 && t.position_z<=25 && t.position_z>20)
-		{
-			if(t.speed*(t.dir_z)>0)
-				t.position_z += t.speed*(t.dir_z);	
-		}
-		else if(t.position_x >= 35&& t.position_x<=205 && t.position_z>-25 && t.position_z<-20)
-		{
-			if(t.speed*(t.dir_z)<0)
-				t.position_z += t.speed*(t.dir_z);	
-		}
+		//else if(t.position_x >= 35&& t.position_x<=205 && t.position_z<=25 && t.position_z>20)
+		//{
+			//if(t.speed*(t.dir_z)>0)
+				//t.position_z += t.speed*(t.dir_z);	
+		//}
+		//else if(t.position_x >= 35&& t.position_x<=205 && t.position_z>-25 && t.position_z<-20)
+		//{
+			//if(t.speed*(t.dir_z)<0)
+				//t.position_z += t.speed*(t.dir_z);	
+		//}
 		else if(t.position_z <= -190)
 		{
 			if(t.speed*(t.dir_z)>0)
@@ -246,6 +266,8 @@ namespace csX75
 		}
 		t.dir_z = -cosf(3.1416*t.angle/180.0);
 		t.dir_x = sinf(3.1416*t.angle/180.0);
+		t.cam_dir_z = -cosf(3.1416*(t.cam_angle+t.angle)/180.0);
+		t.cam_dir_x = sinf(3.1416*(t.cam_angle+t.angle)/180.0);
 	}
 
 
@@ -281,6 +303,11 @@ namespace csX75
 		<< " " <<  t.wheel_rotation 
 		<< " " <<  t.headlight
 		<< " " <<  camera_state
+		<< " " <<  t.cam_dist
+		<< " " <<  t.cam_dir_z
+		<< " " <<  t.cam_dir_x
+		<< " " <<  t.cam_angle
+		<< " " <<  t.cam_pos_y
 		<< endl;
 	}
 
@@ -327,12 +354,14 @@ namespace csX75
 				t.prev_angle1                   =t.angle1          ;
 				t.prev_angle2                   =t.angle2          ;
 				t.prev_wheel_rotation          =t.wheel_rotation;;
+				t.prev_cam_dist                =t.cam_dist  ;
+				t.prev_cam_dir_z               =t.cam_dir_z ;
+				t.prev_cam_dir_x               =t.cam_dir_x ;
+				t.prev_cam_angle               =t.cam_angle ;
+				t.prev_cam_pos_y               =t.cam_pos_y ;
 		}
 		//cin >> position_x >> position_z >> angle >> turning_state >> motion_state >> speed;
 		if(t.frame_index == t.next_frame || t.frame_index == 1) {
-			//turning_state = next_turning_state;
-			//motion_state = next_motion_state;
-			//cin >> next_frame >> next_turning_state >> next_motion_state;
 			if(!t.state_export){
 				t.state_head_flap=t.next_state_head_flap;
 				t.state_legs     =t.next_state_legs     ;
@@ -358,6 +387,11 @@ namespace csX75
 				t.angle1          =t.next_angle1          ;
 				t.angle2          =t.next_angle2          ;
 				t.wheel_rotation =t.next_wheel_rotation;;
+				t.cam_dist                =t.next_cam_dist  ;
+				t.cam_dir_z               =t.next_cam_dir_z ;
+				t.cam_dir_x               =t.next_cam_dir_x ;
+				t.cam_angle               =t.next_cam_angle ;
+				t.cam_pos_y               =t.next_cam_pos_y ;
 			}
 			t.keyfile >> t.next_state_export;
 			if(!t.state_export){
@@ -387,6 +421,11 @@ namespace csX75
 				t.prev_angle1          =t.angle1          ;
 				t.prev_angle2          =t.angle2          ;
 				t.prev_wheel_rotation =t.wheel_rotation;;
+				t.prev_cam_dist                =t.cam_dist  ;
+				t.prev_cam_dir_z               =t.cam_dir_z ;
+				t.prev_cam_dir_x               =t.cam_dir_x ;
+				t.prev_cam_angle               =t.cam_angle ;
+				t.prev_cam_pos_y               =t.cam_pos_y ;
 
 				t.keyfile
 				>> t.next_frame 
@@ -415,7 +454,12 @@ namespace csX75
 				>> t.next_angle2
 				>> t.next_wheel_rotation
 				>> t.headlight
-				>> camera_state	;
+				>> camera_state	
+				>> t.next_cam_dist 
+				>> t.next_cam_dir_z
+				>> t.next_cam_dir_x
+				>> t.next_cam_angle
+				>> t.next_cam_pos_y;
 			}
 			else {
 				t.sequence_number_head_flap = t.next_sequence_number_head_flap;
@@ -466,7 +510,13 @@ namespace csX75
 				t.angle          = t.next_angle          *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_angle          *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
 				t.angle1          = t.next_angle1          *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_angle1          *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
 				t.angle2          = t.next_angle2          *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_angle2          *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
+				t.cam_dist          = t.next_cam_dist          *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_cam_dist          *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
+				t.cam_dir_z          = t.next_cam_dir_z          *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_cam_dir_z          *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
+				t.cam_dir_x          = t.next_cam_dir_x          *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_cam_dir_x          *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
+				t.cam_angle          = t.next_cam_angle          *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_cam_angle          *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
+				t.cam_pos_y          = t.next_cam_pos_y          *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_cam_pos_y          *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
 				t.wheel_rotation = t.next_wheel_rotation *float(t.frame_index-t.prev_frame)/float(t.next_frame-t.prev_frame)+t.prev_wheel_rotation *float(t.next_frame-t.frame_index)/float(t.next_frame-t.prev_frame);
+
 			}
 		}
 	}

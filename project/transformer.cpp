@@ -40,6 +40,12 @@ transformer::transformer()
 	position_z = 0;
 	position_y = 0;
 
+	cam_dist = 10;
+	cam_dir_z = 0;
+	cam_dir_x = 0;
+	cam_angle = 0;
+	cam_pos_y = 2.1;
+
 	dir_x = 0;
 	dir_z = -1;
 	angle = 0;
@@ -74,6 +80,11 @@ transformer::transformer()
 	prev_dir_z = -1;
 	prev_angle = 0;
 	prev_wheel_rotation=0;
+	prev_cam_dist = 10;
+	prev_cam_dir_z = 0;
+	prev_cam_dir_x = 0;
+	prev_cam_angle = 0;
+	prev_cam_pos_y = 2.1;
 
 	next_state_head_flap = 0;
 	next_state_legs=0;
@@ -97,6 +108,11 @@ transformer::transformer()
 	next_dir_z = -1;
 	next_angle = 0;
 	next_wheel_rotation=0;
+	next_cam_dist = 10;
+	next_cam_dir_z = 0;
+	next_cam_dir_x = 0;
+	next_cam_angle = 0;
+	next_cam_pos_y = 2.1;
 
 	next_frame = 0;
 	prev_frame = 0;

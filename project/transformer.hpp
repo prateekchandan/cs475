@@ -42,6 +42,11 @@ struct transformer {
 	double state_right_thigh;
 	double state_left_knee;
 	double state_right_knee;
+	double cam_dist;
+	double cam_dir_z;
+	double cam_dir_x;
+	double cam_angle;
+	double cam_pos_y;
 
 
 	double prev_state_head_flap;
@@ -69,6 +74,11 @@ struct transformer {
 	double prev_angle1;
 	double prev_angle2;
 	double prev_wheel_rotation;
+	double prev_cam_dist;
+	double prev_cam_dir_z;
+	double prev_cam_dir_x;
+	double prev_cam_angle;
+	double prev_cam_pos_y;
 
 	double next_state_head_flap;
 	double next_state_legs;
@@ -95,6 +105,11 @@ struct transformer {
 	double next_angle1;
 	double next_angle2;
 	double next_wheel_rotation;
+	double next_cam_dist;
+	double next_cam_dir_z;
+	double next_cam_dir_x;
+	double next_cam_angle;
+	double next_cam_pos_y;
 
 	bool state_export;
 	bool next_state_export;
@@ -505,7 +520,7 @@ struct transformer {
 	 }
 	 
 	 void animateHandUpperLeft() {
-		double angle = 25.0/steps*state_hands;
+		double angle = 15.0/steps*state_hands;
 	    glRotatef(angle, 0,0,1);
 	    if(sequence_number_hands == 1) state_hands++;
 	    else if(sequence_number_hands == 2) state_hands--;
@@ -573,7 +588,9 @@ struct transformer {
 	 }
 	 
 	 void animateLegLeft() {
+		glTranslatef(0,0,1.5);
 		glRotatef(state_left_knee, 1, 0, 0);
+		glTranslatef(0,0,-1.5);
 	 }
 	 
 	 void animateToeLeft() {
@@ -581,7 +598,8 @@ struct transformer {
 	 }
 	 
 	  void animateThighRight() {
-	    animateThighLeft();
+	    double angle = -180.0/steps*state_legs;
+	    glRotatef(angle, 1,0,0);
 	     if(sequence_number_legs == 1) state_legs++;
 	    else if(sequence_number_legs == 2) state_legs--;
 	    if(sequence_number_legs!=0){
@@ -599,7 +617,9 @@ struct transformer {
 	 }
 	 
 	 void animateLegRight() {
+		glTranslatef(0,0,1.5);
 		glRotatef(state_right_knee, 1, 0, 0);
+		glTranslatef(0,0,-1.5);
 	 }
 	 
 	 void animateToeRight() {
@@ -782,6 +802,9 @@ struct transformer {
 	bool state_change();
 
 	void store_past();
+
+	void init();
+
 	
 
 };

@@ -41,8 +41,8 @@ void renderGL(void)
 	glPopMatrix();
 
 	
-	/*if(!recording)
-	capture_frame(framenum++);*/
+	if(!recording)
+	capture_frame(framenum++);
 
 }
 

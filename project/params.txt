@@ -1,2 +1,0 @@
-position_x
-position_z

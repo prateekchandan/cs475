@@ -16,7 +16,7 @@ Dependencies :
 Link to the html page of the assignment : http://www.cse.iitb.ac.in/~anuragshirolkar/cs475/asgn2.3
                                         : http://www.cse.iitb.ac.in/~prateekchandan/cs475/asgn2.3
 
-Link to youtube Video : 
+Link to youtube Video : http://youtu.be/Bovh_G6mNk8
 
 Previous versions of youtubr video : https://www.youtube.com/watch?v=U52283hqNVs
 
@@ -43,6 +43,26 @@ Env Keys:
     key b         |  Power brake (stops car instantly)
     Enter         |  Transform to flying robo
     Escape        |  Terminate the Program
+	key 1         |  change y coordinate of model
+	key 2         |  change angle of camera
+	key 3         |  change upper arm state left
+	key 4         |  change upper arm state right
+	key 5         |  change lower arm state left
+	key 6         |  change lower arm state right
+	key 7         |  change left thigh state
+	key 8         |  change right thigh state
+	key 9         |  change left knee state
+	key 0         |  change right knee state
+	key q         |  change camera distance from model
+	key w         |  rotate model along x axis
+	key e         |  change camera height
+	key r         |  rotate model along z axis
+	key p         |  toggle sign of value change done with above key presses
+	key j         |  store a key frame
+	key k         |  toggle recording mode
+
+
+
 
 
 ===================
