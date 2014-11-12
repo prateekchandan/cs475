@@ -1,0 +1,72 @@
+
+.profilepic{
+	padding:1%;
+	background-color: white;
+	border: 1px solid #aaa;
+}
+
+.blockcontent{
+	position: relative;
+	text-align: center;
+	padding: 10%;
+}
+
+.oneblock{
+	width:33%;
+	background-color:#ddd;
+	border: 1px solid #aaa; 
+	height: auto; 
+	position: absolute;
+	color: #666;
+}
+
+.groupblock:hover{
+	color:black;
+}
+
+
+body{
+	color: #555;
+}
+
+#container{
+	padding-left:15%;
+	padding-right: 15%;
+}
+
+.main-container{
+	background-color: #f7f7f7;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	padding: 20px;
+}
+
+#header{
+	background-color:rgb(56, 135, 190);
+	color:white;
+	height:100px;
+	line-height:100px;
+	text-align: center;
+	margin-bottom: 50px;
+}
+
+.box{
+	overflow:auto;
+	padding-bottom: 20px;
+	border-bottom: 1px solid #ddd;
+}
+
+.mybutton{
+	border: 5px solid rgb(56, 135, 190);
+	background-color: rgb(56, 135, 190);
+	text-align: center;
+	height: 40px;
+	width: 200px;
+	font-size: 100%;
+	color: white;
+}
+.mybutton:hover{
+	background-color: #5a9fcf;
+	cursor: pointer;
+}

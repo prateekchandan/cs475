@@ -1,0 +1,111 @@
+<html>
+	<head>
+		<title>CS475 Assignment 1</title>
+		<link rel="stylesheet" type="text/css" href="../css/index.css">
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+
+	</head>
+	
+	<body>
+		<!--<div id="nav-bar" style="height:70px;line-height: 40px; padding-left:15%; z-index:100;position:fixed; top: 0px; width:100%; background-color: rgba(256,256,265,0.95)">-->
+			<!--<ul id="nav-bar-ul">-->
+				<!--<li class="nav-link active"><a href="../../index.html">Home</a></li>-->
+				<!--<li class="nav-link"><a href="../../group.html">Group</a></li>-->
+				<!--<li class="nav-link"><a href="../../#academics1">Academics</a></li>-->
+				<!--<li class="nav-link"><a href="../../#contact1">Contact</a></li>-->
+				<!--<li class="nav-link"><a href="../../cs296_website/cs296_website.html">Project Homepage</a></li>-->
+			<!--</ul> -->
+		<!--</div>-->
+		<div id="container">
+			<div class="main-container">
+				<div id="header" style="">
+					<p style="font-size:200%;">CS475 Assignment 1</p>
+				</div>
+				<div>
+					<h3>Team Members</h3>
+					<a href="http://www.cse.iitb.ac.in/~prateekchandan">Prateek Chandan (120050042)</a><br>
+					<a href="http://www.cse.iitb.ac.in/~anuragshirolkar">Anurag Shirolkar (120050003)</a>
+				</div>
+				<h3>LOGO Programming Lanugage</h3>
+				<p>
+					Logo is an educational programming language, designed in 1967 by Daniel G. Bobrow, Wally Feurzeig, Seymour Papert and Cynthia Solomon. Today the language is remembered mainly for its use of "turtle graphics", in which commands for movement and drawing produced line graphics either on screen or with a small robot called a "turtle". <br>
+					This is Assignment focuses on implementing some of LOGO's functionality using OpenGL Graphics. Following is the list of operations that can be done with the assignment.
+				</p>
+				<table class="table" style="font-size:13px;">
+	<tr> <th>Operation </th><th> Command syntax</th><th>Description</th></tr>
+   <tr> <td>reset         </td><td> RESET             </td><td> Reset the turtle position and orientation</td></tr>
+   <tr> <td>clear         </td><td> CLS               </td><td> Clear the screen</td>                         </tr>
+   <tr> <td>set_pos       </td><td>                   </td><td> Set the position of the turtle</td>           </tr>
+   <tr> <td>set_dir       </td><td>                   </td><td> Set the direction of the turtle</td>          </tr>
+   <tr> <td>set_col       </td><td> COL(r, g, b)      </td><td> Set the color of the pen</td>                 </tr>
+   <tr> <td>set_bgcol     </td><td> BGCOL(r, g, b)    </td><td> Set the Background Color</td>                 </tr>
+   <tr> <td>scale         </td><td> SCALE s           </td><td> Scale the current canvas by s</td>            </tr>
+   <tr> <td>turn_left     </td><td> L a               </td><td> </td>                                         </tr>
+   <tr> <td>turn_right    </td><td> R a               </td><td> </td>                                         </tr>
+   <tr> <td>forward       </td><td> F x               </td><td> </td>                                         </tr>
+   <tr> <td>backward      </td><td> B x               </td><td> </td>                                         </tr>
+   <tr> <td>forward_move  </td><td> MF x              </td><td> Move forward without drawing</td>             </tr>
+   <tr> <td>backward_move </td><td> MB x              </td><td> Move backward withou drawing</td>             </tr>
+   <tr> <td>repeat        </td><td> REPEAT r          </td><td> Repeat the next set of commands r times. Scope bounded by  a corresponding ENDREP</td> </tr>
+   <tr> <td>exec          </td><td>                   </td><td> execute the commands in the list</td>         </tr>
+   <tr> <td>pause         </td><td> PAUSE t           </td><td> Pause the simulation for time t</td>          </tr>
+                  </td><td> BEGIN / END       </td><td> Begin / End the turtle program</td>                   </tr>
+
+					<tr>
+						<td></td>
+					</tr>
+				</table>
+				<div id="screenshots">
+					<h2>Screenshots</h2>
+					<div id="sierpinki">
+						Following is an example of sierpinki fractal<br><br>
+						<img src="../media/screenshot1.png">
+					</div>
+					<hr>
+					Following is a screenshot of an animation created with logo<br><br>
+					<div class="row">
+						<div class="col-md-8">
+							<img src="../media/screenshot2.png">
+						</div>
+						<div class="col-md-4">
+							<h3>LOGO Code</h3>
+							<code>
+								BEGIN<br>
+								COL 1 0 0<br>
+								REPEAT 10<br>
+								REPEAT 360<br>
+								F 0.005<br>
+								R 1<br>
+								ENDREP<br>
+								R 36<br>
+								PAUSE 100000<br>
+								ENDREP<br>
+								COL 0 1 0<br>
+								REPEAT 10<br>
+								F 0.3<br>
+								L 90<br>
+								F 0.3<br>
+								R 90<br>
+								F 0.3<br>
+								R 90<br>
+								F 0.3<br>
+								R 90<br>
+								F 0.6<br>
+								R 180<br>
+								R 36<br>
+								PAUSE 100000<br>
+								ENDREP<br>
+								END<br>
+							</code> 
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+			
+	</body>
+
+
+	
+</html>
